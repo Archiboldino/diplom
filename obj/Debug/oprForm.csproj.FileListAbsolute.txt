@@ -1,0 +1,12 @@
+C:\Moe\Prog\eco\oprForm\oprForm\bin\Debug\oprForm.exe.config
+C:\Moe\Prog\eco\oprForm\oprForm\bin\Debug\oprForm.exe
+C:\Moe\Prog\eco\oprForm\oprForm\bin\Debug\oprForm.pdb
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.csprojResolveAssemblyReference.cache
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.MainForm.resources
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.PlannedEventsForm.resources
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.Properties.Resources.resources
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.csproj.GenerateResource.Cache
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.exe
+C:\Moe\Prog\eco\oprForm\oprForm\obj\Debug\oprForm.pdb
+C:\Moe\PROG\eco\oprForm\oprForm\bin\Debug\MySql.Data.dll
+C:\Moe\PROG\eco\oprForm\oprForm\bin\Debug\MySql.Data.xml
