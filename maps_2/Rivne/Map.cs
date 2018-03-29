@@ -1,6 +1,4 @@
-﻿using GMap.NET;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Windows.Forms;
 
 namespace Odessa
@@ -8,8 +6,6 @@ namespace Odessa
     public partial class Map : Form
     {
         private ClassMap m; //object for work with maps
-        
-       
 
         public Map()
         {
@@ -81,7 +77,6 @@ namespace Odessa
 
         private void Map_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)

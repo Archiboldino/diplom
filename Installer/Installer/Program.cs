@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 

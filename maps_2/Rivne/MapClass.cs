@@ -102,7 +102,7 @@ namespace Odessa
             db.InsertToBD("poligon_calculations_description", fields2, val2);
         }
 
-        double R = 6378.137;
+        private double R = 6378.137;
 
         public double ToRad(double angle)
         {
@@ -138,11 +138,10 @@ namespace Odessa
             }
             return area;
         }
+
         //отрисовка полигона по данным из таблицы (необходимо передавать параметр calculation_description_number)
         public void highlight_polygon_from_table(string calc_id, int zoom)
         {
-
-
             var res_points = db.GetRows("point_poligon,poligon_calculations_description", "longitude, latitude",
                 "poligon_calculations_description.calculations_description_number=" + calc_id +
                 " and  point_poligon.Id_of_poligon=poligon_calculations_description.id_poligon");
