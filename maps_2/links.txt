@@ -1,0 +1,10 @@
+https://fusiontables.google.com/DataSource?dsrcid=394713#rows:id=1
+https://fusiontables.google.com/DataSource?dsrcid=420419#rows:id=1
+http://www.naturalearthdata.com/
+http://www.csharpcoderr.com/2014/08/windows-form-gmapnet.html
+http://www.independent-software.com/gmap-net-beginners-tutorial-adding-clickable-markers-to-your-map-updated-for-visual-studio-2015-and-gmap-net-1-7/
+http://www.independent-software.com/gmap-net-beginners-tutorial-maps-markers-polygons-routes-updated-for-visual-studio-2015-and-gmap-net-1-7/
+https://greatmaps.codeplex.com/SourceControl/latest#Demo.WindowsForms/Forms/MainForm.cs
+http://gis-lab.info/projects/osm_dump/#.D0.94.D0.B0.D0.BD.D0.BD.D1.8B.D0.B5
+http://www.gadm.org/country
+http://www.birdtheme.org/useful/v3tool.html
