@@ -319,7 +319,7 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_1BD7550DFFF1441C97ACFDA0EA8B9F15"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_2EED5E2FBADD40A593599446765814F3"
             {
             "Name" = "8:Основные выходные файлы from Installer (Active)"
             "Condition" = "8:"
@@ -329,8 +329,8 @@
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_D4F24C34_3BE5_4F0E_AAFD_1B8E852F7391"
-            "InstallerClass" = "11:TRUE"
+            "Identifier" = "8:_43204FD1_89CB_4765_A89E_0CF0331B8383"
+            "InstallerClass" = "11:FALSE"
             "CustomActionData" = "8:"
             }
         }
@@ -774,7 +774,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:KEEMSetup"
         "ProductCode" = "8:{45F07218-835C-420B-A3F1-D78D98BD34AA}"
-        "PackageCode" = "8:{BDFAF499-EC97-4A4F-8F4B-7025074BC16A}"
+        "PackageCode" = "8:{D0030726-378B-4367-B0E5-E906FC174898}"
         "UpgradeCode" = "8:{CB61583C-D656-4C1D-AD79-D0F31D84C69A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
