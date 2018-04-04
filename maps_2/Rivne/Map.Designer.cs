@@ -276,7 +276,6 @@
             this.Controls.Add(this.gMapControl);
             this.Name = "Map";
             this.Text = "Map";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Map_FormClosed);
             this.Load += new System.EventHandler(this.Map_Load);
             this.contextMenuStrip2.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);

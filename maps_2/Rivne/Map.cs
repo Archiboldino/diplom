@@ -25,11 +25,6 @@ namespace Odessa
             }
         }
 
-        private void Map_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void button7_Click_1(object sender, EventArgs e)
         {
             m.SaveToDB("1", dataGridView1); //"1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных

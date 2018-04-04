@@ -37,8 +37,15 @@ namespace Experts_Economist
                 //MapMDIChild.id_of_exp = id_of_exp;
                 MapMDIChild.MdiParent = this;
                 MapMDIChild.Show();
+                MapMDIChild.FormClosed += MapMDIChild_FormClosed;
             }
             MapMDIChild.BringToFront();
+        }
+
+        private void MapMDIChild_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MapMDIChild.Dispose();
+            MapMDIChild = null;
         }
 
         //событие нажатия на кнопку Розрахунок - запуск формы Rozrah в главном окне(Mdi)
