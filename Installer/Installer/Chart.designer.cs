@@ -1,6 +1,6 @@
-﻿namespace oprForm
+﻿namespace ChartModule
 {
-    partial class DocumentViewForm
+    partial class ChartM
     {
         /// <summary>
         /// Required designer variable.
@@ -28,32 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // chart1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(814, 588);
-            this.webBrowser1.TabIndex = 0;
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(300, 300);
+            this.chart1.TabIndex = 0;
             // 
-            // DocumentViewForm
+            // ChartM
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 588);
-            this.Controls.Add(this.webBrowser1);
-            this.Name = "DocumentViewForm";
-            this.Text = "DocumentViewForm";
+            this.ClientSize = new System.Drawing.Size(527, 301);
+            this.Name = "ChartM";
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
+

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-	public static class DBUtil
+	public static class DBUtilNikita
 	{
 		public static string AddQuotes(String i)
 		{

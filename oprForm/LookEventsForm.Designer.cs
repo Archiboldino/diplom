@@ -248,7 +248,7 @@
             this.docsLB.Name = "docsLB";
             this.docsLB.Size = new System.Drawing.Size(164, 564);
             this.docsLB.TabIndex = 23;
-            this.docsLB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.docsLB_MouseDoubleClick);
+            //this.docsLB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.docsLB_MouseDoubleClick);
             // 
             // label7
             // 

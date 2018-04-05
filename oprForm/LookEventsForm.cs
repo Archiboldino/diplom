@@ -1,13 +1,22 @@
-﻿using Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data;
+using Data.Entity;
 
 namespace oprForm
 {
     public partial class LookEventsForm : Form
     {
-        private DBManager db = new DBManager();
+        DBManagerNikita db = new DBManagerNikita();
+        private int valueCol = 2;
+        private int descCol = 1;
 
         public LookEventsForm()
         {
@@ -23,6 +32,7 @@ namespace oprForm
             {
                 events.Add(EventMapper.Map(row));
             }
+
 
             eventsLB.Items.AddRange(events.ToArray());
             db.Disconnect();
@@ -57,7 +67,7 @@ namespace oprForm
 
                 var docObj = db.GetRows("event_documents", "*", "event_id=" + ev.id);
                 var docs = new List<Document>();
-                foreach (var row in docObj)
+                foreach(var row in docObj)
                 {
                     docs.Add(DocumentMapper.Map(row));
                 }
@@ -127,6 +137,7 @@ namespace oprForm
                     events.Add(EventMapper.Map(row));
                 }
 
+
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -137,14 +148,14 @@ namespace oprForm
             }
         }
 
-        private void docsLB_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (docsLB.SelectedItem is Document)
-            {
-                var doc = docsLB.SelectedItem as Document;
-                var child = new DocumentViewForm(doc.document_code);
-                child.ShowDialog(this);
-            }
-        }
+        //private void docsLB_MouseDoubleClick(object sender, MouseEventArgs e)
+        //{
+        //    if(docsLB.SelectedItem is Document)
+        //    {
+        //        var doc = docsLB.SelectedItem as Document;
+        //        var child = new DocumentViewForm(doc.document_code);
+        //        child.ShowDialog(this);
+        //    }
+        //}
     }
 }

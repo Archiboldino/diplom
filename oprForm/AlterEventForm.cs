@@ -2,13 +2,19 @@
 using Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class AlterEventForm : Form
     {
-        private DBManager db = new DBManager();
+        DBManagerNikita db = new DBManagerNikita();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -50,6 +56,7 @@ namespace oprForm
             {
                 events.Add(EventMapper.Map(row));
             }
+
 
             eventsLB.Items.AddRange(events.ToArray());
         }
@@ -167,6 +174,7 @@ namespace oprForm
                 db.Disconnect();
                 eventListGrid.Rows.Clear();
             }
+
         }
 
         private void addBtn_Click(object sender, EventArgs e)
@@ -174,7 +182,7 @@ namespace oprForm
             var ev = eventsLB.SelectedItem as Event;
             db.Connect();
             string[] cols = { "event_id", "name", "description", "issue_id" };
-            string[] values = { ev.id.ToString(), DBUtil.AddQuotes(evNameTB.Text), DBUtil.AddQuotes(descTB.Text), (issuesCB.SelectedItem as Issue).id.ToString() };
+            string[] values = { ev.id.ToString(), DBUtilNikita.AddQuotes(evNameTB.Text), DBUtilNikita.AddQuotes(descTB.Text), (issuesCB.SelectedItem as Issue).id.ToString() };
 
             db.UpdateRecord("event", cols, values);
 
@@ -190,11 +198,11 @@ namespace oprForm
                 ress.RemoveAll(o => Int32.Parse(o[0].ToString()) == res.id);
 
                 string[] resCols = { "event_id", "value", "description" };
-                string[] resValues = { ev.id + " AND resource_id=" + res.id, res.value.ToString(), DBUtil.AddQuotes(res.description) };
+                string[] resValues = { ev.id + " AND resource_id=" + res.id, res.value.ToString(), DBUtilNikita.AddQuotes(res.description) };
                 if (db.UpdateRecord("event_resource", resCols, resValues) == 0)
                 {
                     string[] resColsIns = { "event_id", "resource_id", "value", "description" };
-                    string[] resValuesIns = { ev.id.ToString(), res.id.ToString(), res.value.ToString(), DBUtil.AddQuotes(res.description) };
+                    string[] resValuesIns = { ev.id.ToString(), res.id.ToString(), res.value.ToString(), DBUtilNikita.AddQuotes(res.description) };
                     db.InsertToBDWithoutId("event_resource", resColsIns, resValuesIns);
                 }
             }
@@ -221,6 +229,7 @@ namespace oprForm
                     return;
             }
             eventListGrid.Rows.Add(res, res.description);
+
         }
     }
 }

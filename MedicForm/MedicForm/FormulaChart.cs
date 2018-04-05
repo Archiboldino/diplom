@@ -1,19 +1,24 @@
-﻿using ChartModule;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChartModule;
 
 namespace MedicForm
 {
     public partial class FormulaChart : Form
     {
-        private ChartM chart;
-        private DBManager dbManager = new DBManager();
-
+        ChartM chart;
+        DBManager dbManager = new DBManager();
         public FormulaChart()
         {
             InitializeComponent();
-            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = 1");
+            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = 3");
             string item = "";
             for (int i = 0; i < formulas.Count(); i++)
             {
@@ -63,7 +68,7 @@ namespace MedicForm
             return false;
         }
 
-        // метод убирает выбранный элемент из списка ранне выбранных серий
+        // метод убирает выбранный элемент из списка ранне выбранных серий 
         private void removeButt_Click(object sender, EventArgs e)
         {
             if (addSeriaList.SelectedItem != null)
@@ -74,58 +79,111 @@ namespace MedicForm
 
         private void diagrButt_Click(object sender, EventArgs e)
         {
-            Object[] arrayOfY = new Object[addSeriaList.Items.Count];
-            Object[] arrayOfX = new Object[addSeriaList.Items.Count];
-
-            for (int i = 0; i < addSeriaList.Items.Count; i++)
+            if (funcComboBox.SelectedItem != null)
             {
-                arrayOfY[i] = addSeriaList.Items[i];
-                arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
-                    + addSeriaList.Items[i] + " AND id_of_formula = " +
-                    dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
-                    funcComboBox.Text + "'"));
-            }
+                Object[] arrayOfY = new Object[addSeriaList.Items.Count];
+                Object[] arrayOfX = new Object[addSeriaList.Items.Count];
 
-            chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
-                "description_of_formula = '" + funcComboBox.Text + "'").ToString()
-                 + " ("
-                + dbManager.GetValue("formulas", "measurement_of_formula",
-                "description_of_formula = '" + funcComboBox.Text + "'").ToString()
-                + ")",
-                "range");
-            chart.draw(arrayOfX, arrayOfY);
-            chart.ShowDialog();
+                for (int i = 0; i < addSeriaList.Items.Count; i++)
+                {
+                    arrayOfY[i] = addSeriaList.Items[i];
+                    arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
+                        + addSeriaList.Items[i] + " AND id_of_formula = " +
+                        dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
+                        funcComboBox.Text + "'"));
+                }
+
+                chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
+                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                     + " ("
+                    + dbManager.GetValue("formulas", "measurement_of_formula",
+                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    + ")",
+                    "range");
+                chart.draw(arrayOfX, arrayOfY);
+                chart.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Оберіть показник");
+            }
         }
 
         private void graphButt_Click(object sender, EventArgs e)
         {
-            Object[] arrayOfY = new Object[addSeriaList.Items.Count];
-            Object[] arrayOfX = new Object[addSeriaList.Items.Count];
-
-            for (int i = 0; i < addSeriaList.Items.Count; i++)
+            if (funcComboBox.SelectedItem != null)
             {
-                arrayOfY[i] = addSeriaList.Items[i];
-                arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
-                    + addSeriaList.Items[i] + " AND id_of_formula = " +
-                    dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
-                    funcComboBox.Text + "'"));
-            }
+                Object[] arrayOfY = new Object[addSeriaList.Items.Count];
+                Object[] arrayOfX = new Object[addSeriaList.Items.Count];
 
-            chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
-                "description_of_formula = '" + funcComboBox.Text + "'").ToString()
-                + " ("
-                + dbManager.GetValue("formulas", "measurement_of_formula",
-                "description_of_formula = '" + funcComboBox.Text + "'").ToString()
-                + ")"
-                , "line");
-            chart.draw(arrayOfX, arrayOfY);
-            chart.ShowDialog();
+                for (int i = 0; i < addSeriaList.Items.Count; i++)
+                {
+                    arrayOfY[i] = addSeriaList.Items[i];
+                    arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
+                        + addSeriaList.Items[i] + " AND id_of_formula = " +
+                        dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
+                        funcComboBox.Text + "'"));
+                }
+
+                chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
+                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    + " ("
+                    + dbManager.GetValue("formulas", "measurement_of_formula",
+                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    + ")"
+                    , "line");
+                chart.draw(arrayOfX, arrayOfY);
+                chart.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Оберіть показник");
+            }
         }
 
         private void seriaList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            seriaName.Text = dbManager.GetValue("calculations_description", "calculation_name", "calculation_number = " + seriaList.SelectedItem).ToString();
-            seriaDescription.Text = dbManager.GetValue("calculations_description", "description_of_calculation", "calculation_number = " + seriaList.SelectedItem).ToString();
+            if (funcComboBox.SelectedIndex >= 0)
+            {
+                seriaName.Text = dbManager.GetValue("calculations_description", "calculation_name", "calculation_number = " + seriaList.SelectedItem).ToString();
+                seriaDescription.Text = dbManager.GetValue("calculations_description", "description_of_calculation", "calculation_number = " + seriaList.SelectedItem).ToString();
+            }
+        }
+        int i;
+        private void funcComboBox_TextChanged(object sender, EventArgs e)
+        {
+            label1.Visible = true;
+            i = funcComboBox.FindString(funcComboBox.Text);
+           if(i>=0) label1.Text = funcComboBox.Items[i].ToString();              
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+             label1.Visible = false;
+             funcComboBox.SelectedIndex = i; 
+        }
+
+        private void addAll_Click(object sender, EventArgs e)
+        {
+            if (seriaList.Items.Count != 0)
+            {
+                if (!findItem(seriaList.SelectedItem, addSeriaList))
+                {
+                    foreach (Object o in seriaList.Items)
+                    {
+                        addSeriaList.Items.Add(o);
+                    }
+                }
+            }
+            addSeriaList.Sorted = true;
+        }
+
+        private void removeAll_Click(object sender, EventArgs e)
+        {
+            if (addSeriaList.Items.Count != 0)
+            {
+                addSeriaList.Items.Clear();
+            }
         }
     }
 }

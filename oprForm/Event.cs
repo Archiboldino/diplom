@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Data.Entity
 {
-    public class Event
-    {
-        public int id;
-        public string name;
-        public string description;
+	public class Event
+	{
+		public int id;
+		public string name;
+		public string description;
         public string lawyerVer;
         public string dmVer;
         public int userId;
         public int issueId;
 
-        public override string ToString()
-        {
-            return name;
-        }
-    }
-
-    public class EventMapper
-    {
-        public static Event Map(List<Object> row)
-        {
+		public override string ToString()
+		{
+			return name;
+		}
+	}
+	public class EventMapper 
+	{
+		public static Event Map(List<Object> row)
+		{
             var e = new Event
             {
                 id = Int32.Parse(row[0].ToString()),
@@ -36,13 +38,13 @@ namespace Data.Entity
             };
 
             return e;
-        }
-    }
+		}
+	}
 
-    public class EventTemplateMapper
-    {
-        public static Event Map(List<Object> row)
-        {
+	public class EventTemplateMapper 
+	{
+		public static Event Map(List<Object> row)
+		{
             var e = new Event
             {
                 id = Int32.Parse(row[0].ToString()),
@@ -51,6 +53,5 @@ namespace Data.Entity
             };
 
             return e;
-        }
-    }
-}
+		}
+	}}

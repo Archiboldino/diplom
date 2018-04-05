@@ -1,15 +1,23 @@
-﻿using Data;
-using Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data;
+using System.Data.Sql;
+using Data;
+using Data.Entity;
 
 namespace oprForm
 {
     public partial class PlannedEventsForm : Form
     {
-        private DBManager db = new DBManager();
-        private int user = 1;
+        DBManagerNikita db = new DBManagerNikita();
+        int user = 1;
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -28,7 +36,9 @@ namespace oprForm
                 events.Add(EventTemplateMapper.Map(row));
             }
 
+
             eventsLB.Items.AddRange(events.ToArray());
+
 
             issuesCB.Items.Clear();
             var iss = db.GetRows("issues", "*", "");
@@ -43,7 +53,7 @@ namespace oprForm
 
             var res = db.GetRows("resource", "*", "");
             var resources = new List<Resource>();
-            foreach (var row in res)
+            foreach(var row in res)
             {
                 resources.Add(ResourceMapper.Map(row));
             }
@@ -58,8 +68,8 @@ namespace oprForm
 
             db.Connect();
             int templateId = ev.id;
-            string evName = DBUtil.AddQuotes(evNameTB.Text);
-            string evDesc = DBUtil.AddQuotes(descTB.Text);
+            string evName = DBUtilNikita.AddQuotes(evNameTB.Text);
+            string evDesc = DBUtilNikita.AddQuotes(descTB.Text);
 
             string[] evFields = new string[] { "name", "description", "template_id", "id_of_user", "issue_id" };
 
@@ -76,7 +86,7 @@ namespace oprForm
                     string desc = "";
                     string value = "";
                     if (row.Cells[descCol].Value != null)
-                        desc = DBUtil.AddQuotes(row.Cells[descCol].Value.ToString());
+                        desc = DBUtilNikita.AddQuotes(row.Cells[descCol].Value.ToString());
                     if (row.Cells[valueCol].Value != null)
                         value = row.Cells[valueCol].Value.ToString();
 
@@ -185,6 +195,7 @@ namespace oprForm
                     events.Add(EventTemplateMapper.Map(row));
                 }
 
+
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -193,13 +204,14 @@ namespace oprForm
                 eventsLB.Items.Clear();
                 PlannedEventsForm_Load(this, e);
             }
+
         }
 
         private void resLB_DoubleClick(object sender, EventArgs e)
         {
             Resource res = resLB.SelectedItem as Resource;
 
-            foreach (DataGridViewRow row in eventListGrid.Rows)
+            foreach(DataGridViewRow row in eventListGrid.Rows)
             {
                 if (row.Cells[0].Value == res)
                     return;

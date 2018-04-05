@@ -33,7 +33,7 @@ namespace Experts_Economist
             }
             if (MapMDIChild == null)
             {
-                MapMDIChild = new Map();
+                MapMDIChild = new Map(id_of_exp);
                 //MapMDIChild.id_of_exp = id_of_exp;
                 MapMDIChild.MdiParent = this;
                 MapMDIChild.Show();

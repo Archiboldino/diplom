@@ -68,22 +68,16 @@ namespace Odessa
 
         //сохраняет координаты из грида в таблицы БД
         //необходимо передавать параметр calculation_description_number
-        public void SaveToDB(string id_calc, DataGridView points_grid)
+        public void SaveToDB(string id_calc, string id_expert, DataGridView points_grid)
         {
             int maXNum, Num;
-
-            var res_points = db.GetRows("poligon_calculations_description", "id_poligon", "");
-            maXNum = Convert.ToInt16(res_points[0][0]);
-            for (int i = 1; i < res_points.Count; i++)
-            {
-                Num = Convert.ToInt16(res_points[i][0]);
-                if (maXNum < Num)
-                {
-                    maXNum = Num;
-                }
-            }
-
-            maXNum += 1;
+            //get the max poligon id
+            var res_points = db.GetRows("poligon", "max(id_poligon)", "where id_of_expert="+id_expert);
+            if (res_points.Count == 0)
+                maXNum = 1;
+            else
+                maXNum = Convert.ToInt16(res_points[0][0])+1;
+            
             string[] fields = { "Id_of_poligon","brush_color_r", "bruch_color_g", "brush_color_b", "brush_alfa", "line_collor_r", "line_color_g", "line_color_b",
                 "line_alfa", "line_thickness", "name","id_of_expert"};
             string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'", "0" };
@@ -113,10 +107,11 @@ namespace Odessa
         {
             var over = from a in gMapControl.Overlays where a.Id == "polygons" select a;
             if (over.Count() == 0) return 0;
-            double area = 0;
+            double area1 = 0;
             var polygons = over.First().Polygons;
             foreach (var polygon in polygons)
             {
+                double area = 0;
                 var points = polygon.Points;
                 if (points.Count > 2)
                 {
@@ -134,13 +129,13 @@ namespace Odessa
 
                     area = area * R * R / 2;
                 }
-                area = Math.Abs(area);
+                area1 = Math.Abs(area);
             }
-            return area;
+            return area1;
         }
 
         //отрисовка полигона по данным из таблицы (необходимо передавать параметр calculation_description_number)
-        public void highlight_polygon_from_table(string calc_id, int zoom)
+        public void highlight_polygon_from_table(string calc_id, string param_id, int zoom)
         {
             var res_points = db.GetRows("point_poligon,poligon_calculations_description", "longitude, latitude",
                 "poligon_calculations_description.calculations_description_number=" + calc_id +
@@ -153,7 +148,9 @@ namespace Odessa
                 points.Add(new PointLatLng(Convert.ToDouble(res_points[i][0]),
                                             Convert.ToDouble(res_points[i][1])));
             }
+            //name of poligon references from params and calc_description
             GMapPolygon polygon = new GMapPolygon(points, "mypolygon");
+            polygon.Tag = param_id;
             polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
             polygon.Stroke = new Pen(Color.Red, 1);
             polyOverlay.Polygons.Add(polygon);
@@ -245,17 +242,13 @@ namespace Odessa
             gMapControl.Zoom = zoom;
         }
 
-        public void start_write(System.Windows.Forms.Button but1, System.Windows.Forms.Button but2, DataGridView points_grid) //начало записи (1- кнопка начала записи, 2- кнопка конца записи)
+        public void start_write() //начало записи
         {
-            but1.Enabled = false;
-            but2.Enabled = true;
             gMapControl.Overlays.Clear();
         }
 
-        public void end_write(System.Windows.Forms.Button but1, System.Windows.Forms.Button but2, int zoom, DataGridView points_grid) //конец записи (1- кнопка начала записи, 2- кнопка конца записи)
+        public void end_write(int zoom, DataGridView points_grid) //конец записи (1- кнопка начала записи, 2- кнопка конца записи)
         {
-            but2.Enabled = false;
-            but1.Enabled = true;
             if (points_grid.Rows.Count != 0)
             {
                 for (int i = 0; i < points_grid.Rows.Count; i++)
@@ -286,7 +279,7 @@ namespace Odessa
         {
             try
             {
-                points_grid.Rows.Add(lat.ToString().Remove(10), lng.ToString().Remove(10));
+                points_grid.Rows.Add(lat.ToString(), lng.ToString());
             }
             catch (ArgumentOutOfRangeException)
             {

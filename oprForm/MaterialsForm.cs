@@ -3,16 +3,22 @@ using Data.Entity;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class MaterialsForm : Form
     {
-        private DBManager db = new DBManager();
-        private int nameColIdx = 0;
-        private int descColIdx = 1;
-        private Resource saved;
+        private DBManagerNikita db = new DBManagerNikita();
+        int nameColIdx = 0;
+        int descColIdx = 1;
+        Resource saved;
 
         public MaterialsForm()
         {
@@ -68,6 +74,7 @@ namespace oprForm
                     {
                         db.Disconnect();
                     }
+
                 }
             }
         }
@@ -120,7 +127,7 @@ namespace oprForm
                     db.Connect();
 
                     string[] cols = { "resource_id", "name", "description" };
-                    string[] values = { res.id.ToString(), DBUtil.AddQuotes(res.name), DBUtil.AddQuotes(res.description) };
+                    string[] values = { res.id.ToString(), DBUtilNikita.AddQuotes(res.name), DBUtilNikita.AddQuotes(res.description) };
 
                     db.UpdateRecord("resource", cols, values);
 

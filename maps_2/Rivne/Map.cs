@@ -6,13 +6,16 @@ namespace Odessa
     public partial class Map : Form
     {
         private ClassMap m; //object for work with maps
+        private int id_of_expert;
+        private DBManager db = new DBManager();
 
-        public Map()
+        public Map(int id)
         {
             InitializeComponent();
+            id_of_expert = id;
             m = new ClassMap(this.gMapControl); //создаем экземпляр класса
             m.load_map(5); //начальная прогрузка карты с масштабом 5
-            button2.Enabled = false;
+            btnEndPoint.Enabled = false;
         }
 
         private void gMapControl_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -26,8 +29,9 @@ namespace Odessa
         }
 
         private void button7_Click_1(object sender, EventArgs e)
-        {
-            m.SaveToDB("1", dataGridView1); //"1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных
+        {//second it is id_of_expert
+            m.SaveToDB("1",id_of_expert.ToString(), dataGridView1); //first param "1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных
+            btnSave.Enabled = false;
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -38,7 +42,8 @@ namespace Odessa
         private void button9_Click(object sender, EventArgs e)
         {
             //отрисовка полигона по данным из БД
-            m.highlight_polygon_from_table("1", Convert.ToInt16(gMapControl.Zoom.ToString()));//"1" - параметр calculation_description_number, который необходимо передать
+            //
+            m.highlight_polygon_from_table("1", "1", Convert.ToInt16(gMapControl.Zoom.ToString()));//"1" - параметр calculation_description_number, который необходимо передать
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -60,24 +65,40 @@ namespace Odessa
 
         private void button1_Click(object sender, EventArgs e)
         {
-            m.start_write(button1, button2, dataGridView1);//начало работы с картой
+            btnStartPoint.Enabled = false;
+            btnEndPoint.Enabled = true;
+            m.start_write();//начало работы с картой
             //m.erase_all(Convert.ToInt16(gMapControl.Zoom.ToString()));
+            
         }
-
+        //end point
         private void button2_Click(object sender, EventArgs e)
         {
-            m.end_write(button1, button2, Convert.ToInt16(gMapControl.Zoom.ToString()), dataGridView1); //отрисовывает полигон по точкам
+            m.end_write(Convert.ToInt16(gMapControl.Zoom.ToString()), dataGridView1); //отрисовывает полигон по точкам
             m.highlight_district_grid(dataGridView1, Convert.ToInt16(gMapControl.Zoom.ToString())); //функция для отрисовки полигона по точкам из грида
+            btnSave.Enabled = true;
         }
 
         private void Map_Load(object sender, EventArgs e)
         {
+         //   var list_calc = db.
+         //   cbCalc.Items
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             var a = m.cArea();
             button3.Text = a.ToString();
+        }
+
+        private void gMapControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gMapControl_OnPolygonClick(GMap.NET.WindowsForms.GMapPolygon item, MouseEventArgs e)
+        {
+            MessageBox.Show(item.Tag.ToString());
         }
     }
 }
