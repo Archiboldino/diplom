@@ -26,8 +26,8 @@ DROP TABLE IF EXISTS `calculations_description`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `calculations_description` (
   `calculation_number` int(11) NOT NULL,
-  `calculation_name` varchar(45) DEFAULT NULL,
-  `description_of_calculation` varchar(150) DEFAULT NULL,
+  `calculation_name` varchar(250) DEFAULT NULL,
+  `description_of_calculation` varchar(500) DEFAULT NULL,
   `issue_id` int(11) DEFAULT NULL,
   `id_of_expert` int(11) NOT NULL,
   PRIMARY KEY (`calculation_number`,`id_of_expert`),
@@ -44,7 +44,7 @@ CREATE TABLE `calculations_description` (
 
 LOCK TABLES `calculations_description` WRITE;
 /*!40000 ALTER TABLE `calculations_description` DISABLE KEYS */;
-INSERT INTO `calculations_description` VALUES (1,'Тестова серія 1','Проводимо тестову серію розрахунків для того щоб показати алгоритм роботи програми',11,1),(2,'Тестова серія 2','тест 2',11,1),(3,'Тестова серія 34','тест3',11,1);
+INSERT INTO `calculations_description` VALUES (1,'Тестова серія 1апрорпннемнеашнемшгемшгемшгемдрнилгн','Проводимо тестову серію розрахунків для того щоб показати алгоритм роботи програми',11,1),(2,'Тестова серія 2ормтнеагнестгнсг','тест 2',11,1),(3,'Тестова серія 34','тест3',11,1),(4,'Тестова серія 4','Тестова серія 4',11,1);
 /*!40000 ALTER TABLE `calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +76,7 @@ CREATE TABLE `calculations_result` (
 
 LOCK TABLES `calculations_result` WRITE;
 /*!40000 ALTER TABLE `calculations_result` DISABLE KEYS */;
-INSERT INTO `calculations_result` VALUES (1,'2018-03-17 22:16:30',1,6,1),(1,'2018-03-11 17:09:31',7,351924.16,1),(1,'2018-03-17 22:16:36',13,408,1),(2,'2018-03-11 17:23:01',7,537728.2,1),(3,'2018-03-11 17:23:42',7,1248129.31,1);
+INSERT INTO `calculations_result` VALUES (1,'2018-03-17 22:16:30',1,6,1),(1,'2018-03-11 17:09:31',7,351924.16,1),(1,'2018-03-17 22:16:36',13,408,1),(2,'2018-03-11 17:23:01',7,537728.2,1),(3,'2018-03-11 17:23:42',7,1248129.31,1),(4,'2018-04-04 14:46:22',7,737472.99,1);
 /*!40000 ALTER TABLE `calculations_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,7 +370,7 @@ CREATE TABLE `parameters_value` (
 
 LOCK TABLES `parameters_value` WRITE;
 /*!40000 ALTER TABLE `parameters_value` DISABLE KEYS */;
-INSERT INTO `parameters_value` VALUES (1,0,2,0,1,13),(1,1,1,0,1,1),(1,2,2,0,1,1),(1,3,3,0,1,1),(1,83,2,1,1,13),(1,83,1,2,1,13),(1,84,5,1,1,13),(1,84,10,2,1,13),(1,85,41200,0,1,7),(1,86,0.03,0,1,7),(1,87,30,0,1,7),(1,88,40,0,1,7),(1,89,0.025,0,1,7),(2,85,50000,0,1,7),(2,86,0.035,0,1,7),(2,87,20,0,1,7),(2,88,45,0,1,7),(2,89,0.05,0,1,7),(3,85,70000,0,1,7),(3,86,0.04,0,1,7),(3,87,20,0,1,7),(3,88,40,0,1,7),(3,89,0.03,0,1,7),(4,1,0,0,1,1),(4,2,0,0,1,1),(4,3,0,0,1,1),(5,0,1,0,1,13),(5,83,1,1,1,13),(5,84,0,1,1,13);
+INSERT INTO `parameters_value` VALUES (1,0,2,0,1,13),(1,1,1,0,1,1),(1,2,2,0,1,1),(1,3,3,0,1,1),(1,83,2,1,1,13),(1,83,1,2,1,13),(1,84,5,1,1,13),(1,84,10,2,1,13),(1,85,41200,0,1,7),(1,86,0.03,0,1,7),(1,87,30,0,1,7),(1,88,40,0,1,7),(1,89,0.025,0,1,7),(2,85,50000,0,1,7),(2,86,0.035,0,1,7),(2,87,20,0,1,7),(2,88,45,0,1,7),(2,89,0.05,0,1,7),(3,85,70000,0,1,7),(3,86,0.04,0,1,7),(3,87,20,0,1,7),(3,88,40,0,1,7),(3,89,0.03,0,1,7),(4,1,0,0,1,1),(4,2,0,0,1,1),(4,3,0,0,1,1),(4,85,41200,0,1,7),(4,86,0.03,0,1,7),(4,87,20,0,1,7),(4,88,40,0,1,7),(4,89,0.025,0,1,7),(5,0,1,0,1,13),(5,83,1,1,1,13),(5,84,0,1,1,13);
 /*!40000 ALTER TABLE `parameters_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,6 +446,7 @@ DROP TABLE IF EXISTS `poligon_calculations_description`;
 CREATE TABLE `poligon_calculations_description` (
   `id_poligon` int(11) NOT NULL,
   `calculations_description_number` int(11) NOT NULL,
+  `id_of_formula` int(11) DEFAULT '0',
   PRIMARY KEY (`id_poligon`,`calculations_description_number`),
   KEY `FK_p_to_calculations_idx` (`calculations_description_number`),
   CONSTRAINT `FK_c_to_poligon` FOREIGN KEY (`calculations_description_number`) REFERENCES `calculations_description` (`calculation_number`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -551,4 +552,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-22 16:32:46
+-- Dump completed on 2018-04-05 17:28:48
