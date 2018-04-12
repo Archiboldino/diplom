@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Data;
+﻿using Data;
 using Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace oprForm
 {
@@ -33,7 +27,6 @@ namespace oprForm
             {
                 issues.Add(IssueMapper.Map(row));
             }
-
 
             issuesLB.Items.AddRange(issues.ToArray());
             db.Disconnect();
@@ -77,7 +70,6 @@ namespace oprForm
 
         private void IssuesForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button2_Click(object sender, EventArgs e)

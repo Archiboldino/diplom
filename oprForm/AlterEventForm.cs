@@ -2,19 +2,13 @@
 using Data.Entity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class AlterEventForm : Form
     {
-        DBManagerNikita db = new DBManagerNikita();
+        private DBManagerNikita db = new DBManagerNikita();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -56,7 +50,6 @@ namespace oprForm
             {
                 events.Add(EventMapper.Map(row));
             }
-
 
             eventsLB.Items.AddRange(events.ToArray());
         }
@@ -174,7 +167,6 @@ namespace oprForm
                 db.Disconnect();
                 eventListGrid.Rows.Clear();
             }
-
         }
 
         private void addBtn_Click(object sender, EventArgs e)
@@ -229,7 +221,6 @@ namespace oprForm
                     return;
             }
             eventListGrid.Rows.Add(res, res.description);
-
         }
     }
 }

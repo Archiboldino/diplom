@@ -72,12 +72,12 @@ namespace Odessa
         {
             int maXNum, Num;
             //get the max poligon id
-            var res_points = db.GetRows("poligon", "max(id_poligon)", "where id_of_expert="+id_expert);
+            var res_points = db.GetRows("poligon", "max(id_poligon)", "where id_of_expert=" + id_expert);
             if (res_points.Count == 0)
                 maXNum = 1;
             else
-                maXNum = Convert.ToInt16(res_points[0][0])+1;
-            
+                maXNum = Convert.ToInt16(res_points[0][0]) + 1;
+
             string[] fields = { "Id_of_poligon","brush_color_r", "bruch_color_g", "brush_color_b", "brush_alfa", "line_collor_r", "line_color_g", "line_color_b",
                 "line_alfa", "line_thickness", "name","id_of_expert"};
             string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'", "0" };

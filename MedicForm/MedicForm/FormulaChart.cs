@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using ChartModule;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChartModule;
 
 namespace MedicForm
 {
     public partial class FormulaChart : Form
     {
-        ChartM chart;
-        DBManager dbManager = new DBManager();
+        private ChartM chart;
+        private DBManager dbManager = new DBManager();
+
         public FormulaChart()
         {
             InitializeComponent();
@@ -68,7 +63,7 @@ namespace MedicForm
             return false;
         }
 
-        // метод убирает выбранный элемент из списка ранне выбранных серий 
+        // метод убирает выбранный элемент из списка ранне выбранных серий
         private void removeButt_Click(object sender, EventArgs e)
         {
             if (addSeriaList.SelectedItem != null)
@@ -149,18 +144,20 @@ namespace MedicForm
                 seriaDescription.Text = dbManager.GetValue("calculations_description", "description_of_calculation", "calculation_number = " + seriaList.SelectedItem).ToString();
             }
         }
-        int i;
+
+        private int i;
+
         private void funcComboBox_TextChanged(object sender, EventArgs e)
         {
             label1.Visible = true;
             i = funcComboBox.FindString(funcComboBox.Text);
-           if(i>=0) label1.Text = funcComboBox.Items[i].ToString();              
+            if (i >= 0) label1.Text = funcComboBox.Items[i].ToString();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-             label1.Visible = false;
-             funcComboBox.SelectedIndex = i; 
+            label1.Visible = false;
+            funcComboBox.SelectedIndex = i;
         }
 
         private void addAll_Click(object sender, EventArgs e)

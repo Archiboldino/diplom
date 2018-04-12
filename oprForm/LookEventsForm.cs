@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Data;
+﻿using Data;
 using Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class LookEventsForm : Form
     {
-        DBManagerNikita db = new DBManagerNikita();
+        private DBManagerNikita db = new DBManagerNikita();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -32,7 +26,6 @@ namespace oprForm
             {
                 events.Add(EventMapper.Map(row));
             }
-
 
             eventsLB.Items.AddRange(events.ToArray());
             db.Disconnect();
@@ -67,7 +60,7 @@ namespace oprForm
 
                 var docObj = db.GetRows("event_documents", "*", "event_id=" + ev.id);
                 var docs = new List<Document>();
-                foreach(var row in docObj)
+                foreach (var row in docObj)
                 {
                     docs.Add(DocumentMapper.Map(row));
                 }
@@ -136,7 +129,6 @@ namespace oprForm
                 {
                     events.Add(EventMapper.Map(row));
                 }
-
 
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
