@@ -77,65 +77,44 @@ public class DBManager
     // Returns single first value according to parameters
     public Object GetValue(String tableName, String fields, String cond)
     {
-        try
-        {
-            MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
-            Console.WriteLine(command.CommandText);
-            return command.ExecuteScalar();
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.ToString());
-            return 0;
-        }
+        MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
+        Console.WriteLine(command.CommandText);
+        return command.ExecuteScalar();
     }
 
     private String getSelectStatement(String tableName, String fields, String cond)
     {
         string res = "";
-        try
+        res = "SELECT " + fields + " FROM " + tableName;
+        if (cond != "")
         {
-            res = "SELECT " + fields + " FROM " + tableName;
-            if (cond != "")
-            {
-                res += " WHERE " + cond;
-            }
-            res += ";";
-
-            return res;
+            res += " WHERE " + cond;
         }
-        catch (Exception ex) { res = ex.ToString(); }
+        res += ";";
+
         return res;
     }
 
     // Returns list of rows
     public List<List<Object>> GetRows(String tableName, String fields, String cond)
     {
-        //try
-        //{
-            var res = new List<List<Object>>();
+        var res = new List<List<Object>>();
 
-            MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
+        MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
 
-            using (var reader = command.ExecuteReader())
+        using (var reader = command.ExecuteReader())
+        {
+            while (reader.Read())
             {
-                while (reader.Read())
+                var currentRow = new List<Object>();
+                for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    var currentRow = new List<Object>();
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        currentRow.Add(reader[i]);
-                    }
-                    res.Add(currentRow);
+                    currentRow.Add(reader[i]);
                 }
+                res.Add(currentRow);
             }
-            return res;
-        //}
-        //catch (Exception ex)
-        //{
-        //    MessageBox.Show(ex.ToString());
-        //    return null;
-        //}
+        }
+        return res;
     }
 
     // Update table and return number of updated rows

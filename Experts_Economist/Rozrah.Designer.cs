@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.formulasLB = new System.Windows.Forms.ListBox();
             this.formulasDGV = new System.Windows.Forms.DataGridView();
+            this.Param_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Param_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Param_measure = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.param_desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Save_values = new System.Windows.Forms.Button();
             this.formulas_idLB = new System.Windows.Forms.ListBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -50,10 +54,6 @@
             this.experts_CB = new System.Windows.Forms.ComboBox();
             this.name_of_seriesCB = new System.Windows.Forms.ComboBox();
             this.form_desc_L = new System.Windows.Forms.Label();
-            this.Param_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Param_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Param_measure = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.param_desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.formulasDGV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,6 +81,36 @@
             this.formulasDGV.TabIndex = 2;
             this.formulasDGV.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.formulasDGV_CellFormatting);
             this.formulasDGV.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.formulasDGV_EditingControlShowing);
+            // 
+            // Param_name
+            // 
+            this.Param_name.HeaderText = "Назва парамерту";
+            this.Param_name.Name = "Param_name";
+            this.Param_name.ReadOnly = true;
+            this.Param_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Param_name.Width = 80;
+            // 
+            // Param_value
+            // 
+            this.Param_value.HeaderText = "Значення";
+            this.Param_value.Name = "Param_value";
+            this.Param_value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Param_value.Width = 80;
+            // 
+            // Param_measure
+            // 
+            this.Param_measure.HeaderText = "Одиниця вимірювання";
+            this.Param_measure.Name = "Param_measure";
+            this.Param_measure.ReadOnly = true;
+            this.Param_measure.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Param_measure.Width = 80;
+            // 
+            // param_desc
+            // 
+            this.param_desc.HeaderText = "Опис параметру";
+            this.param_desc.Name = "param_desc";
+            this.param_desc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.param_desc.Width = 440;
             // 
             // Save_values
             // 
@@ -121,6 +151,7 @@
             this.number_of_calcL.Size = new System.Drawing.Size(111, 13);
             this.number_of_calcL.TabIndex = 14;
             this.number_of_calcL.Text = "Серія розрахунків №";
+            this.number_of_calcL.Visible = false;
             // 
             // label1
             // 
@@ -147,6 +178,7 @@
             this.calc_numbCB.Name = "calc_numbCB";
             this.calc_numbCB.Size = new System.Drawing.Size(100, 21);
             this.calc_numbCB.TabIndex = 18;
+            this.calc_numbCB.Visible = false;
             this.calc_numbCB.TextChanged += new System.EventHandler(this.calc_numbCB_TextChanged);
             this.calc_numbCB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.calc_numbCB_KeyPress);
             // 
@@ -266,36 +298,6 @@
             this.form_desc_L.Size = new System.Drawing.Size(87, 13);
             this.form_desc_L.TabIndex = 55;
             this.form_desc_L.Text = "Опис формули :";
-            // 
-            // Param_name
-            // 
-            this.Param_name.HeaderText = "Назва парамерту";
-            this.Param_name.Name = "Param_name";
-            this.Param_name.ReadOnly = true;
-            this.Param_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_name.Width = 80;
-            // 
-            // Param_value
-            // 
-            this.Param_value.HeaderText = "Значення";
-            this.Param_value.Name = "Param_value";
-            this.Param_value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_value.Width = 80;
-            // 
-            // Param_measure
-            // 
-            this.Param_measure.HeaderText = "Одиниця вимірювання";
-            this.Param_measure.Name = "Param_measure";
-            this.Param_measure.ReadOnly = true;
-            this.Param_measure.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_measure.Width = 80;
-            // 
-            // param_desc
-            // 
-            this.param_desc.HeaderText = "Опис параметру";
-            this.param_desc.Name = "param_desc";
-            this.param_desc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.param_desc.Width = 440;
             // 
             // Rozrah
             // 

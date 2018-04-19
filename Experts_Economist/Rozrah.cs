@@ -791,11 +791,12 @@ namespace Experts_Economist
             DateTime localDate = DateTime.Now;
             string[] fields5 = { "calculation_number", "date_of_calculation", "id_of_formula", "result", "id_of_expert" };
             string[] values5 = { calc_numbCB.Text, "'" + localDate.ToString("yyyy-MM-dd HH:mm:ss") + "'", idf.ToString(), formulasDGV.Rows[formulasDGV.Rows.Count - 1].Cells[1].Value.ToString().Replace(",", "."), id_of_exp.ToString() };
-            string[] fields1 = { "calculation_number", "id_of_expert" };
-            string[] values1 = { calc_numbCB.Text, id_of_exp.ToString() };
+            int issueid = (issueTB.SelectedItem as Issue).id;
+            string[] fields4_1 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id", "id_of_expert" };
+            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'','`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'','`') + "'", issueid.ToString(), id_of_exp.ToString() };
             try
             {
-                db.InsertToBD("calculations_description", fields1, values1);
+                db.InsertToBD("calculations_description", fields4_1, values4_1);
             }
             catch (Exception)
             {
@@ -938,7 +939,7 @@ namespace Experts_Economist
             //Сохраняем название и описание серии расчётов
             int issueid = (issueTB.SelectedItem as Issue).id;
             string[] fields4_1 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id", "id_of_expert" };
-            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text + "'", "'" + desc_of_seriesTB.Text + "'", issueid.ToString(), id_of_exp.ToString() };
+            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'','`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'','`') + "'", issueid.ToString(), id_of_exp.ToString() };
             try
             {
                 db.UpdateRecord("calculations_description", fields4_1, values4_1);
@@ -1012,7 +1013,8 @@ namespace Experts_Economist
         {
             try
             {
-                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text + "' AND id_of_expert = " + id_of_exp);
+
+                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'','`') + "' AND id_of_expert = " + id_of_exp);
                 if (calc_numbCB.Text == calc[0][0].ToString())
                 {
                     return;

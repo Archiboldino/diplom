@@ -1,6 +1,5 @@
 ﻿using Data;
 using Data.Entity;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -9,10 +8,7 @@ namespace oprForm
 {
     public partial class AlterTemplateForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
-        private int user = 1;
-        private int valueCol = 2;
-        private int descCol = 1;
+        private DBManager db = new DBManager();
 
         public AlterTemplateForm()
         {
@@ -83,7 +79,7 @@ namespace oprForm
             var ev = templatesLB.SelectedItem as Event;
             db.Connect();
             string[] cols = { "template_id", "name", "description" };
-            string[] values = { ev.id.ToString(), DBUtilNikita.AddQuotes(nameTB.Text), DBUtilNikita.AddQuotes(descTB.Text) };
+            string[] values = { ev.id.ToString(), DBUtil.AddQuotes(nameTB.Text), DBUtil.AddQuotes(descTB.Text) };
 
             ev.name = nameTB.Text;
             ev.description = descTB.Text;
@@ -127,29 +123,14 @@ namespace oprForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             if (templatesLB.SelectedItem is Event)
             {
-                try
-                {
-                    Event ev = templatesLB.SelectedItem as Event;
-                    db.Connect();
-                    db.DeleteFromDB("event_template", "template_id", ev.id.ToString());
-                    db.Disconnect();
+                Event ev = templatesLB.SelectedItem as Event;
+                db.Connect();
+                db.DeleteFromDB("event_template", "template_id", ev.id.ToString());
+                db.Disconnect();
 
-                    templatesLB.Items.Remove(ev);
-                }
-                catch (MySqlException ex)
-                {
-                    if (ex.Number == 1451)
-                    {
-                        MessageBox.Show("Шаблон використовується.");
-                    }
-                }
-                finally
-                {
-                    db.Disconnect();
-                }
+                templatesLB.Items.Remove(ev);
             }
         }
     }

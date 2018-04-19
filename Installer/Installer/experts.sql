@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `experts` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `experts`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: experts
@@ -29,6 +31,7 @@ CREATE TABLE `calculations_description` (
   `issue_id` int(11) DEFAULT NULL,
   `id_of_expert` int(11) NOT NULL,
   PRIMARY KEY (`calculation_number`,`id_of_expert`),
+  UNIQUE KEY `calculation_name_UNIQUE` (`calculation_name`),
   KEY `fk_issue_id_idx` (`issue_id`),
   KEY `fk_id_of_exp_calc_desc_idx` (`id_of_expert`),
   CONSTRAINT `fk_id_of_exp_calc_desc` FOREIGN KEY (`id_of_expert`) REFERENCES `expert` (`id_of_expert`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -342,14 +345,15 @@ CREATE TABLE `parameters_value` (
   `calculation_number` int(11) NOT NULL,
   `id_of_parameter` int(11) NOT NULL,
   `parameter_value` double DEFAULT NULL,
-  `index_of_parameter` int(11) NOT NULL DEFAULT '0',
-  `id_of_expert` int(11) NOT NULL DEFAULT '1',
+  `index_of_parameter` int(11) NOT NULL,
+  `id_of_expert` int(11) NOT NULL,
   `id_of_formula` int(11) NOT NULL,
   PRIMARY KEY (`calculation_number`,`id_of_parameter`,`id_of_expert`,`id_of_formula`,`index_of_parameter`),
   KEY `fk_parameter_id_idx` (`id_of_parameter`),
   KEY `fk_paramater2_id_idx` (`id_of_parameter`),
   KEY `fk_id_of_exp_par_val_idx` (`id_of_expert`),
   KEY `fk_id_of_formula_formulas_idx` (`id_of_formula`),
+  CONSTRAINT `fk_calc_numb_calc_res` FOREIGN KEY (`calculation_number`) REFERENCES `calculations_result` (`calculation_number`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_of_exp_par_val` FOREIGN KEY (`id_of_expert`) REFERENCES `expert` (`id_of_expert`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_of_form_formulas_parameter_value` FOREIGN KEY (`id_of_formula`) REFERENCES `formulas` (`id_of_formula`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_paramater2_id` FOREIGN KEY (`id_of_parameter`) REFERENCES `formula_parameters` (`id_of_parameter`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -362,7 +366,6 @@ CREATE TABLE `parameters_value` (
 
 LOCK TABLES `parameters_value` WRITE;
 /*!40000 ALTER TABLE `parameters_value` DISABLE KEYS */;
-INSERT INTO `parameters_value` VALUES (1,0,2,0,1,13),(1,1,1,0,1,1),(1,2,2,0,1,1),(1,3,3,0,1,1),(1,83,2,1,1,13),(1,83,1,2,1,13),(1,84,5,1,1,13),(1,84,10,2,1,13),(1,85,41200,0,1,7),(1,86,0.03,0,1,7),(1,87,30,0,1,7),(1,88,40,0,1,7),(1,89,0.025,0,1,7),(2,85,50000,0,1,7),(2,86,0.035,0,1,7),(2,87,20,0,1,7),(2,88,45,0,1,7),(2,89,0.05,0,1,7),(3,85,70000,0,1,7),(3,86,0.04,0,1,7),(3,87,20,0,1,7),(3,88,40,0,1,7),(3,89,0.03,0,1,7),(4,1,0,0,1,1),(4,2,0,0,1,1),(4,3,0,0,1,1),(4,85,41200,0,1,7),(4,86,0.03,0,1,7),(4,87,20,0,1,7),(4,88,40,0,1,7),(4,89,0.025,0,1,7),(5,0,1,0,1,13),(5,83,1,1,1,13),(5,84,0,1,1,13);
 /*!40000 ALTER TABLE `parameters_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,7 +470,7 @@ CREATE TABLE `resource` (
   `name` varchar(100) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -476,6 +479,7 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
+INSERT INTO `resource` VALUES (4,'Гроші','Гривні');
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -542,4 +546,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-19 11:46:11
+-- Dump completed on 2018-04-19 13:18:05

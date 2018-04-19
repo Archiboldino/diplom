@@ -103,7 +103,7 @@
             this.descTB.Name = "descTB";
             this.descTB.Size = new System.Drawing.Size(450, 26);
             this.descTB.TabIndex = 5;
-            this.descTB.Text = "Description";
+            this.descTB.Text = "Опис";
             // 
             // addBtn
             // 
@@ -125,7 +125,7 @@
             this.evNameTB.Name = "evNameTB";
             this.evNameTB.Size = new System.Drawing.Size(308, 26);
             this.evNameTB.TabIndex = 6;
-            this.evNameTB.Text = "Event Name";
+            this.evNameTB.Text = "Назва заходу";
             // 
             // label2
             // 

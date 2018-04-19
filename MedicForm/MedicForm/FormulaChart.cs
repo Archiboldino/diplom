@@ -1,19 +1,26 @@
-﻿using ChartModule;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChartModule;
 
 namespace MedicForm
 {
     public partial class FormulaChart : Form
     {
-        private ChartM chart;
-        private DBManager dbManager = new DBManager();
-
-        public FormulaChart()
+        ChartM chart;
+        DBManager dbManager = new DBManager();
+        int id_of_expert;
+        public FormulaChart(int id_of_expert)
         {
+            this.id_of_expert = id_of_expert;
             InitializeComponent();
-            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = 1");
+            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = " + id_of_expert);
             string item = "";
             for (int i = 0; i < formulas.Count(); i++)
             {
@@ -27,8 +34,9 @@ namespace MedicForm
         {
             seriaList.Items.Clear();
             addSeriaList.Items.Clear();
-            var formula = dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" + funcComboBox.Text + "'");
-            var serias = dbManager.GetRows("calculations_result", "calculation_number", "id_of_formula = " + formula);
+
+            var formula = dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" + funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert);
+            var serias = dbManager.GetRows("calculations_result", "calculation_number", "id_of_formula = " + formula + " AND id_of_expert =" + id_of_expert);
 
             for (int i = 0; i < serias.Count; i++)
             {
@@ -63,7 +71,7 @@ namespace MedicForm
             return false;
         }
 
-        // метод убирает выбранный элемент из списка ранне выбранных серий
+        // метод убирает выбранный элемент из списка ранне выбранных серий 
         private void removeButt_Click(object sender, EventArgs e)
         {
             if (addSeriaList.SelectedItem != null)
@@ -85,14 +93,14 @@ namespace MedicForm
                     arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
                         + addSeriaList.Items[i] + " AND id_of_formula = " +
                         dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
-                        funcComboBox.Text + "'"));
+                        funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert) + " AND id_of_expert =" + id_of_expert);
                 }
 
                 chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
-                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    "description_of_formula = '" + funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert).ToString()
                      + " ("
                     + dbManager.GetValue("formulas", "measurement_of_formula",
-                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    "description_of_formula = '" + funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert).ToString()
                     + ")",
                     "range");
                 chart.draw(arrayOfX, arrayOfY);
@@ -115,16 +123,16 @@ namespace MedicForm
                 {
                     arrayOfY[i] = addSeriaList.Items[i];
                     arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
-                        + addSeriaList.Items[i] + " AND id_of_formula = " +
+                        + addSeriaList.Items[i] + " AND id_of_formula = " + 
                         dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
-                        funcComboBox.Text + "'"));
+                        funcComboBox.Text + "'") + " AND id_of_expert =" + id_of_expert);
                 }
 
                 chart = new ChartM(dbManager.GetValue("formulas", "name_of_formula",
-                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    "description_of_formula = '" + funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert).ToString()
                     + " ("
                     + dbManager.GetValue("formulas", "measurement_of_formula",
-                    "description_of_formula = '" + funcComboBox.Text + "'").ToString()
+                    "description_of_formula = '" + funcComboBox.Text + "'" + " AND id_of_expert =" + id_of_expert).ToString()
                     + ")"
                     , "line");
                 chart.draw(arrayOfX, arrayOfY);
@@ -144,20 +152,18 @@ namespace MedicForm
                 seriaDescription.Text = dbManager.GetValue("calculations_description", "description_of_calculation", "calculation_number = " + seriaList.SelectedItem).ToString();
             }
         }
-
-        private int i;
-
+        int i;
         private void funcComboBox_TextChanged(object sender, EventArgs e)
         {
             label1.Visible = true;
             i = funcComboBox.FindString(funcComboBox.Text);
-            if (i >= 0) label1.Text = funcComboBox.Items[i].ToString();
+           if(i>=0) label1.Text = funcComboBox.Items[i].ToString();              
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            label1.Visible = false;
-            funcComboBox.SelectedIndex = i;
+             label1.Visible = false;
+             funcComboBox.SelectedIndex = i; 
         }
 
         private void addAll_Click(object sender, EventArgs e)

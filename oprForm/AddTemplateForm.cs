@@ -8,7 +8,7 @@ namespace oprForm
 {
     public partial class AddTemplateForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
+        private DBManager db = new DBManager();
         private int user = 1;
         private int valueCol = 2;
         private int descCol = 1;
@@ -44,8 +44,8 @@ namespace oprForm
         private void addBtn_Click(object sender, EventArgs e)
         {
             db.Connect();
-            string temName = DBUtilNikita.AddQuotes(nameTB.Text);
-            string temDesc = DBUtilNikita.AddQuotes(descTB.Text);
+            string temName = DBUtil.AddQuotes(nameTB.Text);
+            string temDesc = DBUtil.AddQuotes(descTB.Text);
 
             string[] evFields = new string[] { "name", "description", "expert_id" };
             string[] evValues = new string[] { temName, temDesc, user.ToString() };
@@ -57,13 +57,6 @@ namespace oprForm
                 Resource res = row.Cells[0].Value as Resource;
                 if (res != null)
                 {
-                    string desc = "";
-                    string value = "";
-                    //if (row.Cells[descCol].Value != null)
-                    //    desc = DBUtil.AddQuotes(row.Cells[descCol].Value.ToString());
-                    //if (row.Cells[valueCol].Value != null)
-                    //    value = row.Cells[valueCol].Value.ToString();
-
                     string[] fields = { "template_id", "resource_id" };
                     string[] values = { evId.ToString(), res.id.ToString() };
 

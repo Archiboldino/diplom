@@ -43,6 +43,7 @@ namespace Experts_Economist
             }
             calc_numbCB.Items.Clear();//очищаем список расчётов
             name_of_seriesCB.Items.Clear();
+            name_of_seriesCB.Text = "";
             //создаём переменную для хранения списка номеров расчётов и забиваем её в список расчётов
             var obj01 = db.GetRows("calculations_description", "calculation_number, calculation_name", "id_of_expert = " + id_of_exp);
             for (int i = 0; i < obj01.Count; i++)
@@ -1075,7 +1076,7 @@ namespace Experts_Economist
             {
             }
             string[] fields4 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id" };
-            string[] values4 = { idc + " AND id_of_expert = " + id_of_exp, "'" + name_of_seriesCB.Text + "'", "'" + desc_of_seriesTB.Text + "'", issueid };
+            string[] values4 = { idc + " AND id_of_expert = " + id_of_exp, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid };
             db.UpdateRecord("calculations_description ", fields4, values4);//обновляем описание и название серии
         }
 
@@ -1165,11 +1166,11 @@ namespace Experts_Economist
         {
             if (chartsList.Text.Equals("Графік показника"))
             {
-                new FormulaChart().ShowDialog();
+                new FormulaChart(id_of_exp).ShowDialog();
             }
             else if (chartsList.Text.Equals("Графік проблеми"))
             {
-                new IssueChart().ShowDialog();
+                new IssueChart(id_of_exp).ShowDialog();
             }
         }
 
@@ -1183,7 +1184,7 @@ namespace Experts_Economist
         {
             try
             {
-                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text + "' AND id_of_expert = " + id_of_exp);
+                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'', '`') + "' AND id_of_expert = " + id_of_exp);
                 if (calc_numbCB.Text == calc[0][0].ToString())
                 {
                     return;

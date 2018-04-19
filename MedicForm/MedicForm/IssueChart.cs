@@ -1,18 +1,24 @@
-﻿using ChartModule;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChartModule;
 
 namespace MedicForm
 {
     public partial class IssueChart : Form
     {
-        private DBManager dbManager = new DBManager();
-        private ChartM chart;
-
-        public IssueChart()
+        DBManager dbManager = new DBManager();
+        ChartM chart;
+        int id_of_expert;
+        public IssueChart(int id_of_expert)
         {
+            this.id_of_expert = id_of_expert;
             InitializeComponent();
             string item = "";
             var issues = dbManager.GetRows("issues", "name", "");
@@ -71,10 +77,10 @@ namespace MedicForm
             formulasList.Items.Clear();
             if (addedIssueSerias.Items.Count == 1)
             {
-                var ids = dbManager.GetRows("calculations_result", "id_of_formula", "calculation_number = " + addedIssueSerias.Items[0]);
+                var ids = dbManager.GetRows("calculations_result", "id_of_formula", "calculation_number = " + addedIssueSerias.Items[0] + " AND id_of_expert =" + id_of_expert);
                 for (int i = 0; i < ids.Count; i++)
                 {
-                    formulasList.Items.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + ids[i][0]));
+                    formulasList.Items.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + ids[i][0] + " AND id_of_expert =" + id_of_expert));
                 }
             }
             else
@@ -83,7 +89,7 @@ namespace MedicForm
                 for (int i = 0; i < addedIssueSerias.Items.Count; i++)
                 {
                     List<Object> list = new List<object>();
-                    var temp = dbManager.GetRows("calculations_result", "id_of_formula", "calculation_number = " + addedIssueSerias.Items[i]);
+                    var temp = dbManager.GetRows("calculations_result", "id_of_formula", "calculation_number = " + addedIssueSerias.Items[i] + " AND id_of_expert =" + id_of_expert);
                     for (int j = 0; j < temp.Count; j++)
                     {
                         list.Add(temp[j][0]);
@@ -100,7 +106,7 @@ namespace MedicForm
 
                 foreach (Object o in result)
                 {
-                    formulasList.Items.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + o));
+                    formulasList.Items.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + o + " AND id_of_expert =" + id_of_expert));
                 }
             }
         }
@@ -115,39 +121,27 @@ namespace MedicForm
             }
         }
 
-        // рисуем диаграму проблемы
+        // рисуем диаграму проблемы 
         private void diagIssueButt_Click(object sender, EventArgs e)
         {
-            if (problemBox.SelectedItem != null & addedIssueSerias.Items.Count != 0 & formulasList.CheckedItems.Count != 0)
+            if(problemBox.SelectedItem != null & addedIssueSerias.Items.Count != 0 & formulasList.CheckedItems.Count != 0)
             {
                 List<List<object>> formulas = new List<List<object>>();
                 List<object> formIds = new List<object>();
                 List<List<object>> list = new List<List<object>>();
                 List<string> names = new List<string>();
 
-                /* for (int i = 0; i < addedIssueSerias.Items.Count; i++)
-                 {
-                     formulas = dbManager.GetRows("calculations_result",
-                         "id_of_formula", "calculation_number = " + addedIssueSerias.Items[i]);
-                 }
-
-                 for (int i = 0; i < formulas.Count; i++)
-                 {
-                     formIds.Add(formulas[i][0]);
-                 }
-
-                 IEnumerable<object> ids = formIds.Distinct();*/
                 List<Object> ids = new List<object>();
-                for (int i = 0; i < formulasList.CheckedItems.Count; i++)
+                for(int i = 0; i < formulasList.CheckedItems.Count; i++)
                 {
-                    ids.Add(dbManager.GetValue("formulas", "id_of_formula", "name_of_formula = '" + formulasList.CheckedItems[i] + "'"));
+                    ids.Add(dbManager.GetValue("formulas", "id_of_formula","name_of_formula = '" + formulasList.CheckedItems[i] + "'" + " AND id_of_expert =" + id_of_expert));
                 }
 
                 foreach (object i in ids)
                 {
                     list.Add(getResult(i));
-                    names.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + i) + " (" +
-                        dbManager.GetValue("formulas", "measurement_of_formula", "id_of_formula = " + i) + ")");
+                    names.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + i + " AND id_of_expert =" + id_of_expert) + " (" +
+                        dbManager.GetValue("formulas", "measurement_of_formula", "id_of_formula = " + i + " AND id_of_expert =" + id_of_expert) + ")");
                 }
 
                 List<Object> listOfSerias = new List<object>();
@@ -173,7 +167,7 @@ namespace MedicForm
             for (int i = 0; i < addedIssueSerias.Items.Count; i++)
             {
                 list.Add(dbManager.GetValue("calculations_result", "result", "id_of_formula = " + formulaId +
-                    " AND calculation_number = " + addedIssueSerias.Items[i]));
+                    " AND calculation_number = " + addedIssueSerias.Items[i] + " AND id_of_expert =" + id_of_expert));
             }
 
             return list;
@@ -188,29 +182,16 @@ namespace MedicForm
                 List<List<object>> list = new List<List<object>>();
                 List<string> names = new List<string>();
 
-                /*for (int i = 0; i < addedIssueSerias.Items.Count; i++)
-                {
-                    formulas = dbManager.GetRows("calculations_result",
-                        "id_of_formula", "calculation_number = " + addedIssueSerias.Items[i]);
-                }
-
-                for (int i = 0; i < formulas.Count; i++)
-                {
-                    formIds.Add(formulas[i][0]);
-                }
-
-                IEnumerable<object> ids = formIds.Distinct();*/
-
                 List<Object> ids = new List<object>();
                 for (int i = 0; i < formulasList.CheckedItems.Count; i++)
                 {
-                    ids.Add(dbManager.GetValue("formulas", "id_of_formula", "name_of_formula = '" + formulasList.CheckedItems[i] + "'"));
+                    ids.Add(dbManager.GetValue("formulas", "id_of_formula", "name_of_formula = '" + formulasList.CheckedItems[i] + "'" + " AND id_of_expert =" + id_of_expert));
                 }
                 foreach (object i in ids)
                 {
                     list.Add(getResult(i));
-                    names.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + i) + " (" +
-                        dbManager.GetValue("formulas", "measurement_of_formula", "id_of_formula = " + i) + ")");
+                    names.Add(dbManager.GetValue("formulas", "name_of_formula", "id_of_formula = " + i + " AND id_of_expert =" + id_of_expert) + " (" +
+                        dbManager.GetValue("formulas", "measurement_of_formula", "id_of_formula = " + i + " AND id_of_expert =" + id_of_expert) + ")");
                 }
 
                 List<Object> listOfSerias = new List<object>();
@@ -229,7 +210,7 @@ namespace MedicForm
             }
         }
 
-        // метод выводит название и описание серии при выборе серии в списке
+        // метод выводит название и описание серии при выборе серии в списке 
         private void issueSerias_SelectedIndexChanged(object sender, EventArgs e)
         {
             seriaName.Text = dbManager.GetValue("calculations_description", "calculation_name", "calculation_number = " + issueSerias.SelectedItem).ToString();
@@ -242,7 +223,7 @@ namespace MedicForm
             {
                 if (!findItem(issueSerias.SelectedItem, addedIssueSerias))
                 {
-                    foreach (Object o in issueSerias.Items)
+                    foreach(Object o in issueSerias.Items)
                     {
                         addedIssueSerias.Items.Add(o);
                     }

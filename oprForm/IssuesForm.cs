@@ -1,5 +1,4 @@
-﻿using Data;
-using Data.Entity;
+﻿using Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -8,8 +7,7 @@ namespace oprForm
 {
     public partial class IssuesForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
-        private String user = "Vasya";
+        private DBManager db = new DBManager();
 
         public IssuesForm()
         {

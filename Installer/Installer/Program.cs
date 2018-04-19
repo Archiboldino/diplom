@@ -1,18 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.IO;
-using System.Management;
 using System.Reflection;
 
 namespace Installer
 {
-
     internal class Program
     {
-
         public static void Main()
         {
-
             string path = Assembly.GetExecutingAssembly().Location;
             path = path.Remove(path.Length - 13, 13);
             string connectionString = "";
@@ -118,5 +114,4 @@ namespace Installer
             }
         }
     }
-
 }

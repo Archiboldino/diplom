@@ -9,9 +9,11 @@ namespace oprForm
 {
     public partial class MaterialsForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
+        private DBManager db = new DBManager();
         private int nameColIdx = 0;
-        private int descColIdx = 1;
+        private int priceColIdx = 1;
+        private int unitsColIdx = 2;
+        private int descColIdx = 3;
         private Resource saved;
 
         public MaterialsForm()
@@ -34,7 +36,7 @@ namespace oprForm
 
             foreach (var r in res)
             {
-                resDGV.Rows.Add(r, r.description);
+                resDGV.Rows.Add(r, r.price, r.unit, r.description);
             }
 
             db.Disconnect();
@@ -47,7 +49,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    var res = row.Cells[0].Value as Resource;
+                    Resource res = new Resource();
                     try
                     {
                         db.Connect();
@@ -61,7 +63,7 @@ namespace oprForm
                     {
                         if (ex.Number == 1451)
                         {
-                            MessageBox.Show("Ресурс використовується.");
+                            MessageBox.Show("Ресурс використовуэться.");
                         }
                     }
                     finally
@@ -90,12 +92,36 @@ namespace oprForm
             }
             if (resDGV.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                var res = resDGV.Rows[e.RowIndex].Cells[0].Value as Resource;
+                Resource res = new Resource();
                 if (e.ColumnIndex == descColIdx)
                 {
                     var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                     if (val.Length != 0 && !val.Equals(" "))
                         res.description = val;
+                    else
+                    {
+                        MessageBox.Show("Опис не повинен бути пустим.");
+                    }
+                }
+                else if (e.ColumnIndex == priceColIdx)
+                {
+                    var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    try
+                    {
+                        res.price = Int32.Parse(val);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Введіть число.");
+                    }
+                }
+                else if (e.ColumnIndex == unitsColIdx)
+                {
+                    var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    if (val.Length != 0 && !val.Equals(" "))
+                    {
+                        res.unit = val;
+                    }
                     else
                     {
                         MessageBox.Show("Опис не повинен бути пустим.");
@@ -116,11 +142,11 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    var res = row.Cells[0].Value as Resource;
+                    Resource res = new Resource();
                     db.Connect();
 
-                    string[] cols = { "resource_id", "name", "description" };
-                    string[] values = { res.id.ToString(), DBUtilNikita.AddQuotes(res.name), DBUtilNikita.AddQuotes(res.description) };
+                    string[] cols = { "resource_id", "name", "description", "units", "price" };
+                    string[] values = { res.id.ToString(), DBUtil.AddQuotes(res.name), DBUtil.AddQuotes(res.description), DBUtil.AddQuotes(res.unit), res.price.ToString() };
 
                     db.UpdateRecord("resource", cols, values);
 

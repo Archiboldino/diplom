@@ -158,9 +158,9 @@
             this.funcLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.funcLabel.Location = new System.Drawing.Point(6, 18);
             this.funcLabel.Name = "funcLabel";
-            this.funcLabel.Size = new System.Drawing.Size(131, 16);
+            this.funcLabel.Size = new System.Drawing.Size(134, 16);
             this.funcLabel.TabIndex = 35;
-            this.funcLabel.Text = "Виберіть показник";
+            this.funcLabel.Text = "Виберіть показник \r\n";
             // 
             // funcComboBox
             // 

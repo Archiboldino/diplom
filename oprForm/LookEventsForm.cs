@@ -15,8 +15,6 @@ namespace oprForm
     public partial class LookEventsForm : Form
     {
         DBManager db = new DBManager();
-        private int valueCol = 2;
-        private int descCol = 1;
 
         private List<Event> events = new List<Event>();
         private Dictionary<int, int> expertOfUser = new Dictionary<int, int>();
@@ -49,7 +47,7 @@ namespace oprForm
 
         private void eventsLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (eventsLB.SelectedItem is Event )
+            if (eventsLB.SelectedItem is Event)
             {
                 Event ev = new Event();
                 approveGB.Visible = true;

@@ -8,7 +8,7 @@ namespace oprForm
 {
     public partial class AlterEventForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
+        private DBManager db = new DBManager();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -28,8 +28,7 @@ namespace oprForm
             }
 
             issuesCB.Items.AddRange(issues.ToArray());
-            if (issuesCB.Items.Count > 0)
-                issuesCB.SelectedIndex = 0;
+            issuesCB.SelectedIndex = 0;
 
             var res = db.GetRows("resource", "*", "");
             var resources = new List<Resource>();
@@ -62,7 +61,7 @@ namespace oprForm
             {
                 if (eventsLB.SelectedItem is Event)
                 {
-                    var ev = eventsLB.SelectedItem as Event;
+                    Event ev = new Data.Entity.Event();
                     alterGB.Visible = true;
                     db.Connect();
                     var resourcesForEvent = db.GetRows("event_resource", "event_id, resource_id, description, value",
@@ -94,7 +93,7 @@ namespace oprForm
         {
             if (eventListGrid.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                var res = eventListGrid.Rows[e.RowIndex].Cells[0].Value as Resource;
+                Resource res = new Resource();
                 if (e.ColumnIndex == valueCol)
                 {
                     try
@@ -146,7 +145,7 @@ namespace oprForm
             {
                 if (i is Issue)
                 {
-                    var iss = i as Issue;
+                    Issue iss = i as Issue;
                     if (iss.id == ev.issueId)
                     {
                         issuesCB.SelectedItem = iss;
@@ -161,7 +160,7 @@ namespace oprForm
 
             if (confirm.Equals(DialogResult.Yes) && eventsLB.SelectedItem is Event)
             {
-                var ev = eventsLB.SelectedItem as Event;
+                Event ev = new Data.Entity.Event();
                 db.Connect();
                 db.DeleteFromDB("event", "event_id", ev.id.ToString());
                 getEvents();
@@ -175,7 +174,7 @@ namespace oprForm
             var ev = eventsLB.SelectedItem as Event;
             db.Connect();
             string[] cols = { "event_id", "name", "description", "issue_id" };
-            string[] values = { ev.id.ToString(), DBUtilNikita.AddQuotes(evNameTB.Text), DBUtilNikita.AddQuotes(descTB.Text), (issuesCB.SelectedItem as Issue).id.ToString() };
+            string[] values = { ev.id.ToString(), DBUtil.AddQuotes(evNameTB.Text), DBUtil.AddQuotes(descTB.Text), (issuesCB.SelectedItem as Issue).id.ToString() };
 
             db.UpdateRecord("event", cols, values);
 
@@ -191,11 +190,11 @@ namespace oprForm
                 ress.RemoveAll(o => Int32.Parse(o[0].ToString()) == res.id);
 
                 string[] resCols = { "event_id", "value", "description" };
-                string[] resValues = { ev.id + " AND resource_id=" + res.id, res.value.ToString(), DBUtilNikita.AddQuotes(res.description) };
+                string[] resValues = { ev.id + " AND resource_id=" + res.id, res.value.ToString(), DBUtil.AddQuotes(res.description) };
                 if (db.UpdateRecord("event_resource", resCols, resValues) == 0)
                 {
                     string[] resColsIns = { "event_id", "resource_id", "value", "description" };
-                    string[] resValuesIns = { ev.id.ToString(), res.id.ToString(), res.value.ToString(), DBUtilNikita.AddQuotes(res.description) };
+                    string[] resValuesIns = { ev.id.ToString(), res.id.ToString(), res.value.ToString(), DBUtil.AddQuotes(res.description) };
                     db.InsertToBDWithoutId("event_resource", resColsIns, resValuesIns);
                 }
             }

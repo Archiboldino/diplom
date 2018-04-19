@@ -70,7 +70,7 @@ namespace Odessa
         //необходимо передавать параметр calculation_description_number
         public void SaveToDB(string id_calc, string id_expert, DataGridView points_grid)
         {
-            int maXNum, Num;
+            int maXNum;
             //get the max poligon id0
             var res_points = db.GetRows("poligon", "max(Id_of_poligon)", "id_of_expert=" + id_expert);
             if (res_points[0][0] is DBNull)

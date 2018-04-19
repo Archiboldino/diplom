@@ -1,20 +1,12 @@
 ﻿using Data;
-using Data.Entity;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class AddIssueForm : Form
     {
-        private DBManagerNikita db = new DBManagerNikita();
+        private DBManager db = new DBManager();
 
         public AddIssueForm()
         {
@@ -31,7 +23,7 @@ namespace oprForm
             db.Connect();
             string[] fields = { "name", "description" };
 
-            string[] values = { DBUtilNikita.AddQuotes(nameTB.Text), DBUtilNikita.AddQuotes(descrTB.Text) };
+            string[] values = { DBUtil.AddQuotes(nameTB.Text), DBUtil.AddQuotes(descrTB.Text) };
 
             int id = db.InsertToBD("issues", fields, values);
 

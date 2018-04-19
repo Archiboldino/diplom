@@ -106,9 +106,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="oprForm.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Calculations\Calculations.csproj">
       <Project>{b61e5197-c31f-46ef-9ad5-8b416e96b909}</Project>
       <Name>Calculations</Name>
