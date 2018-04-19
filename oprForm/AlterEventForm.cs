@@ -28,7 +28,8 @@ namespace oprForm
             }
 
             issuesCB.Items.AddRange(issues.ToArray());
-            issuesCB.SelectedIndex = 0;
+            if (issuesCB.Items.Count > 0)
+                issuesCB.SelectedIndex = 0;
 
             var res = db.GetRows("resource", "*", "");
             var resources = new List<Resource>();

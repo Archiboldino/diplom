@@ -13,7 +13,7 @@ namespace MedicForm
         public FormulaChart()
         {
             InitializeComponent();
-            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = 3");
+            var formulas = dbManager.GetRows("formulas", "name_of_formula, description_of_formula", "id_of_expert = 1");
             string item = "";
             for (int i = 0; i < formulas.Count(); i++)
             {

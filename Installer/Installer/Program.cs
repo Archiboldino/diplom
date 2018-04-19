@@ -1,14 +1,18 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.IO;
+using System.Management;
 using System.Reflection;
 
 namespace Installer
 {
+
     internal class Program
     {
-        private static void Main()
+
+        public static void Main()
         {
+
             string path = Assembly.GetExecutingAssembly().Location;
             path = path.Remove(path.Length - 13, 13);
             string connectionString = "";
@@ -71,6 +75,19 @@ namespace Installer
 
                 while (ex_con != "n")
                 {
+                    try
+                    {
+                        using (MySqlConnection Connection = new MySqlConnection(connectionString))
+                        using (MySqlCommand Command = new MySqlCommand("DROP USER '" + username + "'@'localhost'", Connection))
+                        {
+                            Connection.Open();
+                            Command.ExecuteNonQuery();
+                            Connection.Close();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                     password = "1337";
                     try
                     {
@@ -101,4 +118,5 @@ namespace Installer
             }
         }
     }
+
 }

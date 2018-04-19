@@ -124,6 +124,7 @@ namespace Experts_Economist
             this.formulasDGV.Rows.Clear();//очищаем таблицу
             formulas_idLB.SelectedIndex = formulasLB.SelectedIndex;//ставим выбранное id в соответствии с выбранной формулой
             string idf = formulas_idLB.SelectedItem.ToString();//переменная для хранения id выбранной формулы
+            form_desc_L.Text = "Опис формули : " + db.GetValue("formulas", "description_of_formula", "id_of_formula = " + idf + " AND id_of_expert = " + id_of_exp).ToString();
             if ((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44))
             {
                 Iterations.SelectedIndex = 1;

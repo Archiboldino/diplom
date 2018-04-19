@@ -1,5 +1,6 @@
 ﻿using Data;
 using Data.Entity;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -126,14 +127,29 @@ namespace oprForm
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             if (templatesLB.SelectedItem is Event)
             {
-                Event ev = templatesLB.SelectedItem as Event;
-                db.Connect();
-                db.DeleteFromDB("event_template", "template_id", ev.id.ToString());
-                db.Disconnect();
+                try
+                {
+                    Event ev = templatesLB.SelectedItem as Event;
+                    db.Connect();
+                    db.DeleteFromDB("event_template", "template_id", ev.id.ToString());
+                    db.Disconnect();
 
-                templatesLB.Items.Remove(ev);
+                    templatesLB.Items.Remove(ev);
+                }
+                catch (MySqlException ex)
+                {
+                    if (ex.Number == 1451)
+                    {
+                        MessageBox.Show("Шаблон використовується.");
+                    }
+                }
+                finally
+                {
+                    db.Disconnect();
+                }
             }
         }
     }

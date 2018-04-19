@@ -49,6 +49,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.experts_CB = new System.Windows.Forms.ComboBox();
             this.name_of_seriesCB = new System.Windows.Forms.ComboBox();
+            this.form_desc_L = new System.Windows.Forms.Label();
             this.Param_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Param_value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Param_measure = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,7 +62,7 @@
             this.formulasLB.FormattingEnabled = true;
             this.formulasLB.Location = new System.Drawing.Point(12, 28);
             this.formulasLB.Name = "formulasLB";
-            this.formulasLB.Size = new System.Drawing.Size(168, 381);
+            this.formulasLB.Size = new System.Drawing.Size(171, 381);
             this.formulasLB.TabIndex = 1;
             this.formulasLB.SelectedIndexChanged += new System.EventHandler(this.formulasLB_SelectedIndexChanged);
             this.formulasLB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formulasLB_MouseMove);
@@ -74,16 +75,16 @@
             this.Param_value,
             this.Param_measure,
             this.param_desc});
-            this.formulasDGV.Location = new System.Drawing.Point(372, 25);
+            this.formulasDGV.Location = new System.Drawing.Point(476, 25);
             this.formulasDGV.Name = "formulasDGV";
-            this.formulasDGV.Size = new System.Drawing.Size(403, 238);
+            this.formulasDGV.Size = new System.Drawing.Size(619, 238);
             this.formulasDGV.TabIndex = 2;
             this.formulasDGV.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.formulasDGV_CellFormatting);
             this.formulasDGV.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.formulasDGV_EditingControlShowing);
             // 
             // Save_values
             // 
-            this.Save_values.Location = new System.Drawing.Point(622, 269);
+            this.Save_values.Location = new System.Drawing.Point(476, 270);
             this.Save_values.Name = "Save_values";
             this.Save_values.Size = new System.Drawing.Size(94, 35);
             this.Save_values.TabIndex = 3;
@@ -103,7 +104,7 @@
             // 
             // series_over
             // 
-            this.series_over.Location = new System.Drawing.Point(622, 310);
+            this.series_over.Location = new System.Drawing.Point(582, 270);
             this.series_over.Name = "series_over";
             this.series_over.Size = new System.Drawing.Size(94, 35);
             this.series_over.TabIndex = 25;
@@ -115,7 +116,7 @@
             // number_of_calcL
             // 
             this.number_of_calcL.AutoSize = true;
-            this.number_of_calcL.Location = new System.Drawing.Point(253, 280);
+            this.number_of_calcL.Location = new System.Drawing.Point(691, 272);
             this.number_of_calcL.Name = "number_of_calcL";
             this.number_of_calcL.Size = new System.Drawing.Size(111, 13);
             this.number_of_calcL.TabIndex = 14;
@@ -133,7 +134,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(460, 9);
+            this.label2.Location = new System.Drawing.Point(473, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(182, 13);
             this.label2.TabIndex = 16;
@@ -142,7 +143,7 @@
             // calc_numbCB
             // 
             this.calc_numbCB.FormattingEnabled = true;
-            this.calc_numbCB.Location = new System.Drawing.Point(370, 277);
+            this.calc_numbCB.Location = new System.Drawing.Point(808, 269);
             this.calc_numbCB.Name = "calc_numbCB";
             this.calc_numbCB.Size = new System.Drawing.Size(100, 21);
             this.calc_numbCB.TabIndex = 18;
@@ -161,7 +162,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(299, 306);
+            this.label4.Location = new System.Drawing.Point(405, 307);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 20;
@@ -169,7 +170,7 @@
             // 
             // desc_of_seriesTB
             // 
-            this.desc_of_seriesTB.Location = new System.Drawing.Point(370, 306);
+            this.desc_of_seriesTB.Location = new System.Drawing.Point(476, 307);
             this.desc_of_seriesTB.Name = "desc_of_seriesTB";
             this.desc_of_seriesTB.Size = new System.Drawing.Size(246, 78);
             this.desc_of_seriesTB.TabIndex = 22;
@@ -211,7 +212,7 @@
             // issueL
             // 
             this.issueL.AutoSize = true;
-            this.issueL.Location = new System.Drawing.Point(299, 397);
+            this.issueL.Location = new System.Drawing.Point(405, 398);
             this.issueL.Name = "issueL";
             this.issueL.Size = new System.Drawing.Size(161, 13);
             this.issueL.TabIndex = 27;
@@ -221,7 +222,7 @@
             // 
             this.issueTB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.issueTB.FormattingEnabled = true;
-            this.issueTB.Location = new System.Drawing.Point(370, 417);
+            this.issueTB.Location = new System.Drawing.Point(476, 418);
             this.issueTB.Name = "issueTB";
             this.issueTB.Size = new System.Drawing.Size(246, 21);
             this.issueTB.TabIndex = 26;
@@ -252,9 +253,19 @@
             this.name_of_seriesCB.FormattingEnabled = true;
             this.name_of_seriesCB.Location = new System.Drawing.Point(189, 28);
             this.name_of_seriesCB.Name = "name_of_seriesCB";
-            this.name_of_seriesCB.Size = new System.Drawing.Size(169, 21);
+            this.name_of_seriesCB.Size = new System.Drawing.Size(281, 21);
             this.name_of_seriesCB.TabIndex = 54;
             this.name_of_seriesCB.SelectedIndexChanged += new System.EventHandler(this.name_of_seriesCB_SelectedIndexChanged);
+            // 
+            // form_desc_L
+            // 
+            this.form_desc_L.AutoSize = true;
+            this.form_desc_L.Location = new System.Drawing.Point(189, 123);
+            this.form_desc_L.MaximumSize = new System.Drawing.Size(250, 0);
+            this.form_desc_L.Name = "form_desc_L";
+            this.form_desc_L.Size = new System.Drawing.Size(87, 13);
+            this.form_desc_L.TabIndex = 55;
+            this.form_desc_L.Text = "Опис формули :";
             // 
             // Param_name
             // 
@@ -262,14 +273,14 @@
             this.Param_name.Name = "Param_name";
             this.Param_name.ReadOnly = true;
             this.Param_name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_name.Width = 120;
+            this.Param_name.Width = 80;
             // 
             // Param_value
             // 
             this.Param_value.HeaderText = "Значення";
             this.Param_value.Name = "Param_value";
             this.Param_value.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_value.Width = 120;
+            this.Param_value.Width = 80;
             // 
             // Param_measure
             // 
@@ -277,21 +288,21 @@
             this.Param_measure.Name = "Param_measure";
             this.Param_measure.ReadOnly = true;
             this.Param_measure.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Param_measure.Width = 120;
+            this.Param_measure.Width = 80;
             // 
             // param_desc
             // 
             this.param_desc.HeaderText = "Опис параметру";
             this.param_desc.Name = "param_desc";
             this.param_desc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.param_desc.Visible = false;
-            this.param_desc.Width = 185;
+            this.param_desc.Width = 440;
             // 
             // Rozrah
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ClientSize = new System.Drawing.Size(1107, 461);
+            this.Controls.Add(this.form_desc_L);
             this.Controls.Add(this.name_of_seriesCB);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.experts_CB);
@@ -342,6 +353,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox experts_CB;
         private System.Windows.Forms.ComboBox name_of_seriesCB;
+        private System.Windows.Forms.Label form_desc_L;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param_value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param_measure;

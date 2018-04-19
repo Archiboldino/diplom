@@ -140,7 +140,7 @@
             // number_of_calcL
             // 
             this.number_of_calcL.AutoSize = true;
-            this.number_of_calcL.Location = new System.Drawing.Point(215, 9);
+            this.number_of_calcL.Location = new System.Drawing.Point(642, 406);
             this.number_of_calcL.Name = "number_of_calcL";
             this.number_of_calcL.Size = new System.Drawing.Size(111, 13);
             this.number_of_calcL.TabIndex = 16;
@@ -149,7 +149,7 @@
             // calc_numbCB
             // 
             this.calc_numbCB.FormattingEnabled = true;
-            this.calc_numbCB.Location = new System.Drawing.Point(215, 25);
+            this.calc_numbCB.Location = new System.Drawing.Point(642, 422);
             this.calc_numbCB.Name = "calc_numbCB";
             this.calc_numbCB.Size = new System.Drawing.Size(121, 21);
             this.calc_numbCB.TabIndex = 17;
@@ -162,7 +162,7 @@
             this.desc_of_seriesTB.Location = new System.Drawing.Point(415, 71);
             this.desc_of_seriesTB.Name = "desc_of_seriesTB";
             this.desc_of_seriesTB.ReadOnly = true;
-            this.desc_of_seriesTB.Size = new System.Drawing.Size(253, 78);
+            this.desc_of_seriesTB.Size = new System.Drawing.Size(295, 78);
             this.desc_of_seriesTB.TabIndex = 26;
             this.desc_of_seriesTB.Text = "";
             // 
@@ -351,7 +351,7 @@
             this.name_of_seriesCB.FormattingEnabled = true;
             this.name_of_seriesCB.Location = new System.Drawing.Point(12, 25);
             this.name_of_seriesCB.Name = "name_of_seriesCB";
-            this.name_of_seriesCB.Size = new System.Drawing.Size(197, 21);
+            this.name_of_seriesCB.Size = new System.Drawing.Size(324, 21);
             this.name_of_seriesCB.TabIndex = 52;
             this.name_of_seriesCB.SelectedIndexChanged += new System.EventHandler(this.name_of_seriesCB_SelectedIndexChanged);
             // 

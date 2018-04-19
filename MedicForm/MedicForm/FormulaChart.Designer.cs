@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.chartGroup = new System.Windows.Forms.GroupBox();
+            this.removeAll = new System.Windows.Forms.Button();
+            this.addAll = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.addLabel = new System.Windows.Forms.Label();
             this.removeButt = new System.Windows.Forms.Button();
@@ -42,8 +44,6 @@
             this.seriaInfo = new System.Windows.Forms.GroupBox();
             this.seriaDescription = new System.Windows.Forms.Label();
             this.seriaName = new System.Windows.Forms.Label();
-            this.addAll = new System.Windows.Forms.Button();
-            this.removeAll = new System.Windows.Forms.Button();
             this.chartGroup.SuspendLayout();
             this.seriaInfo.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +69,27 @@
             this.chartGroup.TabIndex = 37;
             this.chartGroup.TabStop = false;
             this.chartGroup.Text = "Графік одного показника";
+            // 
+            // removeAll
+            // 
+            this.removeAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.removeAll.Location = new System.Drawing.Point(196, 206);
+            this.removeAll.Name = "removeAll";
+            this.removeAll.Size = new System.Drawing.Size(67, 23);
+            this.removeAll.TabIndex = 50;
+            this.removeAll.Text = "Очистити";
+            this.removeAll.UseVisualStyleBackColor = true;
+            this.removeAll.Click += new System.EventHandler(this.removeAll_Click);
+            // 
+            // addAll
+            // 
+            this.addAll.Location = new System.Drawing.Point(74, 206);
+            this.addAll.Name = "addAll";
+            this.addAll.Size = new System.Drawing.Size(55, 23);
+            this.addAll.TabIndex = 49;
+            this.addAll.Text = "→→";
+            this.addAll.UseVisualStyleBackColor = true;
+            this.addAll.Click += new System.EventHandler(this.addAll_Click);
             // 
             // label1
             // 
@@ -137,9 +158,9 @@
             this.funcLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.funcLabel.Location = new System.Drawing.Point(6, 18);
             this.funcLabel.Name = "funcLabel";
-            this.funcLabel.Size = new System.Drawing.Size(202, 16);
+            this.funcLabel.Size = new System.Drawing.Size(131, 16);
             this.funcLabel.TabIndex = 35;
-            this.funcLabel.Text = "Виберіть медичний показник \r\n";
+            this.funcLabel.Text = "Виберіть показник";
             // 
             // funcComboBox
             // 
@@ -203,27 +224,6 @@
             this.seriaName.Name = "seriaName";
             this.seriaName.Size = new System.Drawing.Size(0, 16);
             this.seriaName.TabIndex = 0;
-            // 
-            // addAll
-            // 
-            this.addAll.Location = new System.Drawing.Point(74, 206);
-            this.addAll.Name = "addAll";
-            this.addAll.Size = new System.Drawing.Size(55, 23);
-            this.addAll.TabIndex = 49;
-            this.addAll.Text = "→→";
-            this.addAll.UseVisualStyleBackColor = true;
-            this.addAll.Click += new System.EventHandler(this.addAll_Click);
-            // 
-            // removeAll
-            // 
-            this.removeAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.removeAll.Location = new System.Drawing.Point(196, 206);
-            this.removeAll.Name = "removeAll";
-            this.removeAll.Size = new System.Drawing.Size(67, 23);
-            this.removeAll.TabIndex = 50;
-            this.removeAll.Text = "Очистити";
-            this.removeAll.UseVisualStyleBackColor = true;
-            this.removeAll.Click += new System.EventHandler(this.removeAll_Click);
             // 
             // FormulaChart
             // 

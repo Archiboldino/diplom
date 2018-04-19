@@ -30,7 +30,7 @@ namespace Odessa
 
         private void button7_Click_1(object sender, EventArgs e)
         {//second it is id_of_expert
-            m.SaveToDB("1", id_of_expert.ToString(), dataGridView1); //first param "1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных
+            m.SaveToDB("1",id_of_expert.ToString(), dataGridView1); //first param "1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных
             btnSave.Enabled = false;
         }
 
@@ -68,9 +68,9 @@ namespace Odessa
             btnStartPoint.Enabled = false;
             btnEndPoint.Enabled = true;
             m.start_write();//начало работы с картой
-                            //m.erase_all(Convert.ToInt16(gMapControl.Zoom.ToString()));
+            //m.erase_all(Convert.ToInt16(gMapControl.Zoom.ToString()));
+            
         }
-
         //end point
         private void button2_Click(object sender, EventArgs e)
         {
@@ -81,8 +81,8 @@ namespace Odessa
 
         private void Map_Load(object sender, EventArgs e)
         {
-            //   var list_calc = db.
-            //   cbCalc.Items
+         //   var list_calc = db.
+         //   cbCalc.Items
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -93,6 +93,7 @@ namespace Odessa
 
         private void gMapControl_Load(object sender, EventArgs e)
         {
+
         }
 
         private void gMapControl_OnPolygonClick(GMap.NET.WindowsForms.GMapPolygon item, MouseEventArgs e)

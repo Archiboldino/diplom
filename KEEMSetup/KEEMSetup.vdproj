@@ -39,18 +39,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4426A154BBB8AE739FAE51157151044A"
-        "OwnerKey" = "8:_1CC436F1EC424A9B8341E6F0925CB6D7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4426A154BBB8AE739FAE51157151044A"
-        "OwnerKey" = "8:_87FE30853DA12E32BBC4C53CB01ACB73"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4FEC3A3E9770BF17BFFFB285A4F8B1D0"
         "OwnerKey" = "8:_1CC436F1EC424A9B8341E6F0925CB6D7"
         "MsmSig" = "8:_UNDEFINED"
@@ -154,12 +142,6 @@
         "Entry"
         {
         "MsmKey" = "8:_F22F3DCA42A907F357A31A25F58BD26A"
-        "OwnerKey" = "8:_87FE30853DA12E32BBC4C53CB01ACB73"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F22F3DCA42A907F357A31A25F58BD26A"
         "OwnerKey" = "8:_38FFB39A14EAE163506B364D8D6A5436"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -191,12 +173,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_87FE30853DA12E32BBC4C53CB01ACB73"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4426A154BBB8AE739FAE51157151044A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -421,37 +397,6 @@
                     }
                 }
             "SourcePath" = "8:MedicForm.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_DBCE798111B849669E791104408D539A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4426A154BBB8AE739FAE51157151044A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:FileBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_4426A154BBB8AE739FAE51157151044A"
-                    {
-                    "Name" = "8:FileBase.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:FileBase.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DBCE798111B849669E791104408D539A"
@@ -921,7 +866,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_E81E66A4E88D426891AE45A671541C95"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Ход выполнения"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
@@ -965,7 +910,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_7F3BFED7510A4AA4AC52C380D84117D5"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Ход выполнения"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
@@ -1009,7 +954,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_151810F7639F4652AFCFF69C97507265"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Подтверждение установки"
+                    "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
@@ -1031,7 +976,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_DB31411D7AEA4E1D9B640B8886164CBC"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Папка установки"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"
@@ -1053,7 +998,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_EB21639111A641F78B88FCAB692B9AD4"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Добро пожаловать!"
+                    "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"
@@ -1110,7 +1055,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_11D6DB4617B0452BA26B618243D18F53"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Готово"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -1154,7 +1099,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2F7424545C984CEA99B23E75656B5137"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Готово"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
@@ -1191,7 +1136,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_5E02177D2D22478C991E33F802C06664"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Подтверждение установки"
+                    "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
@@ -1213,7 +1158,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_61C4D75C515C43D5A92F7D7511375E43"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Папка установки"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
@@ -1248,7 +1193,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C550CAB9933B4BBF9D19F9B11449B91C"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Добро пожаловать!"
+                    "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"

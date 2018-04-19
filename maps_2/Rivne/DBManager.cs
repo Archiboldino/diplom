@@ -1,35 +1,24 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 public class DBManager
 {
     private MySqlConnection connection;
-    private String connectionString = "";
+    private String connectionString = "Server=localhost;Database=experts;Uid=root;Pwd=1111; charset=utf8;"; // TODO Default connection string
 
     //Nikita
     public DBManager()
     {
         try
         {
-            string path = Assembly.GetExecutingAssembly().Location;
-            path = path.Remove(path.Length - 13, 13) + "c.txt";
-
-            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
-            {
-                String[] substrings = sr.ReadLine().Split(' ');
-                connectionString = "Server=localhost;Database=experts;Uid=" + substrings[0] + ";Pwd=" + substrings[1] + "; charset=utf8;";
-            }
-
             connection = new MySqlConnection(connectionString);
             Connect();
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.ToString());
+             MessageBox.Show(ex.ToString());
         }
     }
 
@@ -43,7 +32,7 @@ public class DBManager
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.ToString());
+             MessageBox.Show(ex.ToString());
         }
     }
 
@@ -56,6 +45,7 @@ public class DBManager
         }
         catch (Exception)
         {
+             // MessageBox.Show(ex.ToString());
             return false;
         }
     }
@@ -69,7 +59,7 @@ public class DBManager
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.ToString());
+              MessageBox.Show(ex.ToString());
             return false;
         }
     }
@@ -86,8 +76,7 @@ public class DBManager
         catch (Exception ex)
         {
             MessageBox.Show(ex.ToString());
-            return 0;
-        }
+            return 0; }
     }
 
     private String getSelectStatement(String tableName, String fields, String cond)
@@ -111,8 +100,8 @@ public class DBManager
     // Returns list of rows
     public List<List<Object>> GetRows(String tableName, String fields, String cond)
     {
-        //try
-        //{
+        try
+        {
             var res = new List<List<Object>>();
 
             MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
@@ -130,12 +119,10 @@ public class DBManager
                 }
             }
             return res;
-        //}
-        //catch (Exception ex)
-        //{
-        //    MessageBox.Show(ex.ToString());
-        //    return null;
-        //}
+        }
+        catch (Exception ex) {
+            MessageBox.Show(ex.ToString());
+            return null; }
     }
 
     // Update table and return number of updated rows
@@ -241,32 +228,6 @@ public class DBManager
         else { throw new ArgumentException("fieldNames.Length != fieldValues.Length"); }
     }
 
-    public void InsertToBDWithoutId(string table, string[] fieldNames, string[] fieldValues)
-    {
-        if (fieldNames.Length == fieldValues.Length)
-        {
-            string sqlCommand = "INSERT INTO " + table + "(";
-            for (int i = 0; i < fieldNames.Length - 1; i++)
-            {
-                sqlCommand += " " + fieldNames[i] + ",";
-            }
-            sqlCommand += fieldNames[fieldNames.Length - 1];
-            sqlCommand += ") VALUES(";
-            for (int i = 0; i < fieldValues.Length - 1; i++)
-            {
-                sqlCommand += " " + fieldValues[i] + ",";
-            }
-            sqlCommand += fieldValues[fieldNames.Length - 1];
-            sqlCommand += ");";
-            MySqlCommand insertCmd = new MySqlCommand(sqlCommand, connection);
-            insertCmd.ExecuteNonQuery();
-        }
-        else
-        {
-            throw new ArgumentException("Field and Value list dont match.");
-        }
-    }
-
     public int UpdateRecord(string tableName, string[] colNames, string[] colValues)
     {
         if (colNames.Length == colValues.Length)
@@ -287,4 +248,5 @@ public class DBManager
             throw new ArgumentException("Field and Value list dont match.");
         }
     }
+
 }

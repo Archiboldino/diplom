@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `experts` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `experts`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: experts
@@ -44,7 +42,6 @@ CREATE TABLE `calculations_description` (
 
 LOCK TABLES `calculations_description` WRITE;
 /*!40000 ALTER TABLE `calculations_description` DISABLE KEYS */;
-INSERT INTO `calculations_description` VALUES (1,'Тестова серія 1апрорпннемнеашнемшгемшгемшгемдрнилгн','Проводимо тестову серію розрахунків для того щоб показати алгоритм роботи програми',11,1),(2,'Тестова серія 2ормтнеагнестгнсг','тест 2',11,1),(3,'Тестова серія 34','тест3',11,1),(4,'Тестова серія 4','Тестова серія 4',11,1);
 /*!40000 ALTER TABLE `calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +73,6 @@ CREATE TABLE `calculations_result` (
 
 LOCK TABLES `calculations_result` WRITE;
 /*!40000 ALTER TABLE `calculations_result` DISABLE KEYS */;
-INSERT INTO `calculations_result` VALUES (1,'2018-03-17 22:16:30',1,6,1),(1,'2018-03-11 17:09:31',7,351924.16,1),(1,'2018-03-17 22:16:36',13,408,1),(2,'2018-03-11 17:23:01',7,537728.2,1),(3,'2018-03-11 17:23:42',7,1248129.31,1),(4,'2018-04-04 14:46:22',7,737472.99,1);
 /*!40000 ALTER TABLE `calculations_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,9 +96,9 @@ CREATE TABLE `event` (
   KEY `template_id` (`template_id`),
   KEY `userid_fk_idx` (`id_of_user`),
   KEY `issue_id_fk_idx` (`issue_id`),
-  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`),
-  CONSTRAINT `issue_id_fk` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `userid_fk` FOREIGN KEY (`id_of_user`) REFERENCES `user` (`id_of_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `issue_id_fk` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `userid_fk` FOREIGN KEY (`id_of_user`) REFERENCES `user` (`id_of_user`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,7 +108,6 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (7,'new','Description',1,NULL,1,NULL,NULL),(8,'Event Name','Description',1,NULL,1,NULL,NULL),(9,'Event Name','Description',2,NULL,0,NULL,NULL),(10,'test event','keks',1,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +133,6 @@ CREATE TABLE `event_documents` (
 
 LOCK TABLES `event_documents` WRITE;
 /*!40000 ALTER TABLE `event_documents` DISABLE KEYS */;
-INSERT INTO `event_documents` VALUES (7,'d471410','doc1'),(7,'d471411','doc2');
 /*!40000 ALTER TABLE `event_documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +161,6 @@ CREATE TABLE `event_resource` (
 
 LOCK TABLES `event_resource` WRITE;
 /*!40000 ALTER TABLE `event_resource` DISABLE KEYS */;
-INSERT INTO `event_resource` VALUES (1,7,10,'New one'),(1,8,12,'123'),(1,10,2,'wqe'),(2,9,10,'qwe');
 /*!40000 ALTER TABLE `event_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +188,6 @@ CREATE TABLE `event_template` (
 
 LOCK TABLES `event_template` WRITE;
 /*!40000 ALTER TABLE `event_template` DISABLE KEYS */;
-INSERT INTO `event_template` VALUES (1,'Plant',NULL,NULL),(2,'Unplant','plan',NULL),(3,'qwe','12',1),(4,'New','one',1);
 /*!40000 ALTER TABLE `event_template` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,7 +318,7 @@ CREATE TABLE `issues` (
   `description` varchar(500) DEFAULT NULL,
   `creation_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`issue_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -335,7 +327,7 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,'Ploho','qwe','2018-01-23 13:59:30'),(2,'Ochen Ploho','sadasd','2018-01-23 13:59:30'),(3,'Хорошо','все будет хорошо','2018-01-23 14:16:25'),(4,'asdasd','asdasd','2018-01-23 14:21:28'),(9,'asd','sd','2018-02-05 09:39:42'),(10,'123','111','2018-02-11 13:26:35'),(11,'Зростання смертності','зростання','2018-02-14 08:39:54');
+INSERT INTO `issues` VALUES (12,'Княжичі','Забруднення водоймища у с. Княжичі','2018-04-19 08:42:12');
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +476,6 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (1,'Money',NULL),(2,'Tree',NULL),(3,'as','dsa');
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -500,8 +491,8 @@ CREATE TABLE `template_resource` (
   `template_id` int(11) NOT NULL,
   PRIMARY KEY (`resource_id`,`template_id`),
   KEY `template_resource_ibfk_2_idx` (`template_id`),
-  CONSTRAINT `template_resource_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`),
-  CONSTRAINT `template_resource_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `template_resource_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`),
+  CONSTRAINT `template_resource_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -511,7 +502,6 @@ CREATE TABLE `template_resource` (
 
 LOCK TABLES `template_resource` WRITE;
 /*!40000 ALTER TABLE `template_resource` DISABLE KEYS */;
-INSERT INTO `template_resource` VALUES (1,1),(1,2),(2,2),(2,3),(3,3),(1,4),(3,4);
 /*!40000 ALTER TABLE `template_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,4 +542,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-05 17:28:48
+-- Dump completed on 2018-04-19 11:46:11

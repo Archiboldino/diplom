@@ -32,9 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.addBtn = new System.Windows.Forms.Button();
             this.eventListGrid = new System.Windows.Forms.DataGridView();
-            this.Resource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descTB = new System.Windows.Forms.TextBox();
             this.evNameTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,6 +39,9 @@
             this.issuesCB = new System.Windows.Forms.ComboBox();
             this.onlyExpCB = new System.Windows.Forms.CheckBox();
             this.resLB = new System.Windows.Forms.ListBox();
+            this.Resource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.eventListGrid)).BeginInit();
             this.addGB.SuspendLayout();
             this.SuspendLayout();
@@ -99,21 +99,6 @@
             this.eventListGrid.TabIndex = 4;
             this.eventListGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.commitValue);
             // 
-            // Resource
-            // 
-            this.Resource.HeaderText = "Resource";
-            this.Resource.Name = "Resource";
-            // 
-            // Description
-            // 
-            this.Description.HeaderText = "Description";
-            this.Description.Name = "Description";
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.Name = "Value";
-            // 
             // descTB
             // 
             this.descTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -123,7 +108,7 @@
             this.descTB.Name = "descTB";
             this.descTB.Size = new System.Drawing.Size(356, 26);
             this.descTB.TabIndex = 5;
-            this.descTB.Text = "Description";
+            this.descTB.Text = "Опис";
             // 
             // evNameTB
             // 
@@ -134,7 +119,7 @@
             this.evNameTB.Name = "evNameTB";
             this.evNameTB.Size = new System.Drawing.Size(214, 26);
             this.evNameTB.TabIndex = 6;
-            this.evNameTB.Text = "Event Name";
+            this.evNameTB.Text = "Назва заходу";
             // 
             // label2
             // 
@@ -193,6 +178,21 @@
             this.resLB.TabIndex = 10;
             this.resLB.DoubleClick += new System.EventHandler(this.resLB_DoubleClick);
             // 
+            // Resource
+            // 
+            this.Resource.HeaderText = "Ресурс";
+            this.Resource.Name = "Resource";
+            // 
+            // Description
+            // 
+            this.Description.HeaderText = "Опис";
+            this.Description.Name = "Description";
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Кількість";
+            this.Value.Name = "Value";
+            // 
             // PlannedEventsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -223,9 +223,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button addBtn;
 		private System.Windows.Forms.DataGridView eventListGrid;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Resource;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Value;
 		private System.Windows.Forms.TextBox descTB;
 		private System.Windows.Forms.TextBox evNameTB;
 		private System.Windows.Forms.Label label2;
@@ -233,5 +230,8 @@
         private System.Windows.Forms.CheckBox onlyExpCB;
         private System.Windows.Forms.ComboBox issuesCB;
         private System.Windows.Forms.ListBox resLB;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Resource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
     }
 }
