@@ -57,6 +57,13 @@ namespace oprForm
                 Resource res = row.Cells[0].Value as Resource;
                 if (res != null)
                 {
+                    string desc = "";
+                    string value = "";
+                    //if (row.Cells[descCol].Value != null)
+                    //    desc = DBUtil.AddQuotes(row.Cells[descCol].Value.ToString());
+                    //if (row.Cells[valueCol].Value != null)
+                    //    value = row.Cells[valueCol].Value.ToString();
+
                     string[] fields = { "template_id", "resource_id" };
                     string[] values = { evId.ToString(), res.id.ToString() };
 

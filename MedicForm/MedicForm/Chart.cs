@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Drawing.Printing;
 
-namespace ChartModule {
-    public partial class ChartM : Form {
+namespace ChartModule
+{
+    public partial class ChartM : Form
+    {
         private String title;
         private String legend;
         private Object[] arrayOfX;
@@ -14,18 +17,19 @@ namespace ChartModule {
         private DBManager dbManager = new DBManager();
 
         private Button printButton = new Button();
-        SeriesChartType chartType; // переменная для хранения типа графика
+        private SeriesChartType chartType; // переменная для хранения типа графика
 
-        public ChartM(String legend, String chartType) : base() {
+        public ChartM(String legend, String chartType) : base()
+        {
             //InitializeComponent();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-         //   System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            //   System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.SuspendLayout();
-            // 
+            //
             // chart1
-            // 
+            //
             this.title = "";
             this.legend = legend;
             setChartType(chartType);
@@ -36,17 +40,17 @@ namespace ChartModule {
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(100, 12);
             this.chart1.Name = "chart";
-           // series1.ChartArea = "ChartArea";
-           // series1.Legend = legend;
-          //  series1.Name = "Series";
+            // series1.ChartArea = "ChartArea";
+            // series1.Legend = legend;
+            //  series1.Name = "Series";
             //this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(500, 500);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart";
             //this.chart1.Click += new System.EventHandler(this.chart1_Click);
-            // 
+            //
             // Chart
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 600);
@@ -87,7 +91,7 @@ namespace ChartModule {
                 {
                     series.ChartType = chartType;
                 }
-            } 
+            }
             else
             {
                 series.ChartType = chartType;
@@ -95,7 +99,7 @@ namespace ChartModule {
             series.LegendText = legend;
             series.Color = Color.RoyalBlue;
             series.Font = new Font("Times New Roman", 18.0f, FontStyle.Italic);
- 
+
             Series points = this.chart1.Series.Add("");
             points.ChartType = SeriesChartType.Point;
             points.LegendText = " ";
@@ -114,10 +118,10 @@ namespace ChartModule {
                 {
                     points.Points.AddXY(arrayOfY[i], arrayOfX[i]);
                 }
-                 // добавляем точки
+                // добавляем точки
             }
 
-            foreach(Label l in labels)
+            foreach (Label l in labels)
             {
                 this.Controls.Add(l);
             }
@@ -129,7 +133,7 @@ namespace ChartModule {
         /// <param name="serias">список серий</param>
         /// <param name="listsOfX">список иксов</param>
         /// <param name="names">список имен показателей</param>
-        public void drawIssue(List<object> serias, List<List <object>> listsOfX, List<string> names)
+        public void drawIssue(List<object> serias, List<List<object>> listsOfX, List<string> names)
         {
             this.chart1.Series.Clear();
             this.chart1.ChartAreas[0].AxisX.Title = "Серії розрахунків";
@@ -141,8 +145,8 @@ namespace ChartModule {
             {
                 chart1.Series.Add(names[i].ToString());
             }
-         
-            for(int i = 0; i < listsOfX.Count; i++)
+
+            for (int i = 0; i < listsOfX.Count; i++)
             {
                 for (int j = 0; j < listsOfX[i].Count; j++)
                 {
@@ -161,12 +165,12 @@ namespace ChartModule {
                     {
                         chart1.Series[i].ChartType = chartType;
                     }
-                    
+
                     chart1.Series[i].Points.AddXY(serias[j], listsOfX[i][j]);
                 }
             }
 
-            for(int i = 0; i < serias.Count; i++)
+            for (int i = 0; i < serias.Count; i++)
             {
                 labels[i] = new Label();
                 labels[i].Name = "label" + i.ToString();
@@ -182,54 +186,65 @@ namespace ChartModule {
             }
         }
 
-        public void setChartType(String chartType) {
+        public void setChartType(String chartType)
+        {
             if (chartType.Equals("line"))
             {
                 setChartType(SeriesChartType.Line);
             }
-            else if(chartType.Equals("range"))
+            else if (chartType.Equals("range"))
             {
                 setChartType(SeriesChartType.RangeColumn);
             }
         }
 
-        public void setChartType(SeriesChartType chartType) {
+        public void setChartType(SeriesChartType chartType)
+        {
             this.chartType = chartType;
         }
 
-        public SeriesChartType getChartType() {
+        public SeriesChartType getChartType()
+        {
             return chartType;
         }
 
-        public void setTitle(String title) {
+        public void setTitle(String title)
+        {
             this.title = title;
         }
 
-        public String getTitle() {
+        public String getTitle()
+        {
             return this.title;
         }
 
-        public void setLegend(String legend) {
+        public void setLegend(String legend)
+        {
             this.legend = legend;
         }
 
-        public String getLegend() {
+        public String getLegend()
+        {
             return this.legend;
         }
 
-        public void setArrayOfX(Object[] arrayOfX) {
+        public void setArrayOfX(Object[] arrayOfX)
+        {
             this.arrayOfX = arrayOfX;
         }
 
-        public Object[] getArrayOfX() {
+        public Object[] getArrayOfX()
+        {
             return this.arrayOfX;
         }
 
-        public void setArrayOfY(Object[] arrayOfY) {
+        public void setArrayOfY(Object[] arrayOfY)
+        {
             this.arrayOfY = arrayOfY;
         }
 
-        public Object[] getArrayOfY() {
+        public Object[] getArrayOfY()
+        {
             return this.arrayOfY;
         }
 
@@ -246,7 +261,7 @@ namespace ChartModule {
         // метод создает изображения для печати
         private void pd_PrintPage(object sender, PrintPageEventArgs ev)
         {
-            // Создает структуру прямоугольника для хранения изображения графика 
+            // Создает структуру прямоугольника для хранения изображения графика
             Rectangle rectangle = new System.Drawing.Rectangle(10, 30, this.Width, this.Height);
             chart1.Printing.PrintPaint(ev.Graphics, rectangle);
         }

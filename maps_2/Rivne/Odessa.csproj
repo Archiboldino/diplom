@@ -58,7 +58,7 @@
       <HintPath>..\package\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\Experts_Economist(ваня)\Experts_Economist\bin\Debug\MySql.Data.dll</HintPath>
+      <HintPath>..\..\Experts_Economist\bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

@@ -23,6 +23,7 @@ namespace oprForm
             db.Connect();
             string[] fields = { "name", "description" };
 
+            // Менять кавычки
             string[] values = { DBUtil.AddQuotes(nameTB.Text), DBUtil.AddQuotes(descrTB.Text) };
 
             int id = db.InsertToBD("issues", fields, values);

@@ -1,4 +1,5 @@
-﻿using Odessa;
+﻿using Data;
+using Odessa;
 using oprForm;
 using System;
 using System.Windows.Forms;
@@ -109,7 +110,7 @@ namespace Experts_Economist
 
         private void eventToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PlannedEventsForm child = new PlannedEventsForm();
+            PlannedEventsForm child = new PlannedEventsForm(id_of_exp);
             child.MdiParent = this;
             child.Show();
         }
@@ -172,7 +173,7 @@ namespace Experts_Economist
 
         private void eventsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PlannedEventsForm child = new PlannedEventsForm();
+            PlannedEventsForm child = new PlannedEventsForm(id_of_exp);
             child.MdiParent = this;
             child.Show();
         }

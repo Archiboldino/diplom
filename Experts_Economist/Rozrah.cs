@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Data;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -806,7 +807,7 @@ namespace Experts_Economist
                 db.InsertToBD("calculations_result", fields5, values5);
             }
             catch (MySqlException)// ловим эксепшн mysql если идёт дупликация ключа
-            {
+            { 
                 MessageBox.Show("Ця формула вже була розрахована у данній серії \nЗмінити ці значення ви можете у вкладці 'Перегляд результатів' ");
                 help = false;
                 return;

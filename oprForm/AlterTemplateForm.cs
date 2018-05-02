@@ -9,6 +9,9 @@ namespace oprForm
     public partial class AlterTemplateForm : Form
     {
         private DBManager db = new DBManager();
+        private int user = 1;
+        private int valueCol = 2;
+        private int descCol = 1;
 
         public AlterTemplateForm()
         {

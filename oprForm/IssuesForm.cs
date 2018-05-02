@@ -1,4 +1,5 @@
-﻿using Data.Entity;
+﻿using Data;
+using Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ namespace oprForm
     public partial class IssuesForm : Form
     {
         private DBManager db = new DBManager();
+        private String user = "Vasya";
 
         public IssuesForm()
         {
@@ -72,10 +74,13 @@ namespace oprForm
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var form = new AlterIssueForm(issuesLB.SelectedItem as Issue);
-            form.ShowDialog(this);
-            ShowIssue(issuesLB.SelectedItem as Issue);
-            RefreshIssues();
+            if (issuesLB.SelectedItem is Issue)
+            {
+                var form = new AlterIssueForm(issuesLB.SelectedItem as Issue);
+                form.ShowDialog(this);
+                ShowIssue(issuesLB.SelectedItem as Issue);
+                RefreshIssues();
+            }
         }
     }
 }

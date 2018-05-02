@@ -9,13 +9,14 @@ namespace oprForm
     public partial class PlannedEventsForm : Form
     {
         private DBManager db = new DBManager();
-        private int user = 1;
+        private int user;
         private int valueCol = 2;
         private int descCol = 1;
 
-        public PlannedEventsForm()
+        public PlannedEventsForm(int userId)
         {
             InitializeComponent();
+            user = userId;
         }
 
         private void PlannedEventsForm_Load(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = new Resource();
+                    Resource res = row.Cells[0].Value as Resource;
                     string desc = "";
                     string value = "";
                     if (row.Cells[descCol].Value != null)
@@ -127,7 +128,7 @@ namespace oprForm
         {
             if (eventListGrid.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                Resource res = new Resource();
+                Resource res = eventListGrid.Rows[e.RowIndex].Cells[0].Value as Resource;
                 if (e.ColumnIndex == valueCol)
                 {
                     try

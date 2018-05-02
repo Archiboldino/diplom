@@ -62,9 +62,9 @@ namespace UserLoginForm
 
         private void UpdateCurrentUser(object sender, EventArgs e)
         {
-            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'','`'));
-            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'','`'));
-            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'','`'));
+            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'', '`'));
+            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'', '`'));
+            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'', '`'));
 
             string[] updateCols = new string[] { "user_name", "user_name", "password", "id_of_expert" };
             string[] updateVals = new string[] { this.userName, userName, userPassword, userType };
@@ -78,9 +78,9 @@ namespace UserLoginForm
 
         private void AddNewUser(object sender, EventArgs e)
         {
-            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'','`'));
-            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'','`'));
-            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'','`'));
+            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'', '`'));
+            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'', '`'));
+            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'', '`'));
 
             string[] fields = new string[] { "user_name", "password", "id_of_expert" };
             string[] values = new string[] { userName, userPassword, userType };
@@ -96,9 +96,9 @@ namespace UserLoginForm
 
         private void deleteCurrentUser(object sender, EventArgs e)
         {
-            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'','`'));
-            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'','`'));
-            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'','`'));
+            string userName = DBUtil.AddQuotes(this.UsernameTextBox.Text.Replace('\'', '`'));
+            string userPassword = DBUtil.AddQuotes(this.PasswordTextBox.Text.Replace('\'', '`'));
+            string userType = DBUtil.AddQuotes(this.ExperTypeTextBox.Text.Replace('\'', '`'));
 
             db.Connect();
 

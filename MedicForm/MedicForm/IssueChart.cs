@@ -1,21 +1,18 @@
-﻿using System;
+﻿using ChartModule;
+using Data;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChartModule;
 
 namespace MedicForm
 {
     public partial class IssueChart : Form
     {
-        DBManager dbManager = new DBManager();
-        ChartM chart;
-        int id_of_expert;
+        private DBManager dbManager = new DBManager();
+        private ChartM chart;
+        private int id_of_expert;
+
         public IssueChart(int id_of_expert)
         {
             this.id_of_expert = id_of_expert;
@@ -121,10 +118,10 @@ namespace MedicForm
             }
         }
 
-        // рисуем диаграму проблемы 
+        // рисуем диаграму проблемы
         private void diagIssueButt_Click(object sender, EventArgs e)
         {
-            if(problemBox.SelectedItem != null & addedIssueSerias.Items.Count != 0 & formulasList.CheckedItems.Count != 0)
+            if (problemBox.SelectedItem != null & addedIssueSerias.Items.Count != 0 & formulasList.CheckedItems.Count != 0)
             {
                 List<List<object>> formulas = new List<List<object>>();
                 List<object> formIds = new List<object>();
@@ -132,9 +129,9 @@ namespace MedicForm
                 List<string> names = new List<string>();
 
                 List<Object> ids = new List<object>();
-                for(int i = 0; i < formulasList.CheckedItems.Count; i++)
+                for (int i = 0; i < formulasList.CheckedItems.Count; i++)
                 {
-                    ids.Add(dbManager.GetValue("formulas", "id_of_formula","name_of_formula = '" + formulasList.CheckedItems[i] + "'" + " AND id_of_expert =" + id_of_expert));
+                    ids.Add(dbManager.GetValue("formulas", "id_of_formula", "name_of_formula = '" + formulasList.CheckedItems[i] + "'" + " AND id_of_expert =" + id_of_expert));
                 }
 
                 foreach (object i in ids)
@@ -210,7 +207,7 @@ namespace MedicForm
             }
         }
 
-        // метод выводит название и описание серии при выборе серии в списке 
+        // метод выводит название и описание серии при выборе серии в списке
         private void issueSerias_SelectedIndexChanged(object sender, EventArgs e)
         {
             seriaName.Text = dbManager.GetValue("calculations_description", "calculation_name", "calculation_number = " + issueSerias.SelectedItem).ToString();
@@ -223,7 +220,7 @@ namespace MedicForm
             {
                 if (!findItem(issueSerias.SelectedItem, addedIssueSerias))
                 {
-                    foreach(Object o in issueSerias.Items)
+                    foreach (Object o in issueSerias.Items)
                     {
                         addedIssueSerias.Items.Add(o);
                     }

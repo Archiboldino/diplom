@@ -1,4 +1,5 @@
-﻿using MedicForm;
+﻿using Data;
+using MedicForm;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,6 +13,7 @@ namespace Experts_Economist
         private Calculations calc = new Calculations();
 
         public int id_of_exp;
+        public int idOfViewedExpert;
 
         public Result()
         {
@@ -21,7 +23,7 @@ namespace Experts_Economist
         private void Result_Load(object sender, EventArgs e)
         {
             experts_CB.Items.Clear();
-            var obj3 = db.GetRows("expert", "*", "");
+            var obj3 = db.GetRows("expert", "*", "id_of_expert>0 AND id_of_expert<4");
             var Experts = new List<Expert>();
             foreach (var row in obj3)
             {
@@ -29,23 +31,26 @@ namespace Experts_Economist
             }
             experts_CB.Items.AddRange(Experts.ToArray());
             //функция для забивания данных в таблицу с формулами и параметрами, их значениями и номера расчётов
-            get_values();
+            idOfViewedExpert = id_of_exp;
+            for (int i = 0; i < experts_CB.Items.Count; i++)
+            {
+                if ((experts_CB.Items[i] as Expert).id == idOfViewedExpert)
+                    experts_CB.SelectedIndex = i;
+            }
         }
 
         //функция для забивания данных в таблицу с формулами и параметрами, их значениями и номера расчётов
         private void get_values()
         {
-            if (id_of_exp == 0)
+            if (id_of_exp == 0 && id_of_exp == 4 && id_of_exp == 5)
             {
-                label10.Visible = true;
-                experts_CB.Visible = true;
-                experts_CB.SelectedIndex = 1;
+                experts_CB.SelectedIndex = 0;
             }
             calc_numbCB.Items.Clear();//очищаем список расчётов
             name_of_seriesCB.Items.Clear();
             name_of_seriesCB.Text = "";
             //создаём переменную для хранения списка номеров расчётов и забиваем её в список расчётов
-            var obj01 = db.GetRows("calculations_description", "calculation_number, calculation_name", "id_of_expert = " + id_of_exp);
+            var obj01 = db.GetRows("calculations_description", "calculation_number, calculation_name", "id_of_expert = " + idOfViewedExpert);
             for (int i = 0; i < obj01.Count; i++)
             {
                 calc_numbCB.Items.Add(Convert.ToInt32(obj01[i][0]).ToString());
@@ -66,7 +71,7 @@ namespace Experts_Economist
                 DGV.Rows.Clear();//очищаем таблицу
 
                 string idc = calc_numbCB.SelectedItem.ToString();//переменная для хранения id расчёта
-                var iof_res = db.GetRows("calculations_result", "id_of_formula,result", "calculation_number = " + idc + " AND id_of_expert = " + id_of_exp);//переменная для хранения id формулы и результата
+                var iof_res = db.GetRows("calculations_result", "id_of_formula,result", "calculation_number = " + idc + " AND id_of_expert = " + idOfViewedExpert);//переменная для хранения id формулы и результата
                 var nof = new List<List<Object>>();//список имён формулы
                 var nop = new List<List<Object>>();//список имён параметра
                 var pv = new List<List<Object>>();//список значений параметра
@@ -81,23 +86,23 @@ namespace Experts_Economist
                     {
                         t = 1;
                     }
-                    nof = db.GetRows("formulas", "name_of_formula,measurement_of_formula", "id_of_formula = " + iof_res[i][0].ToString() + " AND id_of_expert = " + id_of_exp);
+                    nof = db.GetRows("formulas", "name_of_formula,measurement_of_formula", "id_of_formula = " + iof_res[i][0].ToString() + " AND id_of_expert = " + idOfViewedExpert);
                     //добавляем в таблицу формулу и значения и подписываем, в скрытой ячейке указываем что это формула
                     this.DGV.Rows.Add("Формула " + nof[0][0].ToString(), iof_res[i][1].ToString(), iof_res[i][0].ToString(), "id_of_formula", "", nof[0][1].ToString());
                     //список id параметров по данной формуле
-                    iop = db.GetRows("formula_compound", "id_of_parameter", "id_of_formula = " + iof_res[i][0].ToString() + " AND id_of_expert = " + id_of_exp);
+                    iop = db.GetRows("formula_compound", "id_of_parameter", "id_of_formula = " + iof_res[i][0].ToString() + " AND id_of_expert = " + idOfViewedExpert);
                     //для сумовых уравнений у нас id первого параметра (i - количество итераций) равно 0, такие уравнения записываються по другому - сначала все итерации а потом кол-во итераций
                     if (Convert.ToInt32(iop[0][0]) == 0)
                     {
-                        hpv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[0][0].ToString() + " AND id_of_expert = " + id_of_exp + " AND id_of_formula = " + iof_res[i][0].ToString());
+                        hpv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[0][0].ToString() + " AND id_of_expert = " + idOfViewedExpert + " AND id_of_formula = " + iof_res[i][0].ToString());
                         //первый цикл - для количества итераций, начинаем с 1 потому что номера начинаются с 1, соответственно к концу также прибавляем 1
                         for (int k = 1; k < (Convert.ToInt32(hpv[0][0].ToString()) + 1); k++)
                         {
                             //второй цикл для переменных в одной итерации,начинаем цикл с 1, потому что 0 член списка - параметр i, его мы отображаем в конце
                             for (int j = 1; j < iop.Count - t; j++)
                             {
-                                pv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[j][0].ToString() + " AND index_of_parameter = " + k.ToString() + " AND id_of_expert = " + id_of_exp + " AND id_of_formula = " + iof_res[i][0].ToString());
-                                nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[j][0].ToString() + " AND id_of_expert = " + id_of_exp);
+                                pv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[j][0].ToString() + " AND index_of_parameter = " + k.ToString() + " AND id_of_expert = " + idOfViewedExpert + " AND id_of_formula = " + iof_res[i][0].ToString());
+                                nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[j][0].ToString() + " AND id_of_expert = " + idOfViewedExpert);
                                 //добавляем в таблицу параметр и значения и подписываем, в скрытой ячейке указываем что это параметр, его id и индекс
                                 this.DGV.Rows.Add("Параметр " + nop[0][0].ToString(), pv[0][0].ToString(), iop[j][0].ToString(), "id_of_parameter", k, nop[0][1].ToString(), iof_res[i][0].ToString());
                             }
@@ -105,8 +110,8 @@ namespace Experts_Economist
                         //если есть параметры после сумы записываем их перед индексом, предпоследними
                         if (t > 0)
                         {
-                            pv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[iop.Count - 1][0].ToString() + " AND index_of_parameter = " + 0 + " AND id_of_expert = " + id_of_exp + " AND id_of_formula = " + iof_res[i][0].ToString());
-                            nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[iop.Count - 1][0].ToString() + " AND id_of_expert = " + id_of_exp);
+                            pv = db.GetRows("parameters_value", "parameter_value", "calculation_number = " + idc + " AND id_of_parameter = " + iop[iop.Count - 1][0].ToString() + " AND index_of_parameter = " + 0 + " AND id_of_expert = " + idOfViewedExpert + " AND id_of_formula = " + iof_res[i][0].ToString());
+                            nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[iop.Count - 1][0].ToString() + " AND id_of_expert = " + idOfViewedExpert);
                             this.DGV.Rows.Add("Параметр " + nop[0][0].ToString(), pv[0][0].ToString(), iop[iop.Count - 1][0].ToString(), "id_of_parameter", "0", nop[0][1].ToString(), iof_res[i][0].ToString());
                         }
                         //в конце добалвяем отдельно параметр i
@@ -119,8 +124,8 @@ namespace Experts_Economist
                     {
                         for (int j = 0; j < iop.Count; j++)
                         {
-                            pv = db.GetRows("parameters_value", "parameter_value,index_of_parameter", "calculation_number = " + idc + " AND id_of_parameter = " + iop[j][0].ToString() + " AND index_of_parameter = " + 0 + " AND id_of_expert = " + id_of_exp + " AND id_of_formula = " + iof_res[i][0].ToString());
-                            nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[j][0].ToString() + " AND id_of_expert = " + id_of_exp);
+                            pv = db.GetRows("parameters_value", "parameter_value,index_of_parameter", "calculation_number = " + idc + " AND id_of_parameter = " + iop[j][0].ToString() + " AND index_of_parameter = " + 0 + " AND id_of_expert = " + idOfViewedExpert + " AND id_of_formula = " + iof_res[i][0].ToString());
+                            nop = db.GetRows("formula_parameters", "name_of_parameter,measurement_of_parameter", "id_of_parameter = " + iop[j][0].ToString() + " AND id_of_expert = " + idOfViewedExpert);
 
                             //добавляем в таблицу параметр и значения и подписываем, в скрытой ячейке указываем что это параметр
                             this.DGV.Rows.Add("Параметр " + nop[0][0].ToString(), pv[0][0].ToString(), iop[j][0].ToString(), "id_of_parameter", pv[0][1], nop[0][1].ToString(), iof_res[i][0].ToString());
@@ -156,7 +161,7 @@ namespace Experts_Economist
                 desc_of_seriesTB.Clear();// очищаем поле описания расчёта
                 string idc = calc_numbCB.SelectedItem.ToString();//переменная для хранения id расчёта
                 //переменная для хранения имени и описания расчёта
-                var calc = db.GetRows("calculations_description", "calculation_name,description_of_calculation,issue_id", "calculation_number = " + idc + " AND id_of_expert = " + id_of_exp);
+                var calc = db.GetRows("calculations_description", "calculation_name,description_of_calculation,issue_id", "calculation_number = " + idc + " AND id_of_expert = " + idOfViewedExpert);
                 //заполняем поля соответственно
                 if (calc.Count > 0)
                 {
@@ -250,25 +255,25 @@ namespace Experts_Economist
                 }
                 //переменные для удаления, первая - поля, вторая - значения
                 string[] fields2 = { "calculation_number ", "id_of_formula", "id_of_expert" };
-                string[] values2 = { idc, idf, id_of_exp.ToString() };
+                string[] values2 = { idc, idf, idOfViewedExpert.ToString() };
                 //удаляем из БД значения по формуле
                 db.DeleteFromDB("calculations_result", fields2, values2);
 
                 //id параметра
-                var iop = db.GetRows("formula_compound", "id_of_parameter", "id_of_formula = " + idf + " AND id_of_expert = " + id_of_exp);
+                var iop = db.GetRows("formula_compound", "id_of_parameter", "id_of_formula = " + idf + " AND id_of_expert = " + idOfViewedExpert);
                 int b = 0;
                 //для формул с сумами отдельный алгоритм удаления
                 if ((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44))
                 {
                     string[] fields3_1 = { "calculation_number ", "id_of_parameter", "id_of_expert", "id_of_formula" };
-                    string[] values3_1 = { idc, iop[0][0].ToString(), id_of_exp.ToString(), idf.ToString() };
+                    string[] values3_1 = { idc, iop[0][0].ToString(), idOfViewedExpert.ToString(), idf.ToString() };
                     db.DeleteFromDB("parameters_value", fields3_1, values3_1);
                     b = 1;
                 }
                 for (int i = b; i < iop.Count; i++) //в цикле удаляем значения параметров по формуле
                 {
                     string[] fields3_2 = { "calculation_number ", "id_of_parameter", "id_of_expert", "id_of_formula" };
-                    string[] values3_2 = { idc, iop[i][0].ToString(), id_of_exp.ToString(), idf.ToString() };
+                    string[] values3_2 = { idc, iop[i][0].ToString(), idOfViewedExpert.ToString(), idf.ToString() };
                     db.DeleteFromDB("parameters_value", fields3_2, values3_2);
                 }
                 //обновляем таблицу и список расчётов
@@ -307,7 +312,7 @@ namespace Experts_Economist
 
                 {//переменные для хранения полей изменения и параметров
                     string[] fields2 = { "id_of_parameter", "parameter_value" };
-                    string[] values2 = { idp + " AND calculation_number = " + calc_numbCB.Text + " AND index_of_parameter = " + DGV.Rows[e.RowIndex].Cells[4].Value.ToString() + " AND id_of_expert = " + id_of_exp + " AND id_of_formula = " + DGV.Rows[e.RowIndex].Cells[6].Value.ToString(), DGV.Rows[e.RowIndex].Cells[1].Value.ToString().Replace(",", ".") };
+                    string[] values2 = { idp + " AND calculation_number = " + calc_numbCB.Text + " AND index_of_parameter = " + DGV.Rows[e.RowIndex].Cells[4].Value.ToString() + " AND id_of_expert = " + idOfViewedExpert + " AND id_of_formula = " + DGV.Rows[e.RowIndex].Cells[6].Value.ToString(), DGV.Rows[e.RowIndex].Cells[1].Value.ToString().Replace(",", ".") };
                     db.UpdateRecord("parameters_value", fields2, values2);//обновляем значения параметров
                     //считваем текущий индекс и идём к началу списка пока не найдём строку, в которой записана формула
                     for (int i = e.RowIndex; i >= 0; i--)
@@ -325,7 +330,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -341,7 +346,7 @@ namespace Experts_Economist
                                             return;
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Kp(a, b, c, d).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Kp(a, b, c, d).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -353,7 +358,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -374,7 +379,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -398,7 +403,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -422,7 +427,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Prv(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prv(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -442,7 +447,7 @@ namespace Experts_Economist
                                             return;
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.E(a, b, c, d, f).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.E(a, b, c, d, f).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -454,7 +459,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -466,7 +471,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 7).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 7).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -478,7 +483,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -517,7 +522,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -541,7 +546,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -565,7 +570,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Vtg(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtg(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -580,7 +585,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -603,7 +608,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -629,7 +634,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -644,7 +649,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -665,7 +670,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -689,7 +694,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -722,7 +727,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -746,7 +751,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -761,7 +766,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -782,7 +787,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pvc(it, Tci, qi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Tci, qi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -812,7 +817,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mdg_o(it, Pi, Ki, ki, qi).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mdg_o(it, Pi, Ki, ki, qi).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -827,7 +832,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -836,7 +841,7 @@ namespace Experts_Economist
                                         double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -846,7 +851,7 @@ namespace Experts_Economist
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rsg2(a, b, c).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg2(a, b, c).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -855,7 +860,7 @@ namespace Experts_Economist
                                         double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -867,7 +872,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -877,7 +882,7 @@ namespace Experts_Economist
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rlg1(a, b, c).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg1(a, b, c).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -887,7 +892,7 @@ namespace Experts_Economist
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rlg2(a, b, c).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg2(a, b, c).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -898,7 +903,7 @@ namespace Experts_Economist
                                         double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
                                         double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rlg3(a, b, c, d).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg3(a, b, c, d).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -910,7 +915,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -922,7 +927,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.N(Mr).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N(Mr).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -934,7 +939,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.N1(Mr).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N1(Mr).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -946,7 +951,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.N2(Mr).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N2(Mr).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -958,7 +963,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.N3(Mr).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N3(Mr).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -967,7 +972,7 @@ namespace Experts_Economist
                                         double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -979,7 +984,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.N5(Mr).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N5(Mr).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -988,7 +993,7 @@ namespace Experts_Economist
                                         double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
                                         double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -1000,7 +1005,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -1012,7 +1017,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -1024,7 +1029,7 @@ namespace Experts_Economist
                                             Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                         }
                                         string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
                                         db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                         break;
                                     }
@@ -1045,7 +1050,7 @@ namespace Experts_Economist
                                                     iter--;
                                                 }
                                                 string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + id_of_exp, calc.Pz(it, Qi, Qi_p).ToString().Replace(",", ".") };
+                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pz(it, Qi, Qi_p).ToString().Replace(",", ".") };
                                                 db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                                 break;
                                             }
@@ -1065,77 +1070,108 @@ namespace Experts_Economist
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Переменная для хранения описания и названия серии
-            string idc = calc_numbCB.SelectedItem.ToString();
-            string issueid = "NULL";
-            try
-            {
-                issueid = (issueTB.SelectedItem as Issue).id.ToString();
+            if (idOfViewedExpert == id_of_exp)
+            {            //Переменная для хранения описания и названия серии
+                string idc = calc_numbCB.SelectedItem.ToString();
+                string issueid = "NULL";
+                try
+                {
+                    issueid = (issueTB.SelectedItem as Issue).id.ToString();
+                }
+                catch (Exception)
+                {
+                }
+                string[] fields4 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id" };
+                string[] values4 = { idc + " AND id_of_expert = " + idOfViewedExpert, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid };
+                db.UpdateRecord("calculations_description ", fields4, values4);//обновляем описание и название серии 
             }
-            catch (Exception)
+            else
             {
+                MessageBox.Show("Ви не можете змінити данні іншого експерта");
             }
-            string[] fields4 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id" };
-            string[] values4 = { idc + " AND id_of_expert = " + id_of_exp, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid };
-            db.UpdateRecord("calculations_description ", fields4, values4);//обновляем описание и название серии
+
         }
 
         private bool redakt = true;
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            redakt = !redakt;
 
-            if (!redakt)
+            if (idOfViewedExpert == id_of_exp)
             {
-                Panel_redakt.BackColor = Color.LightGreen;
-                desc_of_seriesTB.ReadOnly = false;
-                Column2.ReadOnly = false;
-                issueTB.Enabled = true;
+                redakt = !redakt;
+
+                if (!redakt)
+                {
+                    Panel_redakt.BackColor = Color.LightGreen;
+                    desc_of_seriesTB.ReadOnly = false;
+                    Column2.ReadOnly = false;
+                    issueTB.Enabled = true;
+                }
+                if (redakt)
+                {
+                    Panel_redakt.BackColor = Color.Brown;
+                    desc_of_seriesTB.ReadOnly = true;
+                    Column2.ReadOnly = true;
+                    issueTB.Enabled = false;
+                }
             }
-            if (redakt)
+            else
             {
-                Panel_redakt.BackColor = Color.Brown;
-                desc_of_seriesTB.ReadOnly = true;
-                Column2.ReadOnly = true;
-                issueTB.Enabled = false;
+                    MessageBox.Show("Ви не можете змінювати данні іншого експерта");
             }
         }
 
         private void Delete_desc_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Ви впевнені що хочете видалити опис серії?\n Це видалить всі результати в даній серії", "Повідомлення", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (idOfViewedExpert == id_of_exp)
             {
-                string idc = calc_numbCB.SelectedItem.ToString();
-                string[] fields2 = { "calculation_number", "id_of_expert" };
-                string[] values2 = { idc, id_of_exp.ToString() };
-                db.DeleteFromDB("calculations_description", fields2, values2);
-                get_values();
+                DialogResult dialogResult = MessageBox.Show("Ви впевнені що хочете видалити опис серії?\n Це видалить всі результати в даній серії", "Повідомлення", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string idc = calc_numbCB.SelectedItem.ToString();
+                    string[] fields2 = { "calculation_number", "id_of_expert" };
+                    string[] values2 = { idc, idOfViewedExpert.ToString() };
+                    db.DeleteFromDB("calculations_description", fields2, values2);
+                    get_values();
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    get_values();
+                }
             }
-            else if (dialogResult == DialogResult.No)
+            else
             {
-                get_values();
+                MessageBox.Show("Ви не можете видалити данні іншого експерта");
             }
+
         }
 
         private void Mass_delete_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Ви впевнені що хочете видалити всі формули в цій серії?", "Повідомлення", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (idOfViewedExpert == id_of_exp)
             {
-                string idc = calc_numbCB.SelectedItem.ToString();
-                string[] fields2 = { "calculation_number", "id_of_expert" };
-                string[] values2 = { idc, id_of_exp.ToString() };
-                db.DeleteFromDB("calculations_result", fields2, values2);
-                db.DeleteFromDB("parameters_value", fields2, values2);
-                get_values();
-                calc_numbCB.SelectedItem = idc;
+                DialogResult dialogResult = MessageBox.Show("Ви впевнені що хочете видалити всі формули в цій серії?", "Повідомлення", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string idc = calc_numbCB.SelectedItem.ToString();
+                    string[] fields2 = { "calculation_number", "id_of_expert" };
+                    string[] values2 = { idc, idOfViewedExpert.ToString() };
+                    db.DeleteFromDB("calculations_result", fields2, values2);
+                    db.DeleteFromDB("parameters_value", fields2, values2);
+                    get_values();
+                    calc_numbCB.SelectedItem = idc;
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    get_values();
+                }
             }
-            else if (dialogResult == DialogResult.No)
+            else
             {
-                get_values();
+                MessageBox.Show("Ви не можете видалити данні іншого експерта");
             }
+
         }
 
         private void calc_numbCB_TextChanged(object sender, EventArgs e)
@@ -1166,17 +1202,17 @@ namespace Experts_Economist
         {
             if (chartsList.Text.Equals("Графік показника"))
             {
-                new FormulaChart(id_of_exp).ShowDialog();
+                new FormulaChart(idOfViewedExpert).ShowDialog();
             }
             else if (chartsList.Text.Equals("Графік проблеми"))
             {
-                new IssueChart(id_of_exp).ShowDialog();
+                new IssueChart(idOfViewedExpert).ShowDialog();
             }
         }
 
         private void experts_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            id_of_exp = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
+            idOfViewedExpert = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
             get_values();
         }
 
@@ -1184,7 +1220,7 @@ namespace Experts_Economist
         {
             try
             {
-                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'', '`') + "' AND id_of_expert = " + id_of_exp);
+                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'', '`') + "' AND id_of_expert = " + idOfViewedExpert);
                 if (calc_numbCB.Text == calc[0][0].ToString())
                 {
                     return;
@@ -1209,13 +1245,13 @@ namespace Experts_Economist
                     if (DGV.Rows[rIdx].Cells[3].Value.ToString() == "id_of_formula")
                     {
                         string idf = DGV.Rows[rIdx].Cells[2].Value.ToString();
-                        var obj2 = db.GetRows("formulas", "description_of_formula", "id_of_formula = " + idf + " AND id_of_expert = " + id_of_exp);
+                        var obj2 = db.GetRows("formulas", "description_of_formula", "id_of_formula = " + idf + " AND id_of_expert = " + idOfViewedExpert);
                         strTip = obj2[0][0].ToString();
                     }
                     else
                     {
                         string idf = DGV.Rows[rIdx].Cells[2].Value.ToString();
-                        var obj21 = db.GetRows("formula_parameters", "description_of_parameter", "id_of_parameter = " + idf + " AND id_of_expert = " + id_of_exp);
+                        var obj21 = db.GetRows("formula_parameters", "description_of_parameter", "id_of_parameter = " + idf + " AND id_of_expert = " + idOfViewedExpert);
                         strTip = obj21[0][0].ToString();
                     }
                     DataGridViewCell cell = this.DGV.Rows[e.RowIndex].Cells[e.ColumnIndex];

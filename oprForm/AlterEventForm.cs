@@ -61,7 +61,7 @@ namespace oprForm
             {
                 if (eventsLB.SelectedItem is Event)
                 {
-                    Event ev = new Data.Entity.Event();
+                    Event ev = eventsLB.SelectedItem as Event;
                     alterGB.Visible = true;
                     db.Connect();
                     var resourcesForEvent = db.GetRows("event_resource", "event_id, resource_id, description, value",
@@ -93,7 +93,7 @@ namespace oprForm
         {
             if (eventListGrid.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                Resource res = new Resource();
+                Resource res = eventListGrid.Rows[e.RowIndex].Cells[0].Value as Resource;
                 if (e.ColumnIndex == valueCol)
                 {
                     try
@@ -145,11 +145,9 @@ namespace oprForm
             {
                 if (i is Issue)
                 {
-                    Issue iss = i as Issue;
+                    var iss = i as Issue;
                     if (iss.id == ev.issueId)
-                    {
                         issuesCB.SelectedItem = iss;
-                    }
                 }
             }
         }
@@ -160,7 +158,7 @@ namespace oprForm
 
             if (confirm.Equals(DialogResult.Yes) && eventsLB.SelectedItem is Event)
             {
-                Event ev = new Data.Entity.Event();
+                Event ev = eventsLB.SelectedItem as Event;
                 db.Connect();
                 db.DeleteFromDB("event", "event_id", ev.id.ToString());
                 getEvents();

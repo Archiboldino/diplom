@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Experts_Economist
@@ -18,9 +20,17 @@ namespace Experts_Economist
             string login = "'" + loginTB.Text + "'";
             string pass = "'" + passTB.Text + "'";
 
-            var user = db.GetRows("user", "*", "user_name=" + login +
-                " AND password=" + pass);
-
+            List<List<Object>> user = new List<List<Object>>();
+            try
+            {
+                user = db.GetRows("user", "*", "user_name=" + login +
+                    " AND password=" + pass);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Помилка, перевірте правильність вводу");
+                return;
+            }
             if (user.Count > 0)
             {
                 //  MessageBox.Show("Вхід. Id експерту " + user[0][2].ToString());

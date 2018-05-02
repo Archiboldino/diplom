@@ -6,7 +6,7 @@ namespace Data
     {
         public static string AddQuotes(String i)
         {
-            return "'" + i + "'";
+            return "\"" + i + "\"";
         }
     }
 }

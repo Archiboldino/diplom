@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Data;
+﻿using Data;
 using Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class LookEventsForm : Form
     {
-        DBManager db = new DBManager();
+        private DBManager db = new DBManager();
+        private int valueCol = 2;
+        private int descCol = 1;
 
         private List<Event> events = new List<Event>();
         private Dictionary<int, int> expertOfUser = new Dictionary<int, int>();
@@ -40,7 +38,6 @@ namespace oprForm
                 issues.Add(IssueMapper.Map(row));
             }
 
-
             issuesLB.Items.AddRange(issues.ToArray());
             db.Disconnect();
         }
@@ -49,7 +46,7 @@ namespace oprForm
         {
             if (eventsLB.SelectedItem is Event)
             {
-                Event ev = new Event();
+                Event ev = eventsLB.SelectedItem as Event;
                 approveGB.Visible = true;
                 db.Connect();
                 var resourcesForEvent = db.GetRows("event_resource", "event_id, resource_id, description, value",
@@ -146,7 +143,6 @@ namespace oprForm
                     events.Add(EventMapper.Map(row));
                 }
 
-
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -169,7 +165,6 @@ namespace oprForm
 
         private void approveGB_Enter(object sender, EventArgs e)
         {
-
         }
 
         private void expertsLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -215,55 +210,56 @@ namespace oprForm
 
         private void issuesLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (issuesLB.SelectedItem is Issue)
             {
                 eventsLB.Items.Clear();
                 db.Connect();
                 var obj = db.GetRows("event", "*", "issue_id=" + (issuesLB.SelectedItem as Issue).id);
-                events.Clear();
-                foreach (var row in obj)
+                if (obj.Count != 0)
                 {
-                    events.Add(EventMapper.Map(row));
+                    events.Clear();
+                    foreach (var row in obj)
+                    {
+                        events.Add(EventMapper.Map(row));
+                    }
+
+                    int issueCost = 0;
+                    foreach (var ev in events)
+                    {
+                        issueCost += GetTotalCost(ev.id);
+                    }
+                    issueCostLbl.Text = issueCost.ToString();
+
+                    // Get list of user ids
+                    var userIds = (from ev in events select Int32.Parse(ev.userId.ToString())).ToArray();
+
+                    // Get list of expert ids from users
+                    List<int> expertIds = new List<int>();
+                    foreach (var uid in userIds)
+                    {
+                        expertIds.Add(Int32.Parse(db.GetValue("user", "id_of_expert", "id_of_user=" + uid).ToString()));
+                    }
+                    obj = db.GetRows("expert", "distinct id_of_expert, expert_name", "id_of_expert in (" + String.Join(",", expertIds) + ")");
+
+                    for (int i = 0; i < userIds.Length; i++)
+                    {
+                        expertOfUser[userIds[i]] = expertIds[i];
+                    }
+
+                    var experts = new List<Expert>();
+
+                    var emptyExpert = new Expert();
+                    emptyExpert.id = -1;
+                    emptyExpert.name = "Усі";
+                    experts.Add(emptyExpert);
+
+                    expertsLB.Items.Clear();
+                    foreach (var row in obj)
+                    {
+                        experts.Add(ExpertMapper.Map(row));
+                    }
+                    expertsLB.Items.AddRange(experts.ToArray());
                 }
-
-                int issueCost = 0;
-                foreach(var ev in events)
-                {
-                    issueCost += GetTotalCost(ev.id);
-                }
-                issueCostLbl.Text = issueCost.ToString();
-
-                // Get list of user ids
-                var userIds = (from ev in events select Int32.Parse(ev.userId.ToString())).ToArray();
-
-                // Get list of expert ids from users
-                List<int> expertIds = new List<int>();
-                foreach (var uid in userIds)
-                {
-                    expertIds.Add(Int32.Parse(db.GetValue("user", "id_of_expert", "id_of_user=" + uid).ToString()));
-                }
-                obj = db.GetRows("expert", "distinct id_of_expert, expert_name", "id_of_expert in (" + String.Join(",", expertIds) + ")");
-
-                for (int i = 0; i < userIds.Length; i++)
-                {
-                    expertOfUser[userIds[i]] = expertIds[i];
-                }
-
-                var experts = new List<Expert>();
-
-                var emptyExpert = new Expert();
-                emptyExpert.id = -1;
-                emptyExpert.name = "Усі";
-                experts.Add(emptyExpert);
-
-                expertsLB.Items.Clear();
-                foreach (var row in obj)
-                {
-                    experts.Add(ExpertMapper.Map(row));
-                }
-                expertsLB.Items.AddRange(experts.ToArray());
-
                 db.Disconnect();
             }
         }

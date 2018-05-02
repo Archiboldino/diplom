@@ -49,7 +49,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = new Resource();
+                    Resource res = row.Cells[0].Value as Resource;
                     try
                     {
                         db.Connect();
@@ -92,7 +92,7 @@ namespace oprForm
             }
             if (resDGV.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                Resource res = new Resource();
+                Resource res = resDGV.Rows[e.RowIndex].Cells[0].Value as Resource;
                 if (e.ColumnIndex == descColIdx)
                 {
                     var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
@@ -142,7 +142,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = new Resource();
+                    Resource res = row.Cells[0].Value as Resource;
                     db.Connect();
 
                     string[] cols = { "resource_id", "name", "description", "units", "price" };

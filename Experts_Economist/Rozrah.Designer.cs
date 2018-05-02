@@ -246,9 +246,9 @@
             this.issueL.AutoSize = true;
             this.issueL.Location = new System.Drawing.Point(405, 398);
             this.issueL.Name = "issueL";
-            this.issueL.Size = new System.Drawing.Size(161, 13);
+            this.issueL.Size = new System.Drawing.Size(145, 13);
             this.issueL.TabIndex = 27;
-            this.issueL.Text = "Проблема, пов\'язана з серією";
+            this.issueL.Text = "Задача, пов\'язана з серією";
             // 
             // issueTB
             // 

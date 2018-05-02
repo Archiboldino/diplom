@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using ChartModule;
+using Data;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChartModule;
 
 namespace MedicForm
 {
     public partial class FormulaChart : Form
     {
-        ChartM chart;
-        DBManager dbManager = new DBManager();
-        int id_of_expert;
+        private ChartM chart;
+        private DBManager dbManager = new DBManager();
+        private int id_of_expert;
+
         public FormulaChart(int id_of_expert)
         {
             this.id_of_expert = id_of_expert;
@@ -71,7 +67,7 @@ namespace MedicForm
             return false;
         }
 
-        // метод убирает выбранный элемент из списка ранне выбранных серий 
+        // метод убирает выбранный элемент из списка ранне выбранных серий
         private void removeButt_Click(object sender, EventArgs e)
         {
             if (addSeriaList.SelectedItem != null)
@@ -123,7 +119,7 @@ namespace MedicForm
                 {
                     arrayOfY[i] = addSeriaList.Items[i];
                     arrayOfX[i] = dbManager.GetValue("calculations_result", "result", "calculation_number = "
-                        + addSeriaList.Items[i] + " AND id_of_formula = " + 
+                        + addSeriaList.Items[i] + " AND id_of_formula = " +
                         dbManager.GetValue("formulas", "id_of_formula", "description_of_formula = '" +
                         funcComboBox.Text + "'") + " AND id_of_expert =" + id_of_expert);
                 }
@@ -152,18 +148,20 @@ namespace MedicForm
                 seriaDescription.Text = dbManager.GetValue("calculations_description", "description_of_calculation", "calculation_number = " + seriaList.SelectedItem).ToString();
             }
         }
-        int i;
+
+        private int i;
+
         private void funcComboBox_TextChanged(object sender, EventArgs e)
         {
             label1.Visible = true;
             i = funcComboBox.FindString(funcComboBox.Text);
-           if(i>=0) label1.Text = funcComboBox.Items[i].ToString();              
+            if (i >= 0) label1.Text = funcComboBox.Items[i].ToString();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-             label1.Visible = false;
-             funcComboBox.SelectedIndex = i; 
+            label1.Visible = false;
+            funcComboBox.SelectedIndex = i;
         }
 
         private void addAll_Click(object sender, EventArgs e)

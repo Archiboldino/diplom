@@ -145,6 +145,7 @@
             this.number_of_calcL.Size = new System.Drawing.Size(111, 13);
             this.number_of_calcL.TabIndex = 16;
             this.number_of_calcL.Text = "Серія розрахунків №";
+            this.number_of_calcL.Visible = false;
             // 
             // calc_numbCB
             // 
@@ -153,6 +154,7 @@
             this.calc_numbCB.Name = "calc_numbCB";
             this.calc_numbCB.Size = new System.Drawing.Size(121, 21);
             this.calc_numbCB.TabIndex = 17;
+            this.calc_numbCB.Visible = false;
             this.calc_numbCB.SelectedIndexChanged += new System.EventHandler(this.calc_numbCB_SelectedIndexChanged);
             this.calc_numbCB.TextChanged += new System.EventHandler(this.calc_numbCB_TextChanged);
             this.calc_numbCB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.calc_numbCB_KeyPress);
@@ -200,9 +202,9 @@
             this.issueL.AutoSize = true;
             this.issueL.Location = new System.Drawing.Point(342, 9);
             this.issueL.Name = "issueL";
-            this.issueL.Size = new System.Drawing.Size(161, 13);
+            this.issueL.Size = new System.Drawing.Size(145, 13);
             this.issueL.TabIndex = 29;
-            this.issueL.Text = "Проблема, пов\'язана з серією";
+            this.issueL.Text = "Задача, пов\'язана з серією";
             // 
             // issueTB
             // 
@@ -333,7 +335,6 @@
             this.label10.Size = new System.Drawing.Size(84, 13);
             this.label10.TabIndex = 51;
             this.label10.Text = "Вибір експерта";
-            this.label10.Visible = false;
             // 
             // experts_CB
             // 
@@ -343,7 +344,6 @@
             this.experts_CB.Name = "experts_CB";
             this.experts_CB.Size = new System.Drawing.Size(121, 21);
             this.experts_CB.TabIndex = 50;
-            this.experts_CB.Visible = false;
             this.experts_CB.SelectedIndexChanged += new System.EventHandler(this.experts_CB_SelectedIndexChanged);
             // 
             // name_of_seriesCB
