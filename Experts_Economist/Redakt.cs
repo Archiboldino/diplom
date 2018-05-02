@@ -22,14 +22,14 @@ namespace Experts_Economist
         {
             //при входе на форму обновляем компоненты и записываем в combobox список экспертов
             experts_CB.Items.Clear();
-            var obj3 = db.GetRows("expert", "*", "");
+            var obj3 = db.GetRows("expert", "*", "id_of_expert>0 AND id_of_expert<4");
             var Experts = new List<Expert>();
             foreach (var row in obj3)
             {
                 Experts.Add(ExpertMapper.Map(row));
             }
             experts_CB.Items.AddRange(Experts.ToArray());
-            experts_CB.SelectedIndex = 1;
+            experts_CB.SelectedIndex = 0;
             id_of_exp = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
             refresh();
         }
@@ -399,6 +399,21 @@ namespace Experts_Economist
 
         private void experts_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            id_of_exp = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
+            refresh();
+        }
+
+        private void оновитиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            experts_CB.Items.Clear();
+            var obj3 = db.GetRows("expert", "*", "");
+            var Experts = new List<Expert>();
+            foreach (var row in obj3)
+            {
+                Experts.Add(ExpertMapper.Map(row));
+            }
+            experts_CB.Items.AddRange(Experts.ToArray());
+            experts_CB.SelectedIndex = 0;
             id_of_exp = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
             refresh();
         }

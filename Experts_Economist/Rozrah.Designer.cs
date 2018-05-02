@@ -39,6 +39,7 @@
             this.formulas_idLB = new System.Windows.Forms.ListBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.series_over = new System.Windows.Forms.Button();
+            this.showLog = new System.Windows.Forms.Button();
             this.number_of_calcL = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,7 +55,13 @@
             this.experts_CB = new System.Windows.Forms.ComboBox();
             this.name_of_seriesCB = new System.Windows.Forms.ComboBox();
             this.form_desc_L = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.оновитиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logTb = new System.Windows.Forms.RichTextBox();
+            this.logL = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.formulasDGV)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // formulasLB
@@ -142,6 +149,17 @@
             this.toolTip1.SetToolTip(this.series_over, "Зберігає опис серії, ставить наступний номер серії");
             this.series_over.UseVisualStyleBackColor = true;
             this.series_over.Click += new System.EventHandler(this.series_over_Click);
+            // 
+            // showLog
+            // 
+            this.showLog.Location = new System.Drawing.Point(912, 425);
+            this.showLog.Name = "showLog";
+            this.showLog.Size = new System.Drawing.Size(29, 24);
+            this.showLog.TabIndex = 59;
+            this.showLog.Text = ">";
+            this.toolTip1.SetToolTip(this.showLog, "Зберігає опис серії, ставить наступний номер серії");
+            this.showLog.UseVisualStyleBackColor = true;
+            this.showLog.Click += new System.EventHandler(this.showLog_Click);
             // 
             // number_of_calcL
             // 
@@ -299,11 +317,59 @@
             this.form_desc_L.TabIndex = 55;
             this.form_desc_L.Text = "Опис формули :";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.оновитиToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 26);
+            // 
+            // оновитиToolStripMenuItem
+            // 
+            this.оновитиToolStripMenuItem.Name = "оновитиToolStripMenuItem";
+            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.оновитиToolStripMenuItem.Text = "Оновити";
+            this.оновитиToolStripMenuItem.Click += new System.EventHandler(this.оновитиToolStripMenuItem_Click);
+            // 
+            // logTb
+            // 
+            this.logTb.Location = new System.Drawing.Point(947, 296);
+            this.logTb.Name = "logTb";
+            this.logTb.ReadOnly = true;
+            this.logTb.Size = new System.Drawing.Size(148, 153);
+            this.logTb.TabIndex = 57;
+            this.logTb.Text = "";
+            this.logTb.Visible = false;
+            // 
+            // logL
+            // 
+            this.logL.AutoSize = true;
+            this.logL.Location = new System.Drawing.Point(944, 280);
+            this.logL.Name = "logL";
+            this.logL.Size = new System.Drawing.Size(107, 13);
+            this.logL.TabIndex = 58;
+            this.logL.Text = "Останні розрахунки";
+            this.logL.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(751, 431);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(157, 13);
+            this.label6.TabIndex = 60;
+            this.label6.Text = "Показати останні розрахунки";
+            // 
             // Rozrah
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1107, 461);
+            this.ContextMenuStrip = this.contextMenuStrip1;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.showLog);
+            this.Controls.Add(this.logL);
+            this.Controls.Add(this.logTb);
             this.Controls.Add(this.form_desc_L);
             this.Controls.Add(this.name_of_seriesCB);
             this.Controls.Add(this.label10);
@@ -329,6 +395,7 @@
             this.Text = "Економіст_розрахунки";
             this.Load += new System.EventHandler(this.Rozrah_Load);
             ((System.ComponentModel.ISupportInitialize)(this.formulasDGV)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -360,6 +427,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Param_value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param_measure;
         private System.Windows.Forms.DataGridViewTextBoxColumn param_desc;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem оновитиToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox logTb;
+        private System.Windows.Forms.Label logL;
+        private System.Windows.Forms.Button showLog;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -54,9 +54,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.AddUserButton);
-            this.panel1.Controls.Add(this.UpdateUserButton);
             this.panel1.Controls.Add(this.ExperTypeTextBox);
             this.panel1.Controls.Add(this.PasswordTextBox);
             this.panel1.Controls.Add(this.UsernameTextBox);
@@ -70,7 +67,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(223, 77);
+            this.button1.Location = new System.Drawing.Point(96, 286);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 6;
@@ -80,7 +77,7 @@
             // 
             // AddUserButton
             // 
-            this.AddUserButton.Location = new System.Drawing.Point(117, 77);
+            this.AddUserButton.Location = new System.Drawing.Point(15, 286);
             this.AddUserButton.Name = "AddUserButton";
             this.AddUserButton.Size = new System.Drawing.Size(75, 23);
             this.AddUserButton.TabIndex = 5;
@@ -90,11 +87,11 @@
             // 
             // UpdateUserButton
             // 
-            this.UpdateUserButton.Location = new System.Drawing.Point(11, 77);
+            this.UpdateUserButton.Location = new System.Drawing.Point(177, 286);
             this.UpdateUserButton.Name = "UpdateUserButton";
             this.UpdateUserButton.Size = new System.Drawing.Size(75, 23);
             this.UpdateUserButton.TabIndex = 2;
-            this.UpdateUserButton.Text = "Обновити";
+            this.UpdateUserButton.Text = "Змінити";
             this.UpdateUserButton.UseVisualStyleBackColor = true;
             this.UpdateUserButton.Click += new System.EventHandler(this.UpdateCurrentUser);
             // 
@@ -122,7 +119,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(236, 30);
+            this.label3.Location = new System.Drawing.Point(235, 30);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 2;
@@ -131,7 +128,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 30);
+            this.label2.Location = new System.Drawing.Point(145, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 1;
@@ -140,7 +137,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 30);
+            this.label1.Location = new System.Drawing.Point(44, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 0;
@@ -151,7 +148,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 311);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.AddUserButton);
+            this.Controls.Add(this.UpdateUserButton);
             this.Controls.Add(this.UsersDGV);
             this.Name = "User_editor";
             this.Text = "Редагування користувачів";

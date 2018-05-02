@@ -59,9 +59,12 @@
             this.label10 = new System.Windows.Forms.Label();
             this.experts_CB = new System.Windows.Forms.ComboBox();
             this.name_of_seriesCB = new System.Windows.Forms.ComboBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.оновитиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.chartBox.SuspendLayout();
             this.chartPanel.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // DGV
@@ -355,11 +358,26 @@
             this.name_of_seriesCB.TabIndex = 52;
             this.name_of_seriesCB.SelectedIndexChanged += new System.EventHandler(this.name_of_seriesCB_SelectedIndexChanged);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.оновитиToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 26);
+            // 
+            // оновитиToolStripMenuItem
+            // 
+            this.оновитиToolStripMenuItem.Name = "оновитиToolStripMenuItem";
+            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оновитиToolStripMenuItem.Text = "Оновити";
+            this.оновитиToolStripMenuItem.Click += new System.EventHandler(this.оновитиToolStripMenuItem_Click);
+            // 
             // Result
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.name_of_seriesCB);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.experts_CB);
@@ -386,6 +404,7 @@
             this.chartBox.PerformLayout();
             this.chartPanel.ResumeLayout(false);
             this.chartPanel.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -422,5 +441,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox experts_CB;
         private System.Windows.Forms.ComboBox name_of_seriesCB;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem оновитиToolStripMenuItem;
     }
 }

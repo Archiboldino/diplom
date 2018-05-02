@@ -1262,5 +1262,24 @@ namespace Experts_Economist
             {
             }
         }
+
+        private void оновитиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            experts_CB.Items.Clear();
+            var obj3 = db.GetRows("expert", "*", "id_of_expert>0 AND id_of_expert<4");
+            var Experts = new List<Expert>();
+            foreach (var row in obj3)
+            {
+                Experts.Add(ExpertMapper.Map(row));
+            }
+            experts_CB.Items.AddRange(Experts.ToArray());
+            //функция для забивания данных в таблицу с формулами и параметрами, их значениями и номера расчётов
+            idOfViewedExpert = id_of_exp;
+            for (int i = 0; i < experts_CB.Items.Count; i++)
+            {
+                if ((experts_CB.Items[i] as Expert).id == idOfViewedExpert)
+                    experts_CB.SelectedIndex = i;
+            }
+        }
     }
 }

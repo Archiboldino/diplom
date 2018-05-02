@@ -20,8 +20,9 @@ namespace Experts_Economist
 
         private void Rozrah_Load(object sender, EventArgs e)
         {
+            logTb.Text = "";
             experts_CB.Items.Clear();
-            var obj3 = db.GetRows("expert", "*", "");
+            var obj3 = db.GetRows("expert", "*", "id_of_expert>0 AND id_of_expert<4");
             var Experts = new List<Expert>();
             foreach (var row in obj3)
             {
@@ -43,7 +44,7 @@ namespace Experts_Economist
             {
                 label10.Visible = true;
                 experts_CB.Visible = true;
-                experts_CB.SelectedIndex = 1;
+                experts_CB.SelectedIndex = 0;
             }
             //очищаем списки формул и список id формул
             formulasLB.Items.Clear();
@@ -794,7 +795,7 @@ namespace Experts_Economist
             string[] values5 = { calc_numbCB.Text, "'" + localDate.ToString("yyyy-MM-dd HH:mm:ss") + "'", idf.ToString(), formulasDGV.Rows[formulasDGV.Rows.Count - 1].Cells[1].Value.ToString().Replace(",", "."), id_of_exp.ToString() };
             int issueid = (issueTB.SelectedItem as Issue).id;
             string[] fields4_1 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id", "id_of_expert" };
-            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'','`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'','`') + "'", issueid.ToString(), id_of_exp.ToString() };
+            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid.ToString(), id_of_exp.ToString() };
             try
             {
                 db.InsertToBD("calculations_description", fields4_1, values4_1);
@@ -807,7 +808,7 @@ namespace Experts_Economist
                 db.InsertToBD("calculations_result", fields5, values5);
             }
             catch (MySqlException)// ловим эксепшн mysql если идёт дупликация ключа
-            { 
+            {
                 MessageBox.Show("Ця формула вже була розрахована у данній серії \nЗмінити ці значення ви можете у вкладці 'Перегляд результатів' ");
                 help = false;
                 return;
@@ -870,6 +871,8 @@ namespace Experts_Economist
                 }
             }
             help = false;
+
+            logTb.Text += formulasLB.SelectedItem.ToString() + " = " + formulasDGV.Rows[formulasDGV.Rows.Count-1].Cells[1].Value.ToString() + "\n";
         }
 
         //событие ведения мышки по списку формул, при наведении на формулу показываем подсказку из БД по формуле
@@ -940,7 +943,7 @@ namespace Experts_Economist
             //Сохраняем название и описание серии расчётов
             int issueid = (issueTB.SelectedItem as Issue).id;
             string[] fields4_1 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id", "id_of_expert" };
-            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'','`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'','`') + "'", issueid.ToString(), id_of_exp.ToString() };
+            string[] values4_1 = { calc_numbCB.Text, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid.ToString(), id_of_exp.ToString() };
             try
             {
                 db.UpdateRecord("calculations_description", fields4_1, values4_1);
@@ -1015,7 +1018,7 @@ namespace Experts_Economist
             try
             {
 
-                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'','`') + "' AND id_of_expert = " + id_of_exp);
+                var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'', '`') + "' AND id_of_expert = " + id_of_exp);
                 if (calc_numbCB.Text == calc[0][0].ToString())
                 {
                     return;
@@ -1040,6 +1043,28 @@ namespace Experts_Economist
             catch (Exception)
             {
             }
+        }
+
+        private void оновитиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logTb.Text = "";
+            experts_CB.Items.Clear();
+            var obj3 = db.GetRows("expert", "*", "id_of_expert>0 AND id_of_expert<4");
+            var Experts = new List<Expert>();
+            foreach (var row in obj3)
+            {
+                Experts.Add(ExpertMapper.Map(row));
+            }
+            experts_CB.Items.AddRange(Experts.ToArray());
+            formulasDGV.AllowUserToAddRows = false;
+
+            get_values();
+        }
+
+        private void showLog_Click(object sender, EventArgs e)
+        {
+            logL.Visible = !logL.Visible;
+            logTb.Visible = !logTb.Visible;
         }
     }
 }

@@ -62,6 +62,9 @@
             this.search_parametr = new System.Windows.Forms.TextBox();
             this.experts_CB = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.оновитиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // del1
@@ -355,11 +358,26 @@
             this.label10.TabIndex = 49;
             this.label10.Text = "Вибір експерта";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.оновитиToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 26);
+            // 
+            // оновитиToolStripMenuItem
+            // 
+            this.оновитиToolStripMenuItem.Name = "оновитиToolStripMenuItem";
+            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оновитиToolStripMenuItem.Text = "Оновити";
+            this.оновитиToolStripMenuItem.Click += new System.EventHandler(this.оновитиToolStripMenuItem_Click);
+            // 
             // Redakt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.label10);
             this.Controls.Add(this.experts_CB);
             this.Controls.Add(this.search_parametr);
@@ -396,6 +414,7 @@
             this.Name = "Redakt";
             this.Text = "Редактор формул";
             this.Load += new System.EventHandler(this.Redakt_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -436,5 +455,7 @@
         private System.Windows.Forms.TextBox search_parametr;
         private System.Windows.Forms.ComboBox experts_CB;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem оновитиToolStripMenuItem;
     }
 }
