@@ -165,8 +165,9 @@ namespace oprForm
         {
             var confirm = MessageBox.Show("Видалити захiд?", "Видалення", MessageBoxButtons.YesNo);
 
-            if (confirm.Equals(DialogResult.Yes) && eventsLB.SelectedItem is Event ev)
+            if (confirm.Equals(DialogResult.Yes) && eventsLB.SelectedItem is Event)
             {
+                Event ev = eventsLB.SelectedItem as Event;
                 db.Connect();
                 db.DeleteFromDB("event", "event_id", ev.id.ToString());
                 getEvents();
