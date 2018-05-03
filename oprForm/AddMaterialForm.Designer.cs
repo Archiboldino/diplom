@@ -33,6 +33,10 @@
             this.nameTB = new System.Windows.Forms.TextBox();
             this.descTB = new System.Windows.Forms.TextBox();
             this.addBtn = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.priceTB = new System.Windows.Forms.TextBox();
+            this.unitsTB = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -55,21 +59,22 @@
             // 
             // nameTB
             // 
-            this.nameTB.Location = new System.Drawing.Point(105, 29);
+            this.nameTB.Location = new System.Drawing.Point(93, 29);
             this.nameTB.Name = "nameTB";
-            this.nameTB.Size = new System.Drawing.Size(228, 26);
+            this.nameTB.Size = new System.Drawing.Size(434, 26);
             this.nameTB.TabIndex = 2;
             // 
             // descTB
             // 
-            this.descTB.Location = new System.Drawing.Point(105, 63);
+            this.descTB.Location = new System.Drawing.Point(93, 61);
+            this.descTB.Multiline = true;
             this.descTB.Name = "descTB";
-            this.descTB.Size = new System.Drawing.Size(228, 26);
+            this.descTB.Size = new System.Drawing.Size(434, 59);
             this.descTB.TabIndex = 3;
             // 
             // addBtn
             // 
-            this.addBtn.Location = new System.Drawing.Point(387, 29);
+            this.addBtn.Location = new System.Drawing.Point(93, 211);
             this.addBtn.Name = "addBtn";
             this.addBtn.Size = new System.Drawing.Size(94, 51);
             this.addBtn.TabIndex = 4;
@@ -77,18 +82,54 @@
             this.addBtn.UseVisualStyleBackColor = true;
             this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 164);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(81, 20);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Ціна (грн)";
+            // 
+            // priceTB
+            // 
+            this.priceTB.Location = new System.Drawing.Point(93, 158);
+            this.priceTB.Name = "priceTB";
+            this.priceTB.Size = new System.Drawing.Size(434, 26);
+            this.priceTB.TabIndex = 6;
+            // 
+            // unitsTB
+            // 
+            this.unitsTB.Location = new System.Drawing.Point(93, 126);
+            this.unitsTB.Name = "unitsTB";
+            this.unitsTB.Size = new System.Drawing.Size(434, 26);
+            this.unitsTB.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 129);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 20);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Вимір.";
+            // 
             // AddMaterialForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 108);
+            this.ClientSize = new System.Drawing.Size(539, 274);
+            this.Controls.Add(this.unitsTB);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.priceTB);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.addBtn);
             this.Controls.Add(this.descTB);
             this.Controls.Add(this.nameTB);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "AddMaterialForm";
-            this.Text = "Новый ресурс";
+            this.Text = "Новий ресурс";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,5 +142,9 @@
         private System.Windows.Forms.TextBox nameTB;
         private System.Windows.Forms.TextBox descTB;
         private System.Windows.Forms.Button addBtn;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox priceTB;
+        private System.Windows.Forms.TextBox unitsTB;
+        private System.Windows.Forms.Label label4;
     }
 }

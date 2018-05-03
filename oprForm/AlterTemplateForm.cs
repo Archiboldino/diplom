@@ -2,14 +2,20 @@
 using Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class AlterTemplateForm : Form
     {
-        private DBManager db = new DBManager();
-        private int user = 1;
+        DBManager db = new DBManager();
+        int user = 1;
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -25,6 +31,7 @@ namespace oprForm
             }
             templatesLB.Items.AddRange(events.ToArray());
 
+
             var res = db.GetRows("resource", "*", "");
             var resources = new List<Resource>();
             foreach (var row in res)
@@ -34,6 +41,7 @@ namespace oprForm
             resourcesLB.Items.AddRange(resources.ToArray());
 
             db.Disconnect();
+
         }
 
         private void resourcesLB_DoubleClick(object sender, EventArgs e)
@@ -75,6 +83,7 @@ namespace oprForm
 
                 db.Disconnect();
             }
+
         }
 
         private void addBtn_Click(object sender, EventArgs e)
@@ -122,6 +131,7 @@ namespace oprForm
             }
 
             db.Disconnect();
+
         }
 
         private void button1_Click(object sender, EventArgs e)

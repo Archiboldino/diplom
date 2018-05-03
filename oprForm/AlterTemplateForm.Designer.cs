@@ -191,7 +191,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.resourcesLB);
             this.Name = "AlterTemplateForm";
-            this.Text = "AlterTemplateForm";
+            this.Text = "Змінити шаблон";
             ((System.ComponentModel.ISupportInitialize)(this.materialListGrid)).EndInit();
             this.addGB.ResumeLayout(false);
             this.addGB.PerformLayout();

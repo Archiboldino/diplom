@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace oprForm
 {
@@ -14,8 +17,7 @@ namespace oprForm
         }
     }
 
-    public class ExpertMapper
-    {
+    public class ExpertMapper {
         public static Expert Map(List<Object> row)
         {
             var i = new Expert();

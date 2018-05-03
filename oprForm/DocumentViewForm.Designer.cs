@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(814, 588);
             this.Controls.Add(this.webBrowser1);
             this.Name = "DocumentViewForm";
-            this.Text = "DocumentViewForm";
+            this.Text = "Документ";
             this.ResumeLayout(false);
 
         }

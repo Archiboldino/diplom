@@ -79,16 +79,21 @@
             // 
             // nameTB
             // 
+            this.nameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTB.Location = new System.Drawing.Point(105, 6);
             this.nameTB.Name = "nameTB";
-            this.nameTB.Size = new System.Drawing.Size(188, 26);
+            this.nameTB.Size = new System.Drawing.Size(244, 26);
             this.nameTB.TabIndex = 46;
             // 
             // descrTB
             // 
+            this.descrTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.descrTB.Location = new System.Drawing.Point(105, 51);
+            this.descrTB.Multiline = true;
             this.descrTB.Name = "descrTB";
-            this.descrTB.Size = new System.Drawing.Size(188, 26);
+            this.descrTB.Size = new System.Drawing.Size(241, 68);
             this.descrTB.TabIndex = 47;
             // 
             // deleteBtn

@@ -1,16 +1,20 @@
-﻿using Data;
-using Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data;
+using Data.Entity;
 
 namespace oprForm
 {
     public partial class LookEventsForm : Form
     {
-        private DBManager db = new DBManager();
+        DBManager db = new DBManager();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -38,6 +42,7 @@ namespace oprForm
                 issues.Add(IssueMapper.Map(row));
             }
 
+
             issuesLB.Items.AddRange(issues.ToArray());
             db.Disconnect();
         }
@@ -62,7 +67,7 @@ namespace oprForm
                 }
 
                 eventListGrid.Rows.Clear();
-                int totalPrice = 0;
+                double totalPrice = 0;
                 foreach (var r in resources)
                 {
                     eventListGrid.Rows.Add(r, r.description, r.value, r.unit, r.price, r.value * r.price);
@@ -143,6 +148,7 @@ namespace oprForm
                     events.Add(EventMapper.Map(row));
                 }
 
+
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -165,6 +171,7 @@ namespace oprForm
 
         private void approveGB_Enter(object sender, EventArgs e)
         {
+
         }
 
         private void expertsLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -184,7 +191,7 @@ namespace oprForm
             }
         }
 
-        private int GetTotalCost(int eventId)
+        private double GetTotalCost(int eventId)
         {
             //db.Connect();
             var resourcesForEvent = db.GetRows("event_resource", "event_id, resource_id, description, value",
@@ -199,7 +206,7 @@ namespace oprForm
                 resources.Add(resource);
             }
 
-            int totalPrice = 0;
+            double totalPrice = 0;
             foreach (var r in resources)
             {
                 totalPrice += r.value * r.price;
@@ -210,6 +217,7 @@ namespace oprForm
 
         private void issuesLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (issuesLB.SelectedItem is Issue)
             {
                 eventsLB.Items.Clear();
@@ -223,7 +231,7 @@ namespace oprForm
                         events.Add(EventMapper.Map(row));
                     }
 
-                    int issueCost = 0;
+                    double issueCost = 0;
                     foreach (var ev in events)
                     {
                         issueCost += GetTotalCost(ev.id);
@@ -259,8 +267,9 @@ namespace oprForm
                         experts.Add(ExpertMapper.Map(row));
                     }
                     expertsLB.Items.AddRange(experts.ToArray());
+
                 }
-                db.Disconnect();
+                    db.Disconnect();
             }
         }
     }

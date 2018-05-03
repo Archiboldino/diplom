@@ -56,7 +56,7 @@
     <Compile Include="AddMaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddMaterialForm.designer.cs">
+    <Compile Include="AddMaterialForm.Designer.cs">
       <DependentUpon>AddMaterialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AddTemplateForm.cs">

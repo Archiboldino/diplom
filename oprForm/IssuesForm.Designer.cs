@@ -45,6 +45,7 @@
             this.issuesLB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.issuesLB.FormattingEnabled = true;
+            this.issuesLB.HorizontalScrollbar = true;
             this.issuesLB.ItemHeight = 20;
             this.issuesLB.Location = new System.Drawing.Point(13, 43);
             this.issuesLB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -66,7 +67,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(199, 88);
+            this.label3.Location = new System.Drawing.Point(199, 112);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 20);
@@ -78,7 +79,7 @@
             this.descrLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.descrLbl.AutoSize = true;
-            this.descrLbl.Location = new System.Drawing.Point(301, 88);
+            this.descrLbl.Location = new System.Drawing.Point(301, 112);
             this.descrLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.descrLbl.Name = "descrLbl";
             this.descrLbl.Size = new System.Drawing.Size(0, 20);
@@ -90,14 +91,14 @@
             this.label4.Location = new System.Drawing.Point(199, 43);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 20);
+            this.label4.Size = new System.Drawing.Size(43, 20);
             this.label4.TabIndex = 21;
-            this.label4.Text = "Имя";
+            this.label4.Text = "Им\'я";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(199, 136);
+            this.label2.Location = new System.Drawing.Point(197, 77);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 20);
@@ -143,7 +144,7 @@
             this.dateLbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateLbl.AutoSize = true;
-            this.dateLbl.Location = new System.Drawing.Point(301, 136);
+            this.dateLbl.Location = new System.Drawing.Point(299, 77);
             this.dateLbl.Name = "dateLbl";
             this.dateLbl.Size = new System.Drawing.Size(0, 20);
             this.dateLbl.TabIndex = 29;
@@ -164,7 +165,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.issuesLB);
             this.Name = "IssuesForm";
-            this.Text = "Проблеми";
+            this.Text = "Задачі";
             this.Load += new System.EventHandler(this.IssuesForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

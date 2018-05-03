@@ -1,15 +1,23 @@
-﻿using Data;
-using Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data;
+using System.Data.Sql;
+using Data;
+using Data.Entity;
 
 namespace oprForm
 {
     public partial class PlannedEventsForm : Form
     {
-        private DBManager db = new DBManager();
-        private int user;
+        DBManager db = new DBManager();
+        int user;
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -29,7 +37,9 @@ namespace oprForm
                 events.Add(EventTemplateMapper.Map(row));
             }
 
+
             eventsLB.Items.AddRange(events.ToArray());
+
 
             issuesCB.Items.Clear();
             var iss = db.GetRows("issues", "*", "");
@@ -44,7 +54,7 @@ namespace oprForm
 
             var res = db.GetRows("resource", "*", "");
             var resources = new List<Resource>();
-            foreach (var row in res)
+            foreach(var row in res)
             {
                 resources.Add(ResourceMapper.Map(row));
             }
@@ -58,14 +68,13 @@ namespace oprForm
             Event ev = eventsLB.SelectedItem as Event;
 
             db.Connect();
-            int templateId = ev.id;
             string evName = DBUtil.AddQuotes(evNameTB.Text);
             string evDesc = DBUtil.AddQuotes(descTB.Text);
 
-            string[] evFields = new string[] { "name", "description", "template_id", "id_of_user", "issue_id" };
+            string[] evFields = new string[] { "name", "description",  "id_of_user", "issue_id" };
 
             string issueId = (issuesCB.SelectedItem as Issue).id.ToString();
-            string[] evValues = new string[] { evName, evDesc, templateId.ToString(), user.ToString(), issueId };
+            string[] evValues = new string[] { evName, evDesc, user.ToString(), issueId };
 
             int evId = db.InsertToBD("event", evFields, evValues);
 
@@ -73,7 +82,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = row.Cells[0].Value as Resource;
+                    var res = row.Cells[0].Value as Resource;
                     string desc = "";
                     string value = "";
                     if (row.Cells[descCol].Value != null)
@@ -88,6 +97,8 @@ namespace oprForm
                 }
             }
             db.Disconnect();
+
+            MessageBox.Show("Захід " + evNameTB.Text + " додано.");
         }
 
         private void eventsLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -128,7 +139,7 @@ namespace oprForm
         {
             if (eventListGrid.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                Resource res = eventListGrid.Rows[e.RowIndex].Cells[0].Value as Resource;
+                var res = eventListGrid.Rows[e.RowIndex].Cells[0].Value as Resource;
                 if (e.ColumnIndex == valueCol)
                 {
                     try
@@ -186,6 +197,7 @@ namespace oprForm
                     events.Add(EventTemplateMapper.Map(row));
                 }
 
+
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -194,13 +206,14 @@ namespace oprForm
                 eventsLB.Items.Clear();
                 PlannedEventsForm_Load(this, e);
             }
+
         }
 
         private void resLB_DoubleClick(object sender, EventArgs e)
         {
             Resource res = resLB.SelectedItem as Resource;
 
-            foreach (DataGridViewRow row in eventListGrid.Rows)
+            foreach(DataGridViewRow row in eventListGrid.Rows)
             {
                 if (row.Cells[0].Value == res)
                     return;

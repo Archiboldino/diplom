@@ -32,6 +32,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.addBtn = new System.Windows.Forms.Button();
             this.eventListGrid = new System.Windows.Forms.DataGridView();
+            this.Resource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descTB = new System.Windows.Forms.TextBox();
             this.evNameTB = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,9 +42,6 @@
             this.issuesCB = new System.Windows.Forms.ComboBox();
             this.onlyExpCB = new System.Windows.Forms.CheckBox();
             this.resLB = new System.Windows.Forms.ListBox();
-            this.Resource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.eventListGrid)).BeginInit();
             this.addGB.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +55,7 @@
             this.eventsLB.Location = new System.Drawing.Point(18, 55);
             this.eventsLB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.eventsLB.Name = "eventsLB";
-            this.eventsLB.Size = new System.Drawing.Size(164, 404);
+            this.eventsLB.Size = new System.Drawing.Size(164, 384);
             this.eventsLB.TabIndex = 0;
             this.eventsLB.SelectedIndexChanged += new System.EventHandler(this.eventsLB_SelectedIndexChanged);
             // 
@@ -95,9 +95,24 @@
             this.eventListGrid.Location = new System.Drawing.Point(183, 52);
             this.eventListGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.eventListGrid.Name = "eventListGrid";
-            this.eventListGrid.Size = new System.Drawing.Size(474, 404);
+            this.eventListGrid.Size = new System.Drawing.Size(509, 391);
             this.eventListGrid.TabIndex = 4;
             this.eventListGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.commitValue);
+            // 
+            // Resource
+            // 
+            this.Resource.HeaderText = "Ресурс";
+            this.Resource.Name = "Resource";
+            // 
+            // Description
+            // 
+            this.Description.HeaderText = "Опис";
+            this.Description.Name = "Description";
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Кількість";
+            this.Value.Name = "Value";
             // 
             // descTB
             // 
@@ -106,7 +121,7 @@
             this.descTB.Location = new System.Drawing.Point(333, 23);
             this.descTB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.descTB.Name = "descTB";
-            this.descTB.Size = new System.Drawing.Size(356, 26);
+            this.descTB.Size = new System.Drawing.Size(391, 26);
             this.descTB.TabIndex = 5;
             this.descTB.Text = "Опис";
             // 
@@ -117,7 +132,7 @@
             this.evNameTB.Location = new System.Drawing.Point(177, 23);
             this.evNameTB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.evNameTB.Name = "evNameTB";
-            this.evNameTB.Size = new System.Drawing.Size(214, 26);
+            this.evNameTB.Size = new System.Drawing.Size(249, 26);
             this.evNameTB.TabIndex = 6;
             this.evNameTB.Text = "Назва заходу";
             // 
@@ -139,12 +154,11 @@
             this.addGB.Controls.Add(this.descTB);
             this.addGB.Controls.Add(this.addBtn);
             this.addGB.Controls.Add(this.evNameTB);
-            this.addGB.Location = new System.Drawing.Point(18, 467);
+            this.addGB.Location = new System.Drawing.Point(18, 454);
             this.addGB.Name = "addGB";
-            this.addGB.Size = new System.Drawing.Size(838, 66);
+            this.addGB.Size = new System.Drawing.Size(873, 66);
             this.addGB.TabIndex = 8;
             this.addGB.TabStop = false;
-            this.addGB.Visible = false;
             // 
             // issuesCB
             // 
@@ -153,7 +167,7 @@
             this.issuesCB.FormattingEnabled = true;
             this.issuesCB.Location = new System.Drawing.Point(630, 23);
             this.issuesCB.Name = "issuesCB";
-            this.issuesCB.Size = new System.Drawing.Size(199, 28);
+            this.issuesCB.Size = new System.Drawing.Size(234, 28);
             this.issuesCB.TabIndex = 7;
             // 
             // onlyExpCB
@@ -169,35 +183,21 @@
             // 
             // resLB
             // 
-            this.resLB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.resLB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.resLB.FormattingEnabled = true;
             this.resLB.ItemHeight = 20;
-            this.resLB.Location = new System.Drawing.Point(664, 52);
+            this.resLB.Location = new System.Drawing.Point(699, 52);
             this.resLB.Name = "resLB";
-            this.resLB.Size = new System.Drawing.Size(192, 404);
+            this.resLB.Size = new System.Drawing.Size(192, 384);
             this.resLB.TabIndex = 10;
             this.resLB.DoubleClick += new System.EventHandler(this.resLB_DoubleClick);
-            // 
-            // Resource
-            // 
-            this.Resource.HeaderText = "Ресурс";
-            this.Resource.Name = "Resource";
-            // 
-            // Description
-            // 
-            this.Description.HeaderText = "Опис";
-            this.Description.Name = "Description";
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Кількість";
-            this.Value.Name = "Value";
             // 
             // PlannedEventsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(868, 547);
+            this.ClientSize = new System.Drawing.Size(903, 534);
             this.Controls.Add(this.resLB);
             this.Controls.Add(this.onlyExpCB);
             this.Controls.Add(this.addGB);

@@ -1,8 +1,14 @@
-﻿using Data;
-using Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Data;
+using Data.Entity;
 
 namespace oprForm
 {
@@ -61,26 +67,29 @@ namespace oprForm
             dateLbl.Text = issue.creationDate.ToString();
         }
 
+        Issue lastSelected;
         private void button1_Click(object sender, EventArgs e)
         {
+            lastSelected = issuesLB.SelectedItem as Issue;
             var form = new AddIssueForm();
             form.ShowDialog(this);
             RefreshIssues();
+            issuesLB.SelectedItem = lastSelected;
         }
 
         private void IssuesForm_Load(object sender, EventArgs e)
         {
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (issuesLB.SelectedItem is Issue)
-            {
-                var form = new AlterIssueForm(issuesLB.SelectedItem as Issue);
-                form.ShowDialog(this);
-                ShowIssue(issuesLB.SelectedItem as Issue);
-                RefreshIssues();
-            }
+            lastSelected = issuesLB.SelectedItem as Issue;
+            var form = new AlterIssueForm(issuesLB.SelectedItem as Issue);
+            form.ShowDialog(this);
+            ShowIssue(issuesLB.SelectedItem as Issue);
+            RefreshIssues();
+            issuesLB.SelectedItem = lastSelected;
         }
     }
 }

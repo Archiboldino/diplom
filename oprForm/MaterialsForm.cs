@@ -3,6 +3,12 @@ using Data.Entity;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
@@ -10,11 +16,11 @@ namespace oprForm
     public partial class MaterialsForm : Form
     {
         private DBManager db = new DBManager();
-        private int nameColIdx = 0;
-        private int priceColIdx = 1;
-        private int unitsColIdx = 2;
-        private int descColIdx = 3;
-        private Resource saved;
+        int nameColIdx = 0;
+        int priceColIdx = 1;
+        int unitsColIdx = 2;
+        int descColIdx = 3;
+        Resource saved;
 
         public MaterialsForm()
         {
@@ -49,7 +55,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = row.Cells[0].Value as Resource;
+                    var res = row.Cells[0].Value as Resource;
                     try
                     {
                         db.Connect();
@@ -70,6 +76,7 @@ namespace oprForm
                     {
                         db.Disconnect();
                     }
+
                 }
             }
         }
@@ -92,7 +99,7 @@ namespace oprForm
             }
             if (resDGV.Rows[e.RowIndex].Cells[0].Value is Resource)
             {
-                Resource res = resDGV.Rows[e.RowIndex].Cells[0].Value as Resource;
+                var res = resDGV.Rows[e.RowIndex].Cells[0].Value as Resource;
                 if (e.ColumnIndex == descColIdx)
                 {
                     var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
@@ -108,10 +115,11 @@ namespace oprForm
                     var val = resDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                     try
                     {
-                        res.price = Int32.Parse(val);
+                        res.price = Double.Parse(val);
                     }
                     catch
                     {
+
                         MessageBox.Show("Введіть число.");
                     }
                 }
@@ -142,7 +150,7 @@ namespace oprForm
             {
                 if (row.Cells[0].Value is Resource)
                 {
-                    Resource res = row.Cells[0].Value as Resource;
+                    var res = row.Cells[0].Value as Resource;
                     db.Connect();
 
                     string[] cols = { "resource_id", "name", "description", "units", "price" };

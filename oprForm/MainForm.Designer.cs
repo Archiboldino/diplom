@@ -66,8 +66,8 @@
             // переглядПроблемToolStripMenuItem
             // 
             this.переглядПроблемToolStripMenuItem.Name = "переглядПроблемToolStripMenuItem";
-            this.переглядПроблемToolStripMenuItem.Size = new System.Drawing.Size(110, 29);
-            this.переглядПроблемToolStripMenuItem.Text = "Проблеми";
+            this.переглядПроблемToolStripMenuItem.Size = new System.Drawing.Size(76, 29);
+            this.переглядПроблемToolStripMenuItem.Text = "Задачі";
             this.переглядПроблемToolStripMenuItem.Click += new System.EventHandler(this.переглядПроблемToolStripMenuItem_Click);
             // 
             // ресурсиToolStripMenuItem

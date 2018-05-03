@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Data.Entity
 {
@@ -18,7 +21,6 @@ namespace Data.Entity
             return name;
         }
     }
-
     public class EventMapper
     {
         public static Event Map(List<Object> row)
@@ -28,11 +30,10 @@ namespace Data.Entity
                 id = Int32.Parse(row[0].ToString()),
                 name = row[1].ToString(),
                 description = row[2].ToString(),
-                // Template id
-                lawyerVer = row[4]?.ToString(),
-                dmVer = row[5]?.ToString(),
-                userId = row[6].ToString().Length != 0 ? Int32.Parse(row[6].ToString()) : -1,
-                issueId = row[7].ToString().Length != 0 ? Int32.Parse(row[7].ToString()) : -1
+                lawyerVer = row[3]?.ToString(),
+                dmVer = row[4]?.ToString(),
+                userId = row[5].ToString().Length != 0 ? Int32.Parse(row[5].ToString()) : -1,
+                issueId = row[6].ToString().Length != 0 ? Int32.Parse(row[6].ToString()) : -1
             };
 
             return e;
