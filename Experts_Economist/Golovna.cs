@@ -34,8 +34,8 @@ namespace Experts_Economist
             }
             if (MapMDIChild == null)
             {
-                MapMDIChild = new Map(id_of_exp);
-                //MapMDIChild.id_of_exp = id_of_exp;
+                MapMDIChild = new Map();
+                MapMDIChild.id_of_exp = id_of_exp;
                 MapMDIChild.MdiParent = this;
                 MapMDIChild.Show();
                 MapMDIChild.FormClosed += MapMDIChild_FormClosed;

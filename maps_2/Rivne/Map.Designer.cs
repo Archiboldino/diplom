@@ -40,6 +40,8 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnFromDB = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
@@ -51,9 +53,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.cbCalc = new System.Windows.Forms.ComboBox();
             this.lbCalculation = new System.Windows.Forms.Label();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.cbParams = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -160,6 +160,18 @@
             this.dataGridView1.Size = new System.Drawing.Size(253, 161);
             this.dataGridView1.TabIndex = 37;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "lattitude";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "langitude";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
             // btnSave
             // 
             this.btnSave.Enabled = false;
@@ -173,7 +185,7 @@
             // 
             // btnFromDB
             // 
-            this.btnFromDB.Location = new System.Drawing.Point(1108, 116);
+            this.btnFromDB.Location = new System.Drawing.Point(1105, 103);
             this.btnFromDB.Name = "btnFromDB";
             this.btnFromDB.Size = new System.Drawing.Size(247, 23);
             this.btnFromDB.TabIndex = 40;
@@ -260,6 +272,7 @@
             this.cbCalc.Name = "cbCalc";
             this.cbCalc.Size = new System.Drawing.Size(250, 21);
             this.cbCalc.TabIndex = 48;
+            this.cbCalc.SelectedIndexChanged += new System.EventHandler(this.cbCalc_SelectedIndexChanged);
             // 
             // lbCalculation
             // 
@@ -270,25 +283,14 @@
             this.lbCalculation.TabIndex = 49;
             this.lbCalculation.Text = "Оберіть серію розрахунків";
             // 
-            // Column1
+            // cbParams
             // 
-            this.Column1.HeaderText = "lattitude";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "langitude";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(1105, 76);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(250, 21);
-            this.comboBox3.TabIndex = 52;
+            this.cbParams.Enabled = false;
+            this.cbParams.FormattingEnabled = true;
+            this.cbParams.Location = new System.Drawing.Point(1105, 76);
+            this.cbParams.Name = "cbParams";
+            this.cbParams.Size = new System.Drawing.Size(250, 21);
+            this.cbParams.TabIndex = 52;
             // 
             // label1
             // 
@@ -306,7 +308,7 @@
             this.ClientSize = new System.Drawing.Size(1370, 561);
             this.ContextMenuStrip = this.contextMenuStrip2;
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.cbParams);
             this.Controls.Add(this.lbCalculation);
             this.Controls.Add(this.cbCalc);
             this.Controls.Add(this.button3);
@@ -358,7 +360,7 @@
         private System.Windows.Forms.Label lbCalculation;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cbParams;
         private System.Windows.Forms.Label label1;
     }
 }

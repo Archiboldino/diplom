@@ -69,11 +69,11 @@ namespace Odessa
 
         //сохраняет координаты из грида в таблицы БД
         //необходимо передавать параметр calculation_description_number
-        public void SaveToDB(string id_calc, string id_expert, DataGridView points_grid)
+        public void SaveToDB(string id_calc, string id_formula, string id_expert, DataGridView points_grid)
         {
             int maXNum;
             //get the max poligon id0
-            var res_points = db.GetRows("poligon", "max(Id_of_poligon)", "id_of_expert=" + id_expert);
+            var res_points = db.GetRows("poligon", "max(Id_of_poligon)", "");
             if (res_points[0][0] is DBNull)
                 maXNum = 1;
             else
@@ -81,7 +81,7 @@ namespace Odessa
 
             string[] fields = { "Id_of_poligon","brush_color_r", "bruch_color_g", "brush_color_b", "brush_alfa", "line_collor_r", "line_color_g", "line_color_b",
                 "line_alfa", "line_thickness", "name","id_of_expert"};
-            string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'", "0" };
+            string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'",id_expert };
             db.InsertToBD("poligon", fields, val);
             //points
             string[] fields_1 = { "longitude", "latitude", "Id_of_poligon", "`order`" };
@@ -92,8 +92,8 @@ namespace Odessa
                 db.InsertToBD("point_poligon", fields_1, va1);
             }
 
-            string[] fields2 = { "id_poligon", "calculations_description_number" };
-            string[] val2 = { Convert.ToString(maXNum), id_calc };
+            string[] fields2 = { "id_poligon", "calculations_description_number","id_of_formula" };
+            string[] val2 = { Convert.ToString(maXNum), id_calc,id_formula };
             db.InsertToBD("poligon_calculations_description", fields2, val2);
         }
 
@@ -135,32 +135,44 @@ namespace Odessa
             return area1;
         }
 
-        //отрисовка полигона по данным из таблицы (необходимо передавать параметр calculation_description_number)
-        public void highlight_polygon_from_table(string calc_id, string param_id, int zoom)
-        {
-            var res_points = db.GetRows("point_poligon,poligon_calculations_description", "longitude, latitude",
-                "poligon_calculations_description.calculations_description_number=" + calc_id +
-                " and  point_poligon.Id_of_poligon=poligon_calculations_description.id_poligon");
 
-            GMapOverlay polyOverlay = new GMapOverlay("polygons");
-            List<PointLatLng> points = new List<PointLatLng>();
-            for (int i = 0; i < res_points.Count; i++)
+        //функция поставить точку наблюдения и указать ее тип
+
+
+        //отрисовка полигона по данным из таблицы (необходимо передавать параметр calculation_description_number)
+        //int expert_id код эксперта для которго рисуем, int param_id - параметр для которого рисуем
+        //+функция которая рисует все полигоны для экспетра по всем параметрам
+        public void highlight_polygon_from_table(string calc_id, string param_id, int zoom, int expert_id)
+        {
+            //очищать полигон перед отрисовкой
+            //!!!
+            var res_points = db.GetRows("point_poligon,poligon_calculations_description", "longitude, latitude, `order`",
+                "poligon_calculations_description.calculations_description_number=" + calc_id +
+                " and  point_poligon.Id_of_poligon=poligon_calculations_description.id_poligon and poligon_calculations_description.id_of_formula="+param_id+" order by `order`");
+            if (res_points.Count > 0)
             {
-                points.Add(new PointLatLng(Convert.ToDouble(res_points[i][0]),
-                                            Convert.ToDouble(res_points[i][1])));
+                GMapOverlay polyOverlay = new GMapOverlay("polygons");
+                List<PointLatLng> points = new List<PointLatLng>();
+                for (int i = 0; i < res_points.Count; i++)
+                {
+                    points.Add(new PointLatLng(Convert.ToDouble(res_points[i][0]),
+                                                Convert.ToDouble(res_points[i][1])));
+                }
+                //name of poligon references from params and calc_description
+                GMapPolygon polygon = new GMapPolygon(points, "mypolygon");
+                polygon.Tag = param_id;
+                polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
+                polygon.Stroke = new Pen(Color.Red, 1);
+                polyOverlay.Polygons.Add(polygon);
+                // return polyOverlay;
+                gMapControl.Overlays.Add(polyOverlay);
+                zoom += 1;
+                gMapControl.Zoom = zoom;
+                zoom -= 1;
+                gMapControl.Zoom = zoom;
             }
-            //name of poligon references from params and calc_description
-            GMapPolygon polygon = new GMapPolygon(points, "mypolygon");
-            polygon.Tag = param_id;
-            polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
-            polygon.Stroke = new Pen(Color.Red, 1);
-            polyOverlay.Polygons.Add(polygon);
-            // return polyOverlay;
-            gMapControl.Overlays.Add(polyOverlay);
-            zoom += 1;
-            gMapControl.Zoom = zoom;
-            zoom -= 1;
-            gMapControl.Zoom = zoom;
+            else
+                MessageBox.Show("Для обраної серії розрахунків та параметру відсутня інформація про зони забруднення!");
         }
 
         public void load_map(int zoom)//прогрузка карты
@@ -244,7 +256,7 @@ namespace Odessa
         }
 
         public void start_write() //начало записи
-        {
+         {
             gMapControl.Overlays.Clear();
         }
 
@@ -275,6 +287,23 @@ namespace Odessa
             markersOverlay.Markers.Add(marker);
             gMapControl.Overlays.Add(markersOverlay);
         }
+        //заполнение формулами 
+        public void FillFormulas (int id_expert, ComboBox cbForm)
+        {
+            //List<Formula> formulas = new List<Formula>();
+           
+            // cbForm.Items.Add("LOL");
+            var formulas = db.GetRows("FORMULAS", "description_of_formula",
+               "id_of_expert=" + id_expert +
+               "");
+
+            
+            for (int i = 0; i < formulas.Count; i++)
+            {
+                cbForm.Items.Add(Convert.ToString(formulas[i][0])) ;
+            }
+
+        }
 
         public void Try1(DataGridView points_grid, double lat, double lng, int zoom) //ставим точки по двойному нажатию мыши
         {
@@ -303,4 +332,6 @@ namespace Odessa
             gMapControl.Zoom = zoom;
         }
     }
+
+
 }
