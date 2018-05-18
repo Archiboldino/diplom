@@ -220,6 +220,9 @@ namespace Experts_Economist
                 MessageBox.Show("Один чи декілька параметрів було введено неправильно");
                 return;
             }
+            #region formulas
+
+
             switch (idf)//свитч для подсчета формул, общий вид - несколько параметров беруться из ячеек таблицы и потом передаются в функцию подсчета класс Calculation, потом добавляем в таблицу строку с результатом
             {
                 case 1:
@@ -778,6 +781,7 @@ namespace Experts_Economist
                         break;
                     }
             }
+            #endregion
 
             //проверка введён ли корректный номер расчётной серии
             if (calc_numbCB.Text == "" || calc_numbCB.Text == "0")
@@ -787,6 +791,13 @@ namespace Experts_Economist
                     calc_numbCB.Text = "1";
                 else
                     calc_numbCB.Text = (Convert.ToInt32(obj2[0][0]) + 1).ToString();
+            }
+
+            if (name_of_seriesCB.Text == "")
+            {
+                MessageBox.Show("Введіть ім'я для серії");
+                help = false;
+                return;
             }
 
             //создаём переменные для хранения номера расчётной серии, времени расчёта, id формулы и результата и записываем это всё в БД
@@ -807,11 +818,23 @@ namespace Experts_Economist
             {
                 db.InsertToBD("calculations_result", fields5, values5);
             }
-            catch (MySqlException)// ловим эксепшн mysql если идёт дупликация ключа
+            catch (MySqlException ex)// ловим эксепшн mysql если идёт дупликация ключа
             {
-                MessageBox.Show("Ця формула вже була розрахована у данній серії \nЗмінити ці значення ви можете у вкладці 'Перегляд результатів' ");
-                help = false;
-                return;
+                //MYSQL_DUPLICATE_PK = 1062;
+                if (ex.Number== 1062)
+                {
+                    MessageBox.Show("Ця формула вже була розрахована у данній серії \nЗмінити ці значення ви можете у вкладці 'Перегляд результатів' ");
+                    help = false;
+                    return;
+                }
+                else if(ex.Number==1452)
+                {
+                    MessageBox.Show("Серія з таким ім'ям вже існує, виберіть її з списку серій");
+                    help = false;
+                    return;
+                }
+                else
+                    throw ex;
             }
             // по аналогии с функцие записи результатов формулы записываем значения параметров в БД
             // для формул с сумой записываем по другому алгоритму
@@ -903,7 +926,7 @@ namespace Experts_Economist
         //та же самая проверка только для второй колонке таблицы - колонки значений компонентов
         private void Column2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '-'))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ',') && (e.KeyChar != '-') && (e.KeyChar != ' '))
             {
                 e.Handled = true;
             }

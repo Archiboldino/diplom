@@ -277,6 +277,9 @@ namespace Experts_Economist
                     db.DeleteFromDB("parameters_value", fields3_2, values3_2);
                 }
                 //обновляем таблицу и список расчётов
+
+
+
                 get_values();
                 calc_numbCB.SelectedItem = idc;
             }

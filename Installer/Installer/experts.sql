@@ -45,6 +45,7 @@ CREATE TABLE `calculations_description` (
 
 LOCK TABLES `calculations_description` WRITE;
 /*!40000 ALTER TABLE `calculations_description` DISABLE KEYS */;
+INSERT INTO `calculations_description` VALUES (1,'a1','b1',12,1),(1,'Княжичі (медик)','b3',12,3),(2,'Княжичі (економіст)','тестетс',12,1),(2,'a31','b31',12,3);
 /*!40000 ALTER TABLE `calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,6 +77,7 @@ CREATE TABLE `calculations_result` (
 
 LOCK TABLES `calculations_result` WRITE;
 /*!40000 ALTER TABLE `calculations_result` DISABLE KEYS */;
+INSERT INTO `calculations_result` VALUES (1,'2018-05-09 17:09:29',1,0,1),(1,'2018-05-09 17:04:51',6,12,3),(2,'2018-05-10 16:22:03',7,1189760.4,1),(2,'2018-05-04 13:32:54',15,9,1),(2,'2018-05-09 17:04:51',16,0,1);
 /*!40000 ALTER TABLE `calculations_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,19 +92,16 @@ CREATE TABLE `event` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
-  `template_id` int(11) DEFAULT NULL,
   `lawyer_vefirication` tinyint(4) DEFAULT NULL,
   `dm_verification` tinyint(4) DEFAULT NULL,
   `id_of_user` int(11) DEFAULT NULL,
   `issue_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`event_id`),
-  KEY `template_id` (`template_id`),
   KEY `userid_fk_idx` (`id_of_user`),
   KEY `issue_id_fk_idx` (`issue_id`),
   CONSTRAINT `issue_id_fk` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `userid_fk` FOREIGN KEY (`id_of_user`) REFERENCES `user` (`id_of_user`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  CONSTRAINT `userid_fk` FOREIGN KEY (`id_of_user`) REFERENCES `user` (`id_of_user`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,6 +110,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
+INSERT INTO `event` VALUES (1,'Zahid','zag',NULL,NULL,5,12);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,6 +164,7 @@ CREATE TABLE `event_resource` (
 
 LOCK TABLES `event_resource` WRITE;
 /*!40000 ALTER TABLE `event_resource` DISABLE KEYS */;
+INSERT INTO `event_resource` VALUES (4,1,200,'na lechenie');
 /*!40000 ALTER TABLE `event_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +183,7 @@ CREATE TABLE `event_template` (
   PRIMARY KEY (`template_id`),
   KEY `expert_id_fk_idx` (`expert_id`),
   CONSTRAINT `expert_id_fk` FOREIGN KEY (`expert_id`) REFERENCES `expert` (`id_of_expert`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -353,7 +354,6 @@ CREATE TABLE `parameters_value` (
   KEY `fk_paramater2_id_idx` (`id_of_parameter`),
   KEY `fk_id_of_exp_par_val_idx` (`id_of_expert`),
   KEY `fk_id_of_formula_formulas_idx` (`id_of_formula`),
-  CONSTRAINT `fk_calc_numb_calc_res` FOREIGN KEY (`calculation_number`) REFERENCES `calculations_result` (`calculation_number`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_of_exp_par_val` FOREIGN KEY (`id_of_expert`) REFERENCES `expert` (`id_of_expert`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_of_form_formulas_parameter_value` FOREIGN KEY (`id_of_formula`) REFERENCES `formulas` (`id_of_formula`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_paramater2_id` FOREIGN KEY (`id_of_parameter`) REFERENCES `formula_parameters` (`id_of_parameter`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -366,6 +366,7 @@ CREATE TABLE `parameters_value` (
 
 LOCK TABLES `parameters_value` WRITE;
 /*!40000 ALTER TABLE `parameters_value` DISABLE KEYS */;
+INSERT INTO `parameters_value` VALUES (1,1,0,0,1,1),(1,2,0,0,1,1),(1,3,0,0,1,1),(1,12,4,0,3,6),(1,13,4,0,3,6),(1,14,3,0,3,6),(1,15,3,0,3,6),(2,0,2,0,1,15),(2,0,2,0,1,16),(2,23,1,1,1,15),(2,23,3,2,1,15),(2,23,0,1,1,16),(2,23,0,2,1,16),(2,25,2,1,1,15),(2,25,4,2,1,15),(2,25,0,1,1,16),(2,25,0,2,1,16),(2,28,5,0,1,15),(2,28,0,0,1,16),(2,85,2920920,0,1,7),(2,86,0.02,0,1,7),(2,87,18,0,1,7),(2,88,65,0,1,7),(2,89,0.17,0,1,7);
 /*!40000 ALTER TABLE `parameters_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -391,7 +392,7 @@ CREATE TABLE `point_poligon` (
 
 LOCK TABLES `point_poligon` WRITE;
 /*!40000 ALTER TABLE `point_poligon` DISABLE KEYS */;
-INSERT INTO `point_poligon` VALUES (48.86101531982422,2.3300299644470215,1,2),(48.86372756958008,2.3319180011749268,1,3),(48.863868713378906,2.321553945541382,1,1),(48.86638259887695,2.323575019836426,1,0);
+INSERT INTO `point_poligon` VALUES (48.0633965377621,34.12353515625,5,3),(48.2539411446343,33.310546875,5,1),(48.5747899109288,34.365234375,5,2),(48.86101531982422,2.3300299644470215,1,2),(48.86372756958008,2.3319180011749268,1,3),(48.863868713378906,2.321553945541382,1,1),(48.86638259887695,2.323575019836426,1,0),(49.1242192485914,35.859375,7,2),(49.6320619412871,32.1240234375,4,6),(49.7031677201799,31.376953125,3,3),(49.7031677201799,31.376953125,4,3),(49.9441503516455,30.838623046875,3,2),(49.9441503516455,30.838623046875,4,2),(50.0006777572363,30.574951171875,2,3),(50.0077390146369,33.5302734375,7,3),(50.2261237443714,32.54150390625,4,5),(50.2612538275847,30.157470703125,2,4),(50.3594803462987,31.871337890625,3,4),(50.3594803462987,31.871337890625,4,4),(50.3664887627383,31.26708984375,3,1),(50.3664887627383,31.26708984375,4,1),(50.3857565720208,30.8866882324219,6,3),(50.3896967507881,30.9574127197266,6,1),(50.40895513434,30.8853149414063,6,2),(50.6111317133236,31.17919921875,2,2),(50.6250730634143,34.2333984375,7,1),(50.6390102812587,30.16845703125,2,1);
 /*!40000 ALTER TABLE `point_poligon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -427,7 +428,7 @@ CREATE TABLE `poligon` (
 
 LOCK TABLES `poligon` WRITE;
 /*!40000 ALTER TABLE `poligon` DISABLE KEYS */;
-INSERT INTO `poligon` VALUES (1,255,10,10,100,255,255,255,255,1,'one',0);
+INSERT INTO `poligon` VALUES (1,255,10,10,100,255,255,255,255,1,'one',0),(2,250,250,250,250,0,250,2,21,2,'Test1',1),(3,250,250,250,250,0,250,2,21,2,'Test1',1),(4,250,250,250,250,0,250,2,21,2,'Test1',1),(5,250,250,250,250,0,250,2,21,2,'Test1',1),(6,250,250,250,250,0,250,2,21,2,'Test1',3),(7,250,250,250,250,0,250,2,21,2,'Test1',3);
 /*!40000 ALTER TABLE `poligon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -455,6 +456,7 @@ CREATE TABLE `poligon_calculations_description` (
 
 LOCK TABLES `poligon_calculations_description` WRITE;
 /*!40000 ALTER TABLE `poligon_calculations_description` DISABLE KEYS */;
+INSERT INTO `poligon_calculations_description` VALUES (2,2,15),(3,2,16),(4,2,15),(5,1,1),(6,2,0),(7,1,6);
 /*!40000 ALTER TABLE `poligon_calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,6 +471,8 @@ CREATE TABLE `resource` (
   `resource_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
+  `units` varchar(100) DEFAULT NULL,
+  `price` double DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -479,7 +483,7 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (4,'Гроші','Гривні');
+INSERT INTO `resource` VALUES (4,'Гроші','Гривні','грн',1);
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -495,8 +499,8 @@ CREATE TABLE `template_resource` (
   `template_id` int(11) NOT NULL,
   PRIMARY KEY (`resource_id`,`template_id`),
   KEY `template_resource_ibfk_2_idx` (`template_id`),
-  CONSTRAINT `template_resource_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`),
-  CONSTRAINT `template_resource_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`)
+  CONSTRAINT `template_resource_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`resource_id`),
+  CONSTRAINT `template_resource_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `event_template` (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -546,4 +550,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-19 13:18:05
+-- Dump completed on 2018-05-18 14:18:58
