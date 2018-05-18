@@ -10,9 +10,9 @@ namespace Odessa
         private ClassMap m; //object for work with maps
         public int id_of_exp;
         private DBManager db = new DBManager();
-        List<List<Object>> list_calc;
-        List<List<Object>> list_params;
-        bool start_draw = false;
+        private List<List<Object>> list_calc;
+        private List<List<Object>> list_params;
+        private bool start_draw = false;
 
         public Map()
         {
@@ -21,7 +21,7 @@ namespace Odessa
 
         private void gMapControl_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left&&start_draw)
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && start_draw)
             {
                 double lat = gMapControl.FromLocalToLatLng(e.X, e.Y).Lat;
                 double lng = gMapControl.FromLocalToLatLng(e.X, e.Y).Lng;
@@ -31,10 +31,10 @@ namespace Odessa
 
         private void button7_Click_1(object sender, EventArgs e)
         {
-           if(cbParams.SelectedIndex>=0)
-            m.SaveToDB(list_calc[cbCalc.SelectedIndex][1].ToString(),
-                 list_params[cbParams.SelectedIndex][0].ToString(), id_of_exp.ToString(), dataGridView1);
-           else
+            if (cbParams.SelectedIndex >= 0)
+                m.SaveToDB(list_calc[cbCalc.SelectedIndex][1].ToString(),
+                     list_params[cbParams.SelectedIndex][0].ToString(), id_of_exp.ToString(), dataGridView1);
+            else
                 m.SaveToDB(list_calc[cbCalc.SelectedIndex][1].ToString(),
                                  "0", id_of_exp.ToString(), dataGridView1);
             //first param "1" - параметр calculation_description_number, который необходимо передать для сохранения в базу данных
@@ -60,7 +60,7 @@ namespace Odessa
                  Convert.ToInt16(gMapControl.Zoom.ToString()), id_of_exp);
             else
                 MessageBox.Show("Оберіть серію розрахунків!");
-         //"1" - параметр calculation_description_number, который необходимо передать
+            //"1" - параметр calculation_description_number, который необходимо передать
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -106,7 +106,6 @@ namespace Odessa
                 btnEndPoint.Enabled = false;
             }
         }
-            
 
         private void Map_Load(object sender, EventArgs e)
         {
@@ -117,11 +116,10 @@ namespace Odessa
             m.FillFormulas(id_of_exp, cbCalc);
 
             //заполнить существующие серии расчетов
-            list_calc = db.GetRows("calculations_description", "calculation_name, calculation_number", "id_of_expert="+ id_of_exp.ToString());
+            list_calc = db.GetRows("calculations_description", "calculation_name, calculation_number", "id_of_expert=" + id_of_exp.ToString());
             cbCalc.Items.Clear();
             for (int i = 0; i < list_calc.Count; i++)
                 cbCalc.Items.Add(list_calc[i][0].ToString());
-           
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -141,14 +139,14 @@ namespace Odessa
 
         private void cbCalc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbCalc.SelectedIndex>=0)
-                {
+            if (cbCalc.SelectedIndex >= 0)
+            {
                 //заполнить существующие серии params of description
-                string condition = "calculations_description.calculation_name ='" + cbCalc.Text + 
-                    "' and calculations_description.id_of_expert = " + id_of_exp.ToString()+
+                string condition = "calculations_description.calculation_name ='" + cbCalc.Text +
+                    "' and calculations_description.id_of_expert = " + id_of_exp.ToString() +
                     " and calculations_description.calculation_number = calculations_result.calculation_number and " +
-                    " calculations_result.id_of_expert = "+ id_of_exp.ToString()+
-                    " and formulas.id_of_formula = calculations_result.id_of_formula and formulas.id_of_expert="+ id_of_exp.ToString();
+                    " calculations_result.id_of_expert = " + id_of_exp.ToString() +
+                    " and formulas.id_of_formula = calculations_result.id_of_formula and formulas.id_of_expert=" + id_of_exp.ToString();
                 list_params = db.GetRows("calculations_description, calculations_result, formulas",
                     "formulas.id_of_formula, name_of_formula, description_of_formula, measurement_of_formula, result", condition);
                 cbParams.Items.Clear();
@@ -158,7 +156,7 @@ namespace Odessa
                         cbParams.Items.Add(list_params[i][2].ToString() + "(" + list_params[i][1].ToString() + ")");
                     cbParams.Enabled = true;
                 }
-                }
+            }
         }
     }
 }

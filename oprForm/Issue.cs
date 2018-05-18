@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Entity
 {
@@ -38,10 +35,10 @@ namespace Data.Entity
         }
     }
 
-	public class IssueMapper 
-	{
-		public static Issue Map(List<Object> row)
-		{
+    public class IssueMapper
+    {
+        public static Issue Map(List<Object> row)
+        {
             var i = new Issue(Int32.Parse(row[0].ToString()))
             {
                 name = row[1].ToString(),
@@ -50,6 +47,6 @@ namespace Data.Entity
             };
 
             return i;
-		}
-	}
+        }
+    }
 }

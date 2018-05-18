@@ -81,7 +81,7 @@ namespace Odessa
 
             string[] fields = { "Id_of_poligon","brush_color_r", "bruch_color_g", "brush_color_b", "brush_alfa", "line_collor_r", "line_color_g", "line_color_b",
                 "line_alfa", "line_thickness", "name","id_of_expert"};
-            string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'",id_expert };
+            string[] val = { Convert.ToString(maXNum), "250", "250", "250", "250", "0", "250", "2", "21", "2", "'Test1'", id_expert };
             db.InsertToBD("poligon", fields, val);
             //points
             string[] fields_1 = { "longitude", "latitude", "Id_of_poligon", "`order`" };
@@ -92,8 +92,8 @@ namespace Odessa
                 db.InsertToBD("point_poligon", fields_1, va1);
             }
 
-            string[] fields2 = { "id_poligon", "calculations_description_number","id_of_formula" };
-            string[] val2 = { Convert.ToString(maXNum), id_calc,id_formula };
+            string[] fields2 = { "id_poligon", "calculations_description_number", "id_of_formula" };
+            string[] val2 = { Convert.ToString(maXNum), id_calc, id_formula };
             db.InsertToBD("poligon_calculations_description", fields2, val2);
         }
 
@@ -135,9 +135,7 @@ namespace Odessa
             return area1;
         }
 
-
         //функция поставить точку наблюдения и указать ее тип
-
 
         //отрисовка полигона по данным из таблицы (необходимо передавать параметр calculation_description_number)
         //int expert_id код эксперта для которго рисуем, int param_id - параметр для которого рисуем
@@ -148,7 +146,7 @@ namespace Odessa
             //!!!
             var res_points = db.GetRows("point_poligon,poligon_calculations_description", "longitude, latitude, `order`",
                 "poligon_calculations_description.calculations_description_number=" + calc_id +
-                " and  point_poligon.Id_of_poligon=poligon_calculations_description.id_poligon and poligon_calculations_description.id_of_formula="+param_id+" order by `order`");
+                " and  point_poligon.Id_of_poligon=poligon_calculations_description.id_poligon and poligon_calculations_description.id_of_formula=" + param_id + " order by `order`");
             if (res_points.Count > 0)
             {
                 GMapOverlay polyOverlay = new GMapOverlay("polygons");
@@ -256,7 +254,7 @@ namespace Odessa
         }
 
         public void start_write() //начало записи
-         {
+        {
             gMapControl.Overlays.Clear();
         }
 
@@ -287,22 +285,21 @@ namespace Odessa
             markersOverlay.Markers.Add(marker);
             gMapControl.Overlays.Add(markersOverlay);
         }
-        //заполнение формулами 
-        public void FillFormulas (int id_expert, ComboBox cbForm)
+
+        //заполнение формулами
+        public void FillFormulas(int id_expert, ComboBox cbForm)
         {
             //List<Formula> formulas = new List<Formula>();
-           
+
             // cbForm.Items.Add("LOL");
             var formulas = db.GetRows("FORMULAS", "description_of_formula",
                "id_of_expert=" + id_expert +
                "");
 
-            
             for (int i = 0; i < formulas.Count; i++)
             {
-                cbForm.Items.Add(Convert.ToString(formulas[i][0])) ;
+                cbForm.Items.Add(Convert.ToString(formulas[i][0]));
             }
-
         }
 
         public void Try1(DataGridView points_grid, double lat, double lng, int zoom) //ставим точки по двойному нажатию мыши
@@ -332,6 +329,4 @@ namespace Odessa
             gMapControl.Zoom = zoom;
         }
     }
-
-
 }

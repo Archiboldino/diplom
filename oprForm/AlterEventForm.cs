@@ -2,19 +2,13 @@
 using Data.Entity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class AlterEventForm : Form
     {
-        DBManager db = new DBManager();
+        private DBManager db = new DBManager();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -56,7 +50,6 @@ namespace oprForm
             {
                 events.Add(EventMapper.Map(row));
             }
-
 
             eventsLB.Items.AddRange(events.ToArray());
         }
@@ -174,14 +167,13 @@ namespace oprForm
                 db.Disconnect();
                 eventListGrid.Rows.Clear();
             }
-
         }
 
         private void addBtn_Click(object sender, EventArgs e)
         {
             var ev = eventsLB.SelectedItem as Event;
             db.Connect();
-            string[] cols = {"event_id", "name", "description", "issue_id" };
+            string[] cols = { "event_id", "name", "description", "issue_id" };
             string[] values = { ev.id.ToString(), DBUtil.AddQuotes(evNameTB.Text), DBUtil.AddQuotes(descTB.Text), (issuesCB.SelectedItem as Issue).id.ToString() };
 
             db.UpdateRecord("event", cols, values);
@@ -190,7 +182,7 @@ namespace oprForm
             var ress = db.GetRows("event_resource", "resource_id", "event_id=" + ev.id);
 
             //Update resources for event
-            foreach(DataGridViewRow row in eventListGrid.Rows)
+            foreach (DataGridViewRow row in eventListGrid.Rows)
             {
                 var res = row.Cells[0].Value as Resource;
 
@@ -199,7 +191,7 @@ namespace oprForm
 
                 string[] resCols = { "event_id", "value", "description" };
                 string[] resValues = { ev.id + " AND resource_id=" + res.id, res.value.ToString(), DBUtil.AddQuotes(res.description) };
-                if(db.UpdateRecord("event_resource", resCols, resValues) == 0)
+                if (db.UpdateRecord("event_resource", resCols, resValues) == 0)
                 {
                     string[] resColsIns = { "event_id", "resource_id", "value", "description" };
                     string[] resValuesIns = { ev.id.ToString(), res.id.ToString(), res.value.ToString(), DBUtil.AddQuotes(res.description) };
@@ -208,9 +200,9 @@ namespace oprForm
             }
 
             //Delete resources thar are not in grid view
-            foreach(var resId in ress)
+            foreach (var resId in ress)
             {
-                string resCols =  "event_id" ;
+                string resCols = "event_id";
                 string resValues = ev.id + " AND resource_id=" + resId[0].ToString();
 
                 db.DeleteFromDB("event_resource", resCols, resValues);
@@ -218,7 +210,7 @@ namespace oprForm
 
             db.Disconnect();
         }
- 
+
         private void addMaterial(object sender, EventArgs e)
         {
             Resource res = resLB.SelectedItem as Resource;
@@ -229,7 +221,6 @@ namespace oprForm
                     return;
             }
             eventListGrid.Rows.Add(res, res.description);
-
         }
     }
 }

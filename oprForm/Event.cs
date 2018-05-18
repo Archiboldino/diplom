@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Entity
 {
@@ -21,6 +18,7 @@ namespace Data.Entity
             return name;
         }
     }
+
     public class EventMapper
     {
         public static Event Map(List<Object> row)

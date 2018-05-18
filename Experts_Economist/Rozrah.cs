@@ -220,8 +220,8 @@ namespace Experts_Economist
                 MessageBox.Show("Один чи декілька параметрів було введено неправильно");
                 return;
             }
-            #region formulas
 
+            #region formulas
 
             switch (idf)//свитч для подсчета формул, общий вид - несколько параметров беруться из ячеек таблицы и потом передаются в функцию подсчета класс Calculation, потом добавляем в таблицу строку с результатом
             {
@@ -781,7 +781,8 @@ namespace Experts_Economist
                         break;
                     }
             }
-            #endregion
+
+            #endregion formulas
 
             //проверка введён ли корректный номер расчётной серии
             if (calc_numbCB.Text == "" || calc_numbCB.Text == "0")
@@ -821,13 +822,13 @@ namespace Experts_Economist
             catch (MySqlException ex)// ловим эксепшн mysql если идёт дупликация ключа
             {
                 //MYSQL_DUPLICATE_PK = 1062;
-                if (ex.Number== 1062)
+                if (ex.Number == 1062)
                 {
                     MessageBox.Show("Ця формула вже була розрахована у данній серії \nЗмінити ці значення ви можете у вкладці 'Перегляд результатів' ");
                     help = false;
                     return;
                 }
-                else if(ex.Number==1452)
+                else if (ex.Number == 1452)
                 {
                     MessageBox.Show("Серія з таким ім'ям вже існує, виберіть її з списку серій");
                     help = false;
@@ -895,7 +896,7 @@ namespace Experts_Economist
             }
             help = false;
 
-            logTb.Text += formulasLB.SelectedItem.ToString() + " = " + formulasDGV.Rows[formulasDGV.Rows.Count-1].Cells[1].Value.ToString() + "\n";
+            logTb.Text += formulasLB.SelectedItem.ToString() + " = " + formulasDGV.Rows[formulasDGV.Rows.Count - 1].Cells[1].Value.ToString() + "\n";
         }
 
         //событие ведения мышки по списку формул, при наведении на формулу показываем подсказку из БД по формуле
@@ -1040,7 +1041,6 @@ namespace Experts_Economist
         {
             try
             {
-
                 var calc = db.GetRows("calculations_description", "calculation_number", "calculation_name = '" + name_of_seriesCB.Text.Replace('\'', '`') + "' AND id_of_expert = " + id_of_exp);
                 if (calc_numbCB.Text == calc[0][0].ToString())
                 {

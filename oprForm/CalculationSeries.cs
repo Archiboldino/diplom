@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Entity
 {
@@ -29,16 +26,16 @@ namespace Data.Entity
         }
     }
 
-	public class CalculatoinSeriesMapper 
-	{
-		public static CalculationSeries Map(List<Object> row)
-		{
-			var calc = new CalculationSeries();
-			calc.id = Int32.Parse(row[0].ToString());
-			calc.name = row[1].ToString();
-			calc.description = row[2].ToString();
+    public class CalculatoinSeriesMapper
+    {
+        public static CalculationSeries Map(List<Object> row)
+        {
+            var calc = new CalculationSeries();
+            calc.id = Int32.Parse(row[0].ToString());
+            calc.name = row[1].ToString();
+            calc.description = row[2].ToString();
 
-			return calc;
-		}
-	}
+            return calc;
+        }
+    }
 }

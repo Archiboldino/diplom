@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Data;
+﻿using Data;
 using Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace oprForm
 {
     public partial class LookEventsForm : Form
     {
-        DBManager db = new DBManager();
+        private DBManager db = new DBManager();
         private int valueCol = 2;
         private int descCol = 1;
 
@@ -41,7 +37,6 @@ namespace oprForm
             {
                 issues.Add(IssueMapper.Map(row));
             }
-
 
             issuesLB.Items.AddRange(issues.ToArray());
             db.Disconnect();
@@ -148,7 +143,6 @@ namespace oprForm
                     events.Add(EventMapper.Map(row));
                 }
 
-
                 eventsLB.Items.AddRange(events.ToArray());
                 db.Disconnect();
             }
@@ -171,7 +165,6 @@ namespace oprForm
 
         private void approveGB_Enter(object sender, EventArgs e)
         {
-
         }
 
         private void expertsLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -217,7 +210,6 @@ namespace oprForm
 
         private void issuesLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (issuesLB.SelectedItem is Issue)
             {
                 eventsLB.Items.Clear();
@@ -267,9 +259,8 @@ namespace oprForm
                         experts.Add(ExpertMapper.Map(row));
                     }
                     expertsLB.Items.AddRange(experts.ToArray());
-
                 }
-                    db.Disconnect();
+                db.Disconnect();
             }
         }
     }

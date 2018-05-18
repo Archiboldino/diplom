@@ -278,8 +278,6 @@ namespace Experts_Economist
                 }
                 //обновляем таблицу и список расчётов
 
-
-
                 get_values();
                 calc_numbCB.SelectedItem = idc;
             }
@@ -1086,20 +1084,18 @@ namespace Experts_Economist
                 }
                 string[] fields4 = { "calculation_number", "calculation_name", "description_of_calculation", "issue_id" };
                 string[] values4 = { idc + " AND id_of_expert = " + idOfViewedExpert, "'" + name_of_seriesCB.Text.Replace('\'', '`') + "'", "'" + desc_of_seriesTB.Text.Replace('\'', '`') + "'", issueid };
-                db.UpdateRecord("calculations_description ", fields4, values4);//обновляем описание и название серии 
+                db.UpdateRecord("calculations_description ", fields4, values4);//обновляем описание и название серии
             }
             else
             {
                 MessageBox.Show("Ви не можете змінити данні іншого експерта");
             }
-
         }
 
         private bool redakt = true;
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
             if (idOfViewedExpert == id_of_exp)
             {
                 redakt = !redakt;
@@ -1121,7 +1117,7 @@ namespace Experts_Economist
             }
             else
             {
-                    MessageBox.Show("Ви не можете змінювати данні іншого експерта");
+                MessageBox.Show("Ви не можете змінювати данні іншого експерта");
             }
         }
 
@@ -1147,7 +1143,6 @@ namespace Experts_Economist
             {
                 MessageBox.Show("Ви не можете видалити данні іншого експерта");
             }
-
         }
 
         private void Mass_delete_Click(object sender, EventArgs e)
@@ -1174,7 +1169,6 @@ namespace Experts_Economist
             {
                 MessageBox.Show("Ви не можете видалити данні іншого експерта");
             }
-
         }
 
         private void calc_numbCB_TextChanged(object sender, EventArgs e)

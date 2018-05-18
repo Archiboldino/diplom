@@ -3,12 +3,6 @@ using Data.Entity;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
@@ -16,11 +10,11 @@ namespace oprForm
     public partial class MaterialsForm : Form
     {
         private DBManager db = new DBManager();
-        int nameColIdx = 0;
-        int priceColIdx = 1;
-        int unitsColIdx = 2;
-        int descColIdx = 3;
-        Resource saved;
+        private int nameColIdx = 0;
+        private int priceColIdx = 1;
+        private int unitsColIdx = 2;
+        private int descColIdx = 3;
+        private Resource saved;
 
         public MaterialsForm()
         {
@@ -76,7 +70,6 @@ namespace oprForm
                     {
                         db.Disconnect();
                     }
-
                 }
             }
         }
@@ -119,7 +112,6 @@ namespace oprForm
                     }
                     catch
                     {
-
                         MessageBox.Show("Введіть число.");
                     }
                 }

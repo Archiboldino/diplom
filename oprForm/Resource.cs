@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Entity
 {
-	public class Resource
-	{
-		public int id;
-		public string name;
-		public string description;
+    public class Resource
+    {
+        public int id;
+        public string name;
+        public string description;
         public string unit;
         public double price;
-		public int value;
+        public int value;
 
         public override bool Equals(object obj)
         {
@@ -28,23 +25,23 @@ namespace Data.Entity
         }
 
         public override string ToString()
-		{
-			return name;
-		}
-	}
+        {
+            return name;
+        }
+    }
 
-	public class ResourceMapper 
-	{
-		public static Resource Map(List<Object> row)
-		{
-			var r = new Resource();
-			r.id = Int32.Parse(row[0].ToString());
-			r.name = row[1].ToString();
-			r.description = row[2].ToString();
+    public class ResourceMapper
+    {
+        public static Resource Map(List<Object> row)
+        {
+            var r = new Resource();
+            r.id = Int32.Parse(row[0].ToString());
+            r.name = row[1].ToString();
+            r.description = row[2].ToString();
             r.unit = row[3].ToString();
             r.price = Double.Parse(row[4].ToString());
 
-			return r;
-		}
-	}
+            return r;
+        }
+    }
 }

@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Data;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Data;
 
 namespace Experts_Economist
 {

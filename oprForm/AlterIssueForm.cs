@@ -2,12 +2,6 @@
 using Data.Entity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace oprForm
@@ -30,7 +24,6 @@ namespace oprForm
 
             //seriesCB.Items.Add(emptySeries);
             //seriesCB.SelectedIndex = 0; //Bugged
-
 
             // Add all series from db to combo box
             db.Connect();
@@ -69,13 +62,13 @@ namespace oprForm
         {
             item.name = nameTB.Text;
             item.description = descrTB.Text;
-            
+
             db.Connect();
-            string[] cols = { "issue_id", "name", "description"};
+            string[] cols = { "issue_id", "name", "description" };
 
             //int calcSeriesId = (seriesCB.SelectedItem as CalculationSeries).id;
             //string calcSeries = calcSeriesId == -1 ? "null" : calcSeriesId.ToString();
-            string[] values = { item.id.ToString(), DBUtil.AddQuotes(nameTB.Text), DBUtil.AddQuotes(descrTB.Text)};
+            string[] values = { item.id.ToString(), DBUtil.AddQuotes(nameTB.Text), DBUtil.AddQuotes(descrTB.Text) };
 
             db.UpdateRecord("issues", cols, values);
             db.Disconnect();
