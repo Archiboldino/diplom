@@ -14,7 +14,7 @@ namespace Installer
             string connectionString = "";
             bool fine = false;
             string password = "";
-            string username = "expertokot";
+            string username = "test";
             Console.Write("Для створення нового користувача та iмпорту БД\nбудь ласка введiть пароль для користувача root(адмiнiстратор) :");
             while (!fine)
             {
