@@ -59,17 +59,21 @@
             // 
             // nameTB
             // 
+            this.nameTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTB.Location = new System.Drawing.Point(93, 29);
             this.nameTB.Name = "nameTB";
-            this.nameTB.Size = new System.Drawing.Size(434, 26);
+            this.nameTB.Size = new System.Drawing.Size(438, 26);
             this.nameTB.TabIndex = 2;
             // 
             // descTB
             // 
+            this.descTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.descTB.Location = new System.Drawing.Point(93, 61);
             this.descTB.Multiline = true;
             this.descTB.Name = "descTB";
-            this.descTB.Size = new System.Drawing.Size(434, 59);
+            this.descTB.Size = new System.Drawing.Size(438, 59);
             this.descTB.TabIndex = 3;
             // 
             // addBtn
@@ -93,16 +97,20 @@
             // 
             // priceTB
             // 
+            this.priceTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.priceTB.Location = new System.Drawing.Point(93, 158);
             this.priceTB.Name = "priceTB";
-            this.priceTB.Size = new System.Drawing.Size(434, 26);
+            this.priceTB.Size = new System.Drawing.Size(438, 26);
             this.priceTB.TabIndex = 6;
             // 
             // unitsTB
             // 
+            this.unitsTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.unitsTB.Location = new System.Drawing.Point(93, 126);
             this.unitsTB.Name = "unitsTB";
-            this.unitsTB.Size = new System.Drawing.Size(434, 26);
+            this.unitsTB.Size = new System.Drawing.Size(438, 26);
             this.unitsTB.TabIndex = 8;
             // 
             // label4
@@ -118,7 +126,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 274);
+            this.ClientSize = new System.Drawing.Size(543, 268);
             this.Controls.Add(this.unitsTB);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.priceTB);
