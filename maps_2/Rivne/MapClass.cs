@@ -173,7 +173,7 @@ namespace Odessa
                 MessageBox.Show("Для обраної серії розрахунків та параметру відсутня інформація про зони забруднення!");
         }
 
-        public void load_map(int zoom)//прогрузка карты
+        public void load_map(int zoom, string searchWord)//прогрузка карты
         {
             gMapControl.Bearing = 0;
 
@@ -236,7 +236,7 @@ namespace Odessa
             GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials =
                 System.Net.CredentialCache.DefaultCredentials;
 
-            gMapControl.SetPositionByKeywords("Ukraine");
+            gMapControl.SetPositionByKeywords(searchWord);
         }
 
         public void zoom_plus(int zoom) //увеличение масштаба (передает зум)

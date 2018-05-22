@@ -1,15 +1,15 @@
 CREATE DATABASE  IF NOT EXISTS `experts` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `experts`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
 --
--- Host: localhost    Database: experts
+-- Host: 127.0.0.1    Database: experts
 -- ------------------------------------------------------
--- Server version	5.5.59
+-- Server version	8.0.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `experts`;
 
 DROP TABLE IF EXISTS `calculations_description`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `calculations_description` (
   `calculation_number` int(11) NOT NULL,
   `calculation_name` varchar(250) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `calculations_description` (
 
 LOCK TABLES `calculations_description` WRITE;
 /*!40000 ALTER TABLE `calculations_description` DISABLE KEYS */;
-INSERT INTO `calculations_description` VALUES (1,'a1','b1',12,1),(1,'Княжичі (медик)','b3',12,3),(2,'Княжичі (економіст)','тестетс',12,1),(2,'a31','b31',12,3);
+INSERT INTO `calculations_description` VALUES (1,'Княжичі (медик)','b3',12,3),(2,'Княжичі (економіст)','тестетс',12,1),(2,'a31','b31',12,3);
 /*!40000 ALTER TABLE `calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `calculations_result`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `calculations_result` (
   `calculation_number` int(11) NOT NULL,
   `date_of_calculation` datetime DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `calculations_result` (
 
 LOCK TABLES `calculations_result` WRITE;
 /*!40000 ALTER TABLE `calculations_result` DISABLE KEYS */;
-INSERT INTO `calculations_result` VALUES (1,'2018-05-09 17:09:29',1,0,1),(1,'2018-05-09 17:04:51',6,12,3),(2,'2018-05-10 16:22:03',7,1189760.4,1),(2,'2018-05-04 13:32:54',15,9,1),(2,'2018-05-09 17:04:51',16,0,1);
+INSERT INTO `calculations_result` VALUES (2,'2018-05-22 13:32:35',4,5260.18171,1),(2,'2018-05-22 13:34:02',5,4909.67745,1),(2,'2018-05-22 13:35:43',6,7810.884,1),(2,'2018-05-10 16:22:03',7,1189760.4,1);
 /*!40000 ALTER TABLE `calculations_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +87,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `event` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -120,7 +120,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `event_documents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `event_documents` (
   `event_id` int(11) NOT NULL,
   `document_code` varchar(100) NOT NULL,
@@ -145,7 +145,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `event_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `event_resource` (
   `resource_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
@@ -174,7 +174,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `event_template`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `event_template` (
   `template_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -201,7 +201,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `expert`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `expert` (
   `id_of_expert` int(11) NOT NULL,
   `expert_name` varchar(45) DEFAULT NULL,
@@ -225,7 +225,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `formula_compound`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `formula_compound` (
   `id_of_formula` int(11) NOT NULL,
   `id_of_parameter` int(11) NOT NULL,
@@ -234,8 +234,8 @@ CREATE TABLE `formula_compound` (
   KEY `fk_parameter_id_idx` (`id_of_parameter`),
   KEY `formula_compound_expert_id_of_expert_fk` (`id_of_expert`),
   CONSTRAINT `formula_compound_expert_id_of_expert_fk` FOREIGN KEY (`id_of_expert`) REFERENCES `expert` (`id_of_expert`),
-  CONSTRAINT `formula_compound_formulas_id_of_formula_fk` FOREIGN KEY (`id_of_formula`) REFERENCES `formulas` (`id_of_formula`),
-  CONSTRAINT `formula_compound_formula_parameters_id_of_parameter_fk` FOREIGN KEY (`id_of_parameter`) REFERENCES `formula_parameters` (`id_of_parameter`)
+  CONSTRAINT `formula_compound_formula_parameters_id_of_parameter_fk` FOREIGN KEY (`id_of_parameter`) REFERENCES `formula_parameters` (`id_of_parameter`),
+  CONSTRAINT `formula_compound_formulas_id_of_formula_fk` FOREIGN KEY (`id_of_formula`) REFERENCES `formulas` (`id_of_formula`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,7 +255,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `formula_parameters`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `formula_parameters` (
   `id_of_parameter` int(11) NOT NULL AUTO_INCREMENT,
   `name_of_parameter` varchar(45) DEFAULT NULL,
@@ -285,7 +285,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `formulas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `formulas` (
   `id_of_formula` int(11) NOT NULL AUTO_INCREMENT,
   `name_of_formula` varchar(100) DEFAULT NULL,
@@ -315,14 +315,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `issues`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `issues` (
   `issue_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `creation_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`issue_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -331,8 +331,34 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (12,'Княжичі','Забруднення водоймища у с. Княжичі','2018-04-19 08:42:12');
+INSERT INTO `issues` VALUES (12,'Княжичі','Забруднення водоймища у с. Княжичі','2018-04-19 08:42:12'),(13,'test','testdesc','2018-04-20 08:42:12');
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issues_documents`
+--
+
+DROP TABLE IF EXISTS `issues_documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `issues_documents` (
+  `issue_id` int(11) NOT NULL,
+  `document_code` varchar(100) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`issue_id`,`document_code`),
+  CONSTRAINT `issueid_FK` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issues_documents`
+--
+
+LOCK TABLES `issues_documents` WRITE;
+/*!40000 ALTER TABLE `issues_documents` DISABLE KEYS */;
+INSERT INTO `issues_documents` VALUES (12,'d471410','tretret'),(13,'d471411','hjhj');
+/*!40000 ALTER TABLE `issues_documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -341,7 +367,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `parameters_value`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `parameters_value` (
   `calculation_number` int(11) NOT NULL,
   `id_of_parameter` int(11) NOT NULL,
@@ -366,7 +392,7 @@ CREATE TABLE `parameters_value` (
 
 LOCK TABLES `parameters_value` WRITE;
 /*!40000 ALTER TABLE `parameters_value` DISABLE KEYS */;
-INSERT INTO `parameters_value` VALUES (1,1,0,0,1,1),(1,2,0,0,1,1),(1,3,0,0,1,1),(1,12,4,0,3,6),(1,13,4,0,3,6),(1,14,3,0,3,6),(1,15,3,0,3,6),(2,0,2,0,1,15),(2,0,2,0,1,16),(2,23,1,1,1,15),(2,23,3,2,1,15),(2,23,0,1,1,16),(2,23,0,2,1,16),(2,25,2,1,1,15),(2,25,4,2,1,15),(2,25,0,1,1,16),(2,25,0,2,1,16),(2,28,5,0,1,15),(2,28,0,0,1,16),(2,85,2920920,0,1,7),(2,86,0.02,0,1,7),(2,87,18,0,1,7),(2,88,65,0,1,7),(2,89,0.17,0,1,7);
+INSERT INTO `parameters_value` VALUES (1,1,0,0,1,1),(1,2,0,0,1,1),(1,3,0,0,1,1),(1,12,4,0,3,6),(1,13,4,0,3,6),(1,14,3,0,3,6),(1,15,3,0,3,6),(2,0,4,0,1,4),(2,0,4,0,1,5),(2,0,4,0,1,6),(2,11,1.08,1,1,4),(2,11,1.78,2,1,4),(2,11,0.631,3,1,4),(2,11,13.04,4,1,4),(2,11,13.4,1,1,5),(2,11,9.07,2,1,5),(2,11,4.04,3,1,5),(2,11,2.6,4,1,5),(2,11,2.9,1,1,6),(2,11,1.4,2,1,6),(2,11,2.6,3,1,6),(2,11,2.17,4,1,6),(2,12,1291.33,1,1,4),(2,12,751.04,2,1,4),(2,12,1317.81,3,1,4),(2,12,130.15,4,1,4),(2,12,79.14,1,1,5),(2,12,90.89,2,1,5),(2,12,205.4,3,1,5),(2,12,214.79,4,1,5),(2,12,141,1,1,6),(2,12,79.4,2,1,6),(2,12,84.7,3,1,6),(2,12,58.8,4,1,6),(2,85,2920920,0,1,7),(2,86,0.02,0,1,7),(2,87,18,0,1,7),(2,88,65,0,1,7),(2,89,0.17,0,1,7);
 /*!40000 ALTER TABLE `parameters_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +402,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `point_poligon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `point_poligon` (
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
@@ -392,7 +418,7 @@ CREATE TABLE `point_poligon` (
 
 LOCK TABLES `point_poligon` WRITE;
 /*!40000 ALTER TABLE `point_poligon` DISABLE KEYS */;
-INSERT INTO `point_poligon` VALUES (48.0633965377621,34.12353515625,5,3),(48.2539411446343,33.310546875,5,1),(48.5747899109288,34.365234375,5,2),(48.86101531982422,2.3300299644470215,1,2),(48.86372756958008,2.3319180011749268,1,3),(48.863868713378906,2.321553945541382,1,1),(48.86638259887695,2.323575019836426,1,0),(49.1242192485914,35.859375,7,2),(49.6320619412871,32.1240234375,4,6),(49.7031677201799,31.376953125,3,3),(49.7031677201799,31.376953125,4,3),(49.9441503516455,30.838623046875,3,2),(49.9441503516455,30.838623046875,4,2),(50.0006777572363,30.574951171875,2,3),(50.0077390146369,33.5302734375,7,3),(50.2261237443714,32.54150390625,4,5),(50.2612538275847,30.157470703125,2,4),(50.3594803462987,31.871337890625,3,4),(50.3594803462987,31.871337890625,4,4),(50.3664887627383,31.26708984375,3,1),(50.3664887627383,31.26708984375,4,1),(50.3857565720208,30.8866882324219,6,3),(50.3896967507881,30.9574127197266,6,1),(50.40895513434,30.8853149414063,6,2),(50.6111317133236,31.17919921875,2,2),(50.6250730634143,34.2333984375,7,1),(50.6390102812587,30.16845703125,2,1);
+INSERT INTO `point_poligon` VALUES (48.0633965377621,34.12353515625,5,3),(48.2539411446343,33.310546875,5,1),(48.5747899109288,34.365234375,5,2),(49.1242192485914,35.859375,7,2),(49.6320619412871,32.1240234375,4,6),(49.7031677201799,31.376953125,3,3),(49.7031677201799,31.376953125,4,3),(49.9441503516455,30.838623046875,3,2),(49.9441503516455,30.838623046875,4,2),(50.0006777572363,30.574951171875,2,3),(50.0077390146369,33.5302734375,7,3),(50.2261237443714,32.54150390625,4,5),(50.2612538275847,30.157470703125,2,4),(50.3594803462987,31.871337890625,3,4),(50.3594803462987,31.871337890625,4,4),(50.3664887627383,31.26708984375,3,1),(50.3664887627383,31.26708984375,4,1),(50.3857565720208,30.8866882324219,6,3),(50.3896967507881,30.9574127197266,6,1),(50.40895513434,30.8853149414063,6,2),(50.4429664463099,30.8157062530518,8,8),(50.4431850895268,30.776481628418,8,9),(50.4492520358627,30.7582855224609,8,10),(50.4583236753935,30.7424068450928,8,11),(50.4588154615598,30.8290100097656,8,7),(50.4594165265971,30.783519744873,10,16),(50.4597443770344,30.7963085174561,10,15),(50.4617660711828,30.7547664642334,8,12),(50.4629134807706,30.8039474487305,10,14),(50.4632959444471,30.7691860198975,11,3),(50.4632959444471,30.7815456390381,11,4),(50.4646618608999,30.750904083252,8,13),(50.4650989458327,30.763692855835,9,6),(50.4651535811652,30.7901287078857,11,6),(50.4655906615532,30.7841205596924,11,5),(50.4656452963176,30.7727909088135,10,17),(50.4656452963176,30.7870388031006,9,5),(50.4658092002322,30.7658386230469,11,2),(50.4664648102097,30.7568264007568,10,19),(50.4666833448489,30.7539939880371,8,14),(50.4675028407513,30.7639503479004,10,18),(50.4676667382276,30.76171875,11,1),(50.4679398994255,30.7517623901367,8,15),(50.4684315856051,30.743522644043,10,21),(50.468650111155,30.741548538208,8,19),(50.468923266672,30.7510757446289,10,20),(50.4691417899495,30.7647228240967,10,5),(50.4691964206111,30.7439517974854,8,18),(50.4691964206111,30.7536506652832,8,16),(50.4691964206111,30.7991409301758,10,13),(50.4694149426261,30.7439517974854,10,1),(50.469524203255,30.7590579986572,10,4),(50.4700705026118,30.7516765594482,8,17),(50.470234391188,30.7495307922363,10,2),(50.4705621666362,30.7537364959717,10,3),(50.4710538255479,30.829610824585,8,6),(50.4712723389787,30.7907295227051,11,7),(50.4713269671786,30.7533931732178,9,7),(50.4713815953154,30.8048057556152,8,5),(50.4716547350524,30.7625770568848,11,13),(50.4721463826026,30.7995700836182,8,4),(50.4729657838249,30.7989692687988,11,8),(50.4733481662018,30.7957935333252,10,12),(50.4743860456345,30.7497024536133,8,1),(50.4746591680139,30.7979393005371,9,4),(50.4747137923004,30.7647228240967,10,6),(50.4758062647762,30.7868671417236,10,11),(50.4758608877373,30.7661819458008,11,12),(50.4766256025647,30.7542514801025,9,1),(50.4808859301404,30.7945919036865,11,9),(50.4812682484535,30.7905578613281,10,10),(50.4815959474033,30.7678127288818,11,11),(50.4817597960261,30.7632637023926,8,2),(50.4818144121075,30.7790565490723,11,10),(50.4818144121075,30.7949352264404,8,3),(50.4820874915676,30.7652378082275,10,7),(50.4825244154219,30.7882404327393,9,3),(50.4841082305328,30.7714176177979,10,8),(50.4853643220164,30.7703876495361,9,2),(50.4877671866082,30.7818031311035,10,9),(50.6111317133236,31.17919921875,2,2),(50.6250730634143,34.2333984375,7,1),(50.6390102812587,30.16845703125,2,1);
 /*!40000 ALTER TABLE `point_poligon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,7 +428,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `poligon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `poligon` (
   `Id_of_poligon` int(11) NOT NULL,
   `brush_color_r` smallint(3) DEFAULT '200',
@@ -428,7 +454,7 @@ CREATE TABLE `poligon` (
 
 LOCK TABLES `poligon` WRITE;
 /*!40000 ALTER TABLE `poligon` DISABLE KEYS */;
-INSERT INTO `poligon` VALUES (1,255,10,10,100,255,255,255,255,1,'one',0),(2,250,250,250,250,0,250,2,21,2,'Test1',1),(3,250,250,250,250,0,250,2,21,2,'Test1',1),(4,250,250,250,250,0,250,2,21,2,'Test1',1),(5,250,250,250,250,0,250,2,21,2,'Test1',1),(6,250,250,250,250,0,250,2,21,2,'Test1',3),(7,250,250,250,250,0,250,2,21,2,'Test1',3);
+INSERT INTO `poligon` VALUES (2,250,250,250,250,0,250,2,21,2,'Test1',1),(3,250,250,250,250,0,250,2,21,2,'Test1',1),(4,250,250,250,250,0,250,2,21,2,'Test1',1),(5,250,250,250,250,0,250,2,21,2,'Test1',1),(6,250,250,250,250,0,250,2,21,2,'Test1',3),(7,250,250,250,250,0,250,2,21,2,'Test1',3),(8,250,250,250,250,0,250,2,21,2,'Test1',1),(9,250,250,250,250,0,250,2,21,2,'Test1',1),(10,250,250,250,250,0,250,2,21,2,'Test1',1),(11,250,250,250,250,0,250,2,21,2,'Test1',1);
 /*!40000 ALTER TABLE `poligon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,15 +464,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `poligon_calculations_description`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `poligon_calculations_description` (
   `id_poligon` int(11) NOT NULL,
   `calculations_description_number` int(11) NOT NULL,
   `id_of_formula` int(11) DEFAULT '0',
   PRIMARY KEY (`id_poligon`,`calculations_description_number`),
   KEY `FK_p_to_calculations_idx` (`calculations_description_number`),
-  CONSTRAINT `FK_c_to_poligon` FOREIGN KEY (`calculations_description_number`) REFERENCES `calculations_description` (`calculation_number`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_p_to_calculation` FOREIGN KEY (`id_poligon`) REFERENCES `poligon` (`Id_of_poligon`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_c_to_poligon` FOREIGN KEY (`calculations_description_number`) REFERENCES `calculations_description` (`calculation_number`),
+  CONSTRAINT `FK_p_to_calculation` FOREIGN KEY (`id_poligon`) REFERENCES `poligon` (`id_of_poligon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -456,7 +482,7 @@ CREATE TABLE `poligon_calculations_description` (
 
 LOCK TABLES `poligon_calculations_description` WRITE;
 /*!40000 ALTER TABLE `poligon_calculations_description` DISABLE KEYS */;
-INSERT INTO `poligon_calculations_description` VALUES (2,2,15),(3,2,16),(4,2,15),(5,1,1),(6,2,0),(7,1,6);
+INSERT INTO `poligon_calculations_description` VALUES (2,2,15),(3,2,16),(4,2,15),(6,2,0),(8,2,7),(9,2,4),(10,2,5),(11,2,6);
 /*!40000 ALTER TABLE `poligon_calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -466,7 +492,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `resource` (
   `resource_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -493,7 +519,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `template_resource`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `template_resource` (
   `resource_id` int(11) NOT NULL,
   `template_id` int(11) NOT NULL,
@@ -519,7 +545,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
   `user_name` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
@@ -550,4 +576,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-18 14:18:58
+-- Dump completed on 2018-05-22 14:32:16

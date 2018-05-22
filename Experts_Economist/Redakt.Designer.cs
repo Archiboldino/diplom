@@ -368,7 +368,7 @@
             // оновитиToolStripMenuItem
             // 
             this.оновитиToolStripMenuItem.Name = "оновитиToolStripMenuItem";
-            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.оновитиToolStripMenuItem.Text = "Оновити";
             this.оновитиToolStripMenuItem.Click += new System.EventHandler(this.оновитиToolStripMenuItem_Click);
             // 
