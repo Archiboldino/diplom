@@ -10,6 +10,7 @@ namespace Experts_Economist
     {
         private DBManager db = new DBManager();
         private Calculations calc = new Calculations();
+        private MedicalCalculator medCalc = new MedicalCalculator();
 
         public int id_of_exp;
 
@@ -127,7 +128,7 @@ namespace Experts_Economist
             formulas_idLB.SelectedIndex = formulasLB.SelectedIndex;//ставим выбранное id в соответствии с выбранной формулой
             string idf = formulas_idLB.SelectedItem.ToString();//переменная для хранения id выбранной формулы
             form_desc_L.Text = "Опис формули : " + db.GetValue("formulas", "description_of_formula", "id_of_formula = " + idf + " AND id_of_expert = " + id_of_exp).ToString();
-            if ((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44))
+            if (((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44)) & id_of_exp == 1)
             {
                 Iterations.SelectedIndex = 1;
                 Iterations.SelectedIndex = 0;
@@ -220,570 +221,669 @@ namespace Experts_Economist
                 MessageBox.Show("Один чи декілька параметрів було введено неправильно");
                 return;
             }
-
-            #region formulas
-
-            switch (idf)//свитч для подсчета формул, общий вид - несколько параметров беруться из ячеек таблицы и потом передаются в функцию подсчета класс Calculation, потом добавляем в таблицу строку с результатом
+            if (id_of_exp == 1)
             {
-                case 1:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                #region formulas_ekonomist
+
+                switch (idf)//свитч для подсчета формул, общий вид - несколько параметров беруться из ячеек таблицы и потом передаются в функцию подсчета класс Calculation, потом добавляем в таблицу строку с результатом
+                {
+                    case 1:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 2:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
-                        double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
-                        if (d <= 0)
+                    case 2:
                         {
-                            MessageBox.Show("Сума розрахунків та пасивів не може мати таке значення");
-                            return;
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            if (d <= 0)
+                            {
+                                MessageBox.Show("Сума розрахунків та пасивів не може мати таке значення");
+                                return;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Kp(a, b, c, d), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Kp(a, b, c, d), "");
-                        break;
-                    }
-                case 3:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 3:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 4:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Mi = new double[it];
-                        double[] Npi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 4:
                         {
-                            Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Mi = new double[it];
+                            double[] Npi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Mi, Npi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Mi, Npi), "");
-                        break;
-                    }
-                case 5:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Mi = new double[it];
-                        double[] Npi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 5:
                         {
-                            Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Mi = new double[it];
+                            double[] Npi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pc(it, Mi, Npi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pc(it, Mi, Npi), "");
-                        break;
-                    }
-                case 6:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Mi = new double[it];
-                        double[] Npi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 6:
                         {
-                            Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Mi = new double[it];
+                            double[] Npi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Npi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Prv(it, Mi, Npi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Prv(it, Mi, Npi), "");
-                        break;
-                    }
-                case 7:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        int c = Convert.ToInt32(formulasDGV.Rows[2].Cells[1].Value);
-                        int d = Convert.ToInt32(formulasDGV.Rows[3].Cells[1].Value);
-                        double f = Convert.ToDouble(formulasDGV.Rows[4].Cells[1].Value);
-                        if (c <= 0 || d <= 0)
+                    case 7:
                         {
-                            MessageBox.Show("Неправильні значення Tр чи Тт");
-                            return;
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            int c = Convert.ToInt32(formulasDGV.Rows[2].Cells[1].Value);
+                            int d = Convert.ToInt32(formulasDGV.Rows[3].Cells[1].Value);
+                            double f = Convert.ToDouble(formulasDGV.Rows[4].Cells[1].Value);
+                            if (c <= 0 || d <= 0)
+                            {
+                                MessageBox.Show("Неправильні значення Tр чи Тт");
+                                return;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.E(a, b, c, d, f), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.E(a, b, c, d, f), "");
-                        break;
-                    }
-                case 8:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 8:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 9:
-                    {
-                        double[] Mr = new double[7];
-                        for (int i = 0; i < 7; i++)
+                    case 9:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[7];
+                            for (int i = 0; i < 7; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 7), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 7), "");
-                        break;
-                    }
-                case 10:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 10:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 11:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Ml = new double[it];
-                        double[] Nl = new double[it];
-                        double[] Mt = new double[it];
-                        double[] Nt = new double[it];
-                        double[] Mi = new double[it];
-                        double[] Ni = new double[it];
-                        double[] Mz = new double[it];
-                        double[] Nz = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 11:
                         {
-                            Ml[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Nl[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Mt[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Nt[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Ni[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Mz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Ml = new double[it];
+                            double[] Nl = new double[it];
+                            double[] Mt = new double[it];
+                            double[] Nt = new double[it];
+                            double[] Mi = new double[it];
+                            double[] Ni = new double[it];
+                            double[] Mz = new double[it];
+                            double[] Nz = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Ml[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Nl[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Mt[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Nt[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Mi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Ni[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Mz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz), "");
-                        break;
-                    }
-                case 12:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Mdp = new double[it];
-                        double[] Nz = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 12:
                         {
-                            Mdp[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Mdp = new double[it];
+                            double[] Nz = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Mdp[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Mdp, Nz), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Mdp, Nz), "");
-                        break;
-                    }
-                case 13:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Mdp = new double[it];
-                        double[] Nz = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 13:
                         {
-                            Mdp[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Mdp = new double[it];
+                            double[] Nz = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Mdp[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Nz[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Vtg(it, Mdp, Nz), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Vtg(it, Mdp, Nz), "");
-                        break;
-                    }
-                case 14:
-                    {
-                        double[] Mr = new double[6];
-                        for (int i = 0; i < 6; i++)
+                    case 14:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[6];
+                            for (int i = 0; i < 6; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 6), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 6), "");
-                        break;
-                    }
-                case 15:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Pi = new double[it];
-                        double[] Li = new double[it];
-                        double Lv = Convert.ToDouble(formulasDGV.Rows[it * 2].Cells[1].Value);
-                        for (int i = 0; i < it; i++)
+                    case 15:
                         {
-                            Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Li[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Pi = new double[it];
+                            double[] Li = new double[it];
+                            double Lv = Convert.ToDouble(formulasDGV.Rows[it * 2].Cells[1].Value);
+                            for (int i = 0; i < it; i++)
+                            {
+                                Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Li[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Fg(it, Pi, Li, Lv), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Fg(it, Pi, Li, Lv), "");
-                        break;
-                    }
-                case 16:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Pi = new double[it];
-                        double[] Li = new double[it];
-                        double Lv = Convert.ToDouble(formulasDGV.Rows[it * 2].Cells[1].Value);
-                        for (int i = 0; i < it; i++)
+                    case 16:
                         {
-                            Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Li[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Pi = new double[it];
+                            double[] Li = new double[it];
+                            double Lv = Convert.ToDouble(formulasDGV.Rows[it * 2].Cells[1].Value);
+                            for (int i = 0; i < it; i++)
+                            {
+                                Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Li[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Fg(it, Pi, Li, Lv), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Fg(it, Pi, Li, Lv), "");
-                        break;
-                    }
-                case 17:
-                    {
-                        double[] Mr = new double[2];
-                        for (int i = 0; i < 2; i++)
+                    case 17:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[2];
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
-                        break;
-                    }
-                case 18:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Ci = new double[it];
-                        double[] qi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 18:
                         {
-                            Ci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Ci = new double[it];
+                            double[] qi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Ci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Ci, qi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Ci, qi), "");
-                        break;
-                    }
-                case 19:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Tci = new double[it];
-                        double[] qi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 19:
                         {
-                            Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Tci = new double[it];
+                            double[] qi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci, qi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci, qi), "");
-                        break;
-                    }
-                case 20:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Si = new double[it];
-                        double[] Ki = new double[it];
-                        double[] Ui = new double[it];
-                        double[] Tci = new double[it];
-                        double[] Zi_dod = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 20:
                         {
-                            Si[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Ui[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Zi_dod[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Si = new double[it];
+                            double[] Ki = new double[it];
+                            double[] Ui = new double[it];
+                            double[] Tci = new double[it];
+                            double[] Zi_dod = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Si[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Ui[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Zi_dod[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod), "");
-                        break;
-                    }
-                case 21:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Tci_ser = new double[it];
-                        double[] qi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 21:
                         {
-                            Tci_ser[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Tci_ser = new double[it];
+                            double[] qi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Tci_ser[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci_ser, qi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci_ser, qi), "");
-                        break;
-                    }
-                case 22:
-                    {
-                        double[] Mr = new double[2];
-                        for (int i = 0; i < 2; i++)
+                    case 22:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[2];
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
-                        break;
-                    }
-                case 23:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Tci = new double[it];
-                        double[] qi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 23:
                         {
-                            Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Tci = new double[it];
+                            double[] qi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Tci[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci, qi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pvc(it, Tci, qi), "");
-                        break;
-                    }
-                case 24:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Pi = new double[it];
-                        double[] Ki = new double[it];
-                        double[] ki = new double[it];
-                        double[] qi = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 24:
                         {
-                            Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Pi = new double[it];
+                            double[] Ki = new double[it];
+                            double[] ki = new double[it];
+                            double[] qi = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Pi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                ki[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mdg_o(it, Pi, Ki, ki, qi), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mdg_o(it, Pi, Ki, ki, qi), "");
-                        break;
-                    }
-                case 25:
-                    {
-                        double[] Mr = new double[2];
-                        for (int i = 0; i < 2; i++)
+                    case 25:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[2];
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
-                        break;
-                    }
-                case 26:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
-                        break;
-                    }
-                case 27:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rsg2(a, b, c), "");
-                        break;
-                    }
-                case 28:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
-                        break;
-                    }
-                case 29:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 26:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 30:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rlg1(a, b, c), "");
-                        break;
-                    }
-                case 31:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rlg2(a, b, c), "");
-                        break;
-                    }
-                case 32:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
-                        double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rlg3(a, b, c, d), "");
-                        break;
-                    }
-                case 33:
-                    {
-                        double[] Mr = new double[6];
-                        for (int i = 0; i < 6; i++)
+                    case 27:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rsg2(a, b, c), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 6), "");
-                        break;
-                    }
-                case 34:
-                    {
-                        double[] Mr = new double[7];
-                        for (int i = 0; i < 7; i++)
+                    case 28:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.N(Mr), "");
-                        break;
-                    }
-                case 35:
-                    {
-                        double[] Mr = new double[6];
-                        for (int i = 0; i < 6; i++)
+                    case 29:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.N1(Mr), "");
-                        break;
-                    }
-                case 36:
-                    {
-                        double[] Mr = new double[6];
-                        for (int i = 0; i < 6; i++)
+                    case 30:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rlg1(a, b, c), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.N2(Mr), "");
-                        break;
-                    }
-                case 37:
-                    {
-                        double[] Mr = new double[5];
-                        for (int i = 0; i < 5; i++)
+                    case 31:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rlg2(a, b, c), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.N3(Mr), "");
-                        break;
-                    }
-                case 38:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
-                        break;
-                    }
-                case 39:
-                    {
-                        double[] Mr = new double[7];
-                        for (int i = 0; i < 7; i++)
+                    case 32:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rlg3(a, b, c, d), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.N5(Mr), "");
-                        break;
-                    }
-                case 40:
-                    {
-                        double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
-                        double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
-                        this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
-                        break;
-                    }
-                case 41:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 33:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[6];
+                            for (int i = 0; i < 6; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 6), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 42:
-                    {
-                        double[] Mr = new double[2];
-                        for (int i = 0; i < 2; i++)
+                    case 34:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[7];
+                            for (int i = 0; i < 7; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.N(Mr), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
-                        break;
-                    }
-                case 43:
-                    {
-                        double[] Mr = new double[3];
-                        for (int i = 0; i < 3; i++)
+                    case 35:
                         {
-                            Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            double[] Mr = new double[6];
+                            for (int i = 0; i < 6; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.N1(Mr), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
-                        break;
-                    }
-                case 44:
-                    {
-                        int it = Convert.ToInt32(Iterations.Text);
-                        int j = 0;
-                        double[] Qi = new double[it];
-                        double[] Qi_p = new double[it];
-                        for (int i = 0; i < it; i++)
+                    case 36:
                         {
-                            Qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
-                            Qi_p[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
-                            j++;
+                            double[] Mr = new double[6];
+                            for (int i = 0; i < 6; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.N2(Mr), "");
+                            break;
                         }
-                        this.formulasDGV.Rows.Add("Result", calc.Pz(it, Qi, Qi_p), "");
-                        break;
-                    }
+                    case 37:
+                        {
+                            double[] Mr = new double[5];
+                            for (int i = 0; i < 5; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.N3(Mr), "");
+                            break;
+                        }
+                    case 38:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
+                            break;
+                        }
+                    case 39:
+                        {
+                            double[] Mr = new double[7];
+                            for (int i = 0; i < 7; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.N5(Mr), "");
+                            break;
+                        }
+                    case 40:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", calc.Rsg1(a, b), "");
+                            break;
+                        }
+                    case 41:
+                        {
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
+                        }
+                    case 42:
+                        {
+                            double[] Mr = new double[2];
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 2), "");
+                            break;
+                        }
+                    case 43:
+                        {
+                            double[] Mr = new double[3];
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Mr[i] = Convert.ToDouble(formulasDGV.Rows[i].Cells[1].Value);
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Mr(Mr, 3), "");
+                            break;
+                        }
+                    case 44:
+                        {
+                            int it = Convert.ToInt32(Iterations.Text);
+                            int j = 0;
+                            double[] Qi = new double[it];
+                            double[] Qi_p = new double[it];
+                            for (int i = 0; i < it; i++)
+                            {
+                                Qi[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                                Qi_p[i] = Convert.ToDouble(formulasDGV.Rows[j].Cells[1].Value);
+                                j++;
+                            }
+                            this.formulasDGV.Rows.Add("Result", calc.Pz(it, Qi, Qi_p), "");
+                            break;
+                        }
+                }
+
+                #endregion formulas_ekonomist
             }
-
-            #endregion formulas
-
+            else if (id_of_exp == 3)
+            {
+                #region formulas_medic
+                switch (idf)//свитч для подсчета формул, общий вид - несколько параметров беруться из ячеек таблицы и потом передаются в функцию подсчета класс Calculation, потом добавляем в таблицу строку с результатом
+                {
+                    case 1:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getOSTG(a, b), "");
+                            break;
+                        }
+                    case 2:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getOSTG_2(a, b, c), "");
+                            break;
+                        }
+                    case 3:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getPM_GIM(a, b, c, d), "");
+                            break;
+                        }
+                    case 4:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getPM_MI(a, b), "");
+                            break;
+                        }
+                    case 5:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getPM_HCVP(a, b), "");
+                            break;
+                        }
+                    case 6:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getBVForMen(a, b, c, d), "");
+                            break;
+                        }
+                    case 7:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getBVForWomen(a, b, c, d), "");
+                            break;
+                        }
+                    case 8:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getNBVForMen(a), "");
+                            break;
+                        }
+                    case 9:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getNBVForWomen(a), "");
+                            break;
+                        }
+                    case 10:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            double c = Convert.ToDouble(formulasDGV.Rows[2].Cells[1].Value);
+                            double d = Convert.ToDouble(formulasDGV.Rows[3].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getFV_SSSForMen(a, b, c, d), "");
+                            break;
+                        }
+                    case 11:
+                        {
+                            double a = Convert.ToDouble(formulasDGV.Rows[0].Cells[1].Value);
+                            double b = Convert.ToDouble(formulasDGV.Rows[1].Cells[1].Value);
+                            this.formulasDGV.Rows.Add("Result", medCalc.getFV_SSSForWomen(a, b), "");
+                            break;
+                        }
+                }
+                #endregion formulas_medic
+            }
+            else
+            {
+                MessageBox.Show("Для цього експерта немає розрахунків");
+                help = false;
+                return;
+            }
             //проверка введён ли корректный номер расчётной серии
             if (calc_numbCB.Text == "" || calc_numbCB.Text == "0")
             {
@@ -839,7 +939,7 @@ namespace Experts_Economist
             }
             // по аналогии с функцие записи результатов формулы записываем значения параметров в БД
             // для формул с сумой записываем по другому алгоритму
-            if ((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44))
+            if (((Convert.ToInt32(idf) == 4) || (Convert.ToInt32(idf) == 5) || (Convert.ToInt32(idf) == 6) || (Convert.ToInt32(idf) == 11) || (Convert.ToInt32(idf) == 12) || (Convert.ToInt32(idf) == 13) || (Convert.ToInt32(idf) == 15) || (Convert.ToInt32(idf) == 16) || (Convert.ToInt32(idf) == 18) || (Convert.ToInt32(idf) == 19) || (Convert.ToInt32(idf) == 20) || (Convert.ToInt32(idf) == 21) || (Convert.ToInt32(idf) == 23) || (Convert.ToInt32(idf) == 24) || (Convert.ToInt32(idf) == 44)) & id_of_exp == 1)
             {
                 //переменная для хранения значения i - количества итераций
                 int it = Convert.ToInt32(Iterations.Text);
@@ -981,8 +1081,11 @@ namespace Experts_Economist
             }
 
             calc_numbCB.Text = (Convert.ToInt32(calc_numbCB.Text) + 1).ToString();
-            formulasLB.SelectedIndex = 1;
-            formulasLB.SelectedIndex = 0;
+            if (formulasLB.Items.Count > 0)
+            {
+                formulasLB.SelectedIndex = 1;
+                formulasLB.SelectedIndex = 0;
+            }
             name_of_seriesCB.Text = "";
             desc_of_seriesTB.Clear();
         }

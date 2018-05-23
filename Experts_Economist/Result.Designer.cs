@@ -198,7 +198,7 @@
             this.change_desc.Text = "Зберегти зміни";
             this.toolTip1.SetToolTip(this.change_desc, "Зберігає зміни - Назву серії, Проблему, Опис");
             this.change_desc.UseVisualStyleBackColor = true;
-            this.change_desc.Click += new System.EventHandler(this.button1_Click);
+            this.change_desc.Click += new System.EventHandler(this.change_desc_Click);
             // 
             // issueL
             // 
@@ -230,7 +230,7 @@
             this.toolTip1.SetToolTip(this.Panel_redakt, "Вмикає/вимикає режим редагування. Стосується таких данних - Значення параметрів, " +
         "Назва серії, Проблема та Опис серії");
             this.Panel_redakt.UseVisualStyleBackColor = false;
-            this.Panel_redakt.Click += new System.EventHandler(this.button1_Click_1);
+            this.Panel_redakt.Click += new System.EventHandler(this.Panel_redakt_Click);
             // 
             // Delete_desc
             // 
@@ -368,7 +368,7 @@
             // оновитиToolStripMenuItem
             // 
             this.оновитиToolStripMenuItem.Name = "оновитиToolStripMenuItem";
-            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оновитиToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.оновитиToolStripMenuItem.Text = "Оновити";
             this.оновитиToolStripMenuItem.Click += new System.EventHandler(this.оновитиToolStripMenuItem_Click);
             // 

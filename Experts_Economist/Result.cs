@@ -11,6 +11,7 @@ namespace Experts_Economist
     {  //используем библиотеки работы с БД и формулами
         private DBManager db = new DBManager();
         private Calculations calc = new Calculations();
+        private MedicalCalculator medCalc = new MedicalCalculator();
 
         public int id_of_exp;
         public int idOfViewedExpert;
@@ -321,743 +322,859 @@ namespace Experts_Economist
                         string idf = DGV.Rows[i].Cells[2].Value.ToString();
                         if (DGV.Rows[i].Cells[3].Value.ToString() == "id_of_formula")//нашли формулу
                         {
-                            switch (Convert.ToInt32(idf))
-                            {//свитч для подсчёта значения формулы, общий вид - записываем значения параметров в переменные, передаём их в функции класса Calculations, пересчитываем, обновляем БД
-                                case 1:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
+                            if (id_of_exp == 1)
+                            {
+                                switch (Convert.ToInt32(idf))
+                                {//свитч для подсчёта значения формулы, общий вид - записываем значения параметров в переменные, передаём их в функции класса Calculations, пересчитываем, обновляем БД
+                                    case 1:
                                         {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
-                                        double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
-                                        if (d <= 0)
-                                        {
-                                            MessageBox.Show("Сума розрахунків та пасивів не може мати таке значення");
-                                            return;
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Kp(a, b, c, d).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 4:
-                                    {//для формул с сумой сначала идём к концу параметров и находим i - количество итераций, от него движемся вверх и по количеству итераций считываем параметры
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 5:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 2:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            if (d <= 0)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                MessageBox.Show("Сума розрахунків та пасивів не може мати таке значення");
+                                                return;
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Kp(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 6:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 3:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prv(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 7:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        int c = Convert.ToInt32(DGV.Rows[i + 3].Cells[1].Value);
-                                        int d = Convert.ToInt32(DGV.Rows[i + 4].Cells[1].Value);
-                                        double f = Convert.ToDouble(DGV.Rows[i + 5].Cells[1].Value);
-                                        if (c <= 0 || d <= 0)
-                                        {
-                                            MessageBox.Show("Неправильні значення Tр чи Тт");
-                                            return;
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.E(a, b, c, d, f).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 8:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 9:
-                                    {
-                                        double[] Mr = new double[7];
-                                        for (int s = 0; s < 7; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 7).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 10:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 11:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                    case 4:
+                                        {//для формул с сумой сначала идём к концу параметров и находим i - количество итераций, от него движемся вверх и по количеству итераций считываем параметры
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Ml = new double[it];
-                                                double[] Nl = new double[it];
-                                                double[] Mt = new double[it];
-                                                double[] Nt = new double[it];
-                                                double[] Mi = new double[it];
-                                                double[] Ni = new double[it];
-                                                double[] Mz = new double[it];
-                                                double[] Nz = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Nz[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mz[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Ni[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Nt[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mt[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Nl[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Ml[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 12:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 5:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 13:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 6:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prv(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtg(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 14:
-                                    {
-                                        double[] Mr = new double[6];
-                                        for (int s = 0; s < 6; s++)
+                                    case 7:
                                         {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 15:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            int c = Convert.ToInt32(DGV.Rows[i + 3].Cells[1].Value);
+                                            int d = Convert.ToInt32(DGV.Rows[i + 4].Cells[1].Value);
+                                            double f = Convert.ToDouble(DGV.Rows[i + 5].Cells[1].Value);
+                                            if (c <= 0 || d <= 0)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                double Lv = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                iter--;
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                MessageBox.Show("Неправильні значення Tр чи Тт");
+                                                return;
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.E(a, b, c, d, f).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 16:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 8:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                double Lv = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                iter--;
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 17:
-                                    {
-                                        double[] Mr = new double[2];
-                                        for (int s = 0; s < 2; s++)
+                                    case 9:
                                         {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 18:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[7];
+                                            for (int s = 0; s < 7; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 7).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 19:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 10:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 20:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 11:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Si = new double[it];
-                                                double[] Ki = new double[it];
-                                                double[] Ui = new double[it];
-                                                double[] Tci = new double[it];
-                                                double[] Zi_dod = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Zi_dod[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Tci[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Ui[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Si[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Ml = new double[it];
+                                                    double[] Nl = new double[it];
+                                                    double[] Mt = new double[it];
+                                                    double[] Nt = new double[it];
+                                                    double[] Mi = new double[it];
+                                                    double[] Ni = new double[it];
+                                                    double[] Mz = new double[it];
+                                                    double[] Nz = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Nz[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mz[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Ni[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Nt[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mt[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Nl[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Ml[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtrr(it, Ml, Nl, Mt, Nt, Mi, Ni, Mz, Nz).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 21:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 12:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Mi = new double[it];
-                                                double[] Npi = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 22:
-                                    {
-                                        double[] Mr = new double[2];
-                                        for (int s = 0; s < 2; s++)
+                                    case 13:
                                         {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 23:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Tci = new double[it];
-                                                double[] qi = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Tci[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Vtg(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Tci, qi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 24:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                    case 14:
                                         {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            double[] Mr = new double[6];
+                                            for (int s = 0; s < 6; s++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Pi = new double[it];
-                                                double[] Ki = new double[it];
-                                                double[] ki = new double[it];
-                                                double[] qi = new double[it];
-                                                for (int p = 0; p < it; p++)
-                                                {
-                                                    Pi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    Ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                    qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
-                                                }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mdg_o(it, Pi, Ki, ki, qi).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
                                             }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
                                         }
-                                        break;
-                                    }
-                                case 25:
-                                    {
-                                        double[] Mr = new double[2];
-                                        for (int s = 0; s < 2; s++)
+                                    case 15:
                                         {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 26:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 27:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg2(a, b, c).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 28:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 29:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 30:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg1(a, b, c).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 31:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg2(a, b, c).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 32:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
-                                        double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg3(a, b, c, d).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 33:
-                                    {
-                                        double[] Mr = new double[6];
-                                        for (int s = 0; s < 6; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 34:
-                                    {
-                                        double[] Mr = new double[7];
-                                        for (int s = 0; s < 7; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N(Mr).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 35:
-                                    {
-                                        double[] Mr = new double[6];
-                                        for (int s = 0; s < 6; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N1(Mr).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 36:
-                                    {
-                                        double[] Mr = new double[6];
-                                        for (int s = 0; s < 6; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N2(Mr).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 37:
-                                    {
-                                        double[] Mr = new double[5];
-                                        for (int s = 0; s < 5; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N3(Mr).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 38:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 39:
-                                    {
-                                        double[] Mr = new double[7];
-                                        for (int s = 0; s < 7; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N5(Mr).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 40:
-                                    {
-                                        double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
-                                        double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 41:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 42:
-                                    {
-                                        double[] Mr = new double[2];
-                                        for (int s = 0; s < 2; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 43:
-                                    {
-                                        double[] Mr = new double[3];
-                                        for (int s = 0; s < 3; s++)
-                                        {
-                                            Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
-                                        }
-                                        string[] fields2_1 = { "id_of_formula", "result" };
-                                        string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
-                                        db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                        break;
-                                    }
-                                case 44:
-                                    {
-                                        for (int iter = i; iter < DGV.Rows.Count; iter++)
-                                        {
-                                            if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
                                             {
-                                                int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
-                                                double[] Qi = new double[it];
-                                                double[] Qi_p = new double[it];
-                                                for (int p = 0; p < it; p++)
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
                                                 {
-                                                    Qi_p[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    double Lv = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
                                                     iter--;
-                                                    Qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
-                                                    iter--;
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
                                                 }
-                                                string[] fields2_1 = { "id_of_formula", "result" };
-                                                string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pz(it, Qi, Qi_p).ToString().Replace(",", ".") };
-                                                db.UpdateRecord("calculations_result", fields2_1, values2_1);
-                                                break;
                                             }
+                                            break;
                                         }
-                                        break;
-                                    }
+                                    case 16:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    double Lv = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                    iter--;
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Fg(it, Mi, Npi, Lv).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 17:
+                                        {
+                                            double[] Mr = new double[2];
+                                            for (int s = 0; s < 2; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 18:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 19:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 20:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Si = new double[it];
+                                                    double[] Ki = new double[it];
+                                                    double[] Ui = new double[it];
+                                                    double[] Tci = new double[it];
+                                                    double[] Zi_dod = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Zi_dod[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Tci[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Ui[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Si[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Prc(it, Si, Ki, Ui, Tci, Zi_dod).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 21:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Mi = new double[it];
+                                                    double[] Npi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Npi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Mi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Mi, Npi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 22:
+                                        {
+                                            double[] Mr = new double[2];
+                                            for (int s = 0; s < 2; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 23:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Tci = new double[it];
+                                                    double[] qi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Tci[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pvc(it, Tci, qi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 24:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Pi = new double[it];
+                                                    double[] Ki = new double[it];
+                                                    double[] ki = new double[it];
+                                                    double[] qi = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Pi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        ki[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mdg_o(it, Pi, Ki, ki, qi).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    case 25:
+                                        {
+                                            double[] Mr = new double[2];
+                                            for (int s = 0; s < 2; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 26:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 27:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg2(a, b, c).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 28:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 29:
+                                        {
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 30:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg1(a, b, c).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 31:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg2(a, b, c).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 32:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rlg3(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 33:
+                                        {
+                                            double[] Mr = new double[6];
+                                            for (int s = 0; s < 6; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 6).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 34:
+                                        {
+                                            double[] Mr = new double[7];
+                                            for (int s = 0; s < 7; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N(Mr).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 35:
+                                        {
+                                            double[] Mr = new double[6];
+                                            for (int s = 0; s < 6; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N1(Mr).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 36:
+                                        {
+                                            double[] Mr = new double[6];
+                                            for (int s = 0; s < 6; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N2(Mr).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 37:
+                                        {
+                                            double[] Mr = new double[5];
+                                            for (int s = 0; s < 5; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N3(Mr).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 38:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 39:
+                                        {
+                                            double[] Mr = new double[7];
+                                            for (int s = 0; s < 7; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.N5(Mr).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 40:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Rsg1(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 41:
+                                        {
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 42:
+                                        {
+                                            double[] Mr = new double[2];
+                                            for (int s = 0; s < 2; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 2).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 43:
+                                        {
+                                            double[] Mr = new double[3];
+                                            for (int s = 0; s < 3; s++)
+                                            {
+                                                Mr[s] = Convert.ToDouble(DGV.Rows[i + s + 1].Cells[1].Value);
+                                            }
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Mr(Mr, 3).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 44:
+                                        {
+                                            for (int iter = i; iter < DGV.Rows.Count; iter++)
+                                            {
+                                                if (DGV.Rows[iter].Cells[3].Value.ToString() == "index")
+                                                {
+                                                    int it = Convert.ToInt32(DGV.Rows[iter].Cells[1].Value);
+                                                    double[] Qi = new double[it];
+                                                    double[] Qi_p = new double[it];
+                                                    for (int p = 0; p < it; p++)
+                                                    {
+                                                        Qi_p[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                        Qi[p] = Convert.ToDouble(DGV.Rows[iter - 1].Cells[1].Value);
+                                                        iter--;
+                                                    }
+                                                    string[] fields2_1 = { "id_of_formula", "result" };
+                                                    string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, calc.Pz(it, Qi, Qi_p).ToString().Replace(",", ".") };
+                                                    db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                            }
+                            else if (id_of_exp == 3)
+                            {
+                                switch (Convert.ToInt32(idf))
+                                {
+                                    case 1:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getOSTG(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getOSTG_2(a, b, c).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getPM_GIM(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 4:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getPM_MI(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 5:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getPM_HCVP(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 6:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getBVForMen(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 7:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getBVForWomen(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 8:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getNBVForMen(a).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 9:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getNBVForWomen(a).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 10:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            double c = Convert.ToDouble(DGV.Rows[i + 3].Cells[1].Value);
+                                            double d = Convert.ToDouble(DGV.Rows[i + 4].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getFV_SSSForMen(a, b, c, d).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+                                    case 11:
+                                        {
+                                            double a = Convert.ToDouble(DGV.Rows[i + 1].Cells[1].Value);
+                                            double b = Convert.ToDouble(DGV.Rows[i + 2].Cells[1].Value);
+                                            string[] fields2_1 = { "id_of_formula", "result" };
+                                            string[] values2_1 = { idf + " AND calculation_number = " + calc_numbCB.Text + " AND id_of_expert = " + idOfViewedExpert, medCalc.getFV_SSSForWomen(a, b).ToString().Replace(",", ".") };
+                                            db.UpdateRecord("calculations_result", fields2_1, values2_1);
+                                            break;
+                                        }
+
+                                }
                             }
                             //выходим из цикла поиска
                             break;
@@ -1069,7 +1186,7 @@ namespace Experts_Economist
             }));
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void change_desc_Click(object sender, EventArgs e)
         {
             if (idOfViewedExpert == id_of_exp)
             {            //Переменная для хранения описания и названия серии
@@ -1094,7 +1211,7 @@ namespace Experts_Economist
 
         private bool redakt = true;
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void Panel_redakt_Click(object sender, EventArgs e)
         {
             if (idOfViewedExpert == id_of_exp)
             {
