@@ -44,6 +44,7 @@
 			this.змiнитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label2 = new System.Windows.Forms.Label();
 			this.user_redakt_button = new System.Windows.Forms.Button();
+			this.IndexTSM = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.menuStrip2.SuspendLayout();
 			this.SuspendLayout();
@@ -51,9 +52,10 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.RozrahTSM,
-			this.ResultTSM,
-			this.RedaktTSM});
+            this.RozrahTSM,
+            this.ResultTSM,
+            this.RedaktTSM,
+            this.IndexTSM});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(1404, 24);
@@ -95,11 +97,11 @@
 			// 
 			this.menuStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.шаблониToolStripMenuItem,
-			this.переглядПроблемToolStripMenuItem,
-			this.ресурсиToolStripMenuItem,
-			this.заходиToolStripMenuItem,
-			this.змiнитиШаблонToolStripMenuItem});
+            this.шаблониToolStripMenuItem,
+            this.переглядПроблемToolStripMenuItem,
+            this.ресурсиToolStripMenuItem,
+            this.заходиToolStripMenuItem,
+            this.змiнитиШаблонToolStripMenuItem});
 			this.menuStrip2.Location = new System.Drawing.Point(0, 24);
 			this.menuStrip2.Name = "menuStrip2";
 			this.menuStrip2.Size = new System.Drawing.Size(1404, 24);
@@ -130,9 +132,9 @@
 			// заходиToolStripMenuItem
 			// 
 			this.заходиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.переглядЗаходiвToolStripMenuItem,
-			this.toolStripMenuItem2,
-			this.eventsToolStripMenuItem});
+            this.переглядЗаходiвToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.eventsToolStripMenuItem});
 			this.заходиToolStripMenuItem.Name = "заходиToolStripMenuItem";
 			this.заходиToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
 			this.заходиToolStripMenuItem.Text = "Заходи";
@@ -140,21 +142,21 @@
 			// переглядЗаходiвToolStripMenuItem
 			// 
 			this.переглядЗаходiвToolStripMenuItem.Name = "переглядЗаходiвToolStripMenuItem";
-			this.переглядЗаходiвToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.переглядЗаходiвToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.переглядЗаходiвToolStripMenuItem.Text = "Перегляд заходiв";
 			this.переглядЗаходiвToolStripMenuItem.Click += new System.EventHandler(this.переглядЗаходiвToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(167, 22);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.toolStripMenuItem2.Text = "Змiнити Захiд";
 			this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
 			// 
 			// eventsToolStripMenuItem
 			// 
 			this.eventsToolStripMenuItem.Name = "eventsToolStripMenuItem";
-			this.eventsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.eventsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.eventsToolStripMenuItem.Text = "Новий захiд";
 			this.eventsToolStripMenuItem.Click += new System.EventHandler(this.eventsToolStripMenuItem_Click);
 			// 
@@ -184,6 +186,14 @@
 			this.user_redakt_button.UseVisualStyleBackColor = true;
 			this.user_redakt_button.Visible = false;
 			this.user_redakt_button.Click += new System.EventHandler(this.user_redakt_button_Click);
+			// 
+			// IndexTSM
+			// 
+			this.IndexTSM.Name = "IndexTSM";
+			this.IndexTSM.Size = new System.Drawing.Size(220, 20);
+			this.IndexTSM.Text = "Додавання законодавчих документів";
+			this.IndexTSM.Visible = false;
+			this.IndexTSM.Click += new System.EventHandler(this.IndexTSM_Click);
 			// 
 			// Golovna
 			// 
@@ -228,5 +238,6 @@
 		private System.Windows.Forms.ToolStripMenuItem змiнитиШаблонToolStripMenuItem;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button user_redakt_button;
+		private System.Windows.Forms.ToolStripMenuItem IndexTSM;
 	}
 }

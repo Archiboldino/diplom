@@ -147,6 +147,10 @@
       <Project>{257cd47a-3e26-4817-b689-a01842c2174a}</Project>
       <Name>DBManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LemmLab\LawFileBase\SearchAndBase.csproj">
+      <Project>{3153355e-107e-4752-8f30-03ee5e821b34}</Project>
+      <Name>SearchAndBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\maps_2\Rivne\Odessa.csproj">
       <Project>{5d83facc-d62f-45c9-b1f0-ebc98e54ce58}</Project>
       <Name>Odessa</Name>

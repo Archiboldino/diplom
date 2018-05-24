@@ -42,6 +42,7 @@
 			this.loginTB.Name = "loginTB";
 			this.loginTB.Size = new System.Drawing.Size(100, 20);
 			this.loginTB.TabIndex = 0;
+			this.loginTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.loginTB_KeyPress);
 			// 
 			// passTB
 			// 
@@ -51,6 +52,7 @@
 			this.passTB.PasswordChar = '*';
 			this.passTB.Size = new System.Drawing.Size(100, 20);
 			this.passTB.TabIndex = 1;
+			this.passTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.UserLogin_KeyPress);
 			// 
 			// label1
 			// 
@@ -97,6 +99,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Авторизація";
 			this.Load += new System.EventHandler(this.UserLogin_Load);
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.UserLogin_KeyPress);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -31,7 +31,9 @@ namespace Experts_Economist
             {
                 RedaktTSM.Visible = true;
                 user_redakt_button.Visible = true;
-            }
+				IndexTSM.Visible = true;
+
+			}
             if (MapMDIChild == null)
             {
                 MapMDIChild = new Map();
@@ -193,5 +195,10 @@ namespace Experts_Economist
         {
             new User_editor().ShowDialog();
         }
-    }
+
+		private void IndexTSM_Click(object sender, EventArgs e)
+		{
+			new LawFileBase.addFiles().ShowDialog();
+		}
+	}
 }
