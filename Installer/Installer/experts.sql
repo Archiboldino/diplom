@@ -45,7 +45,7 @@ CREATE TABLE `calculations_description` (
 
 LOCK TABLES `calculations_description` WRITE;
 /*!40000 ALTER TABLE `calculations_description` DISABLE KEYS */;
-INSERT INTO `calculations_description` VALUES (1,'Княжичі (медик)','b3',12,3),(2,'Княжичі (економіст)','тестетс',12,1),(2,'a31','b31',12,3);
+INSERT INTO `calculations_description` VALUES (2,'Княжичі (економіст)','тестетс',12,1),(2,'a31','b31',12,3);
 /*!40000 ALTER TABLE `calculations_description` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +77,7 @@ CREATE TABLE `calculations_result` (
 
 LOCK TABLES `calculations_result` WRITE;
 /*!40000 ALTER TABLE `calculations_result` DISABLE KEYS */;
-INSERT INTO `calculations_result` VALUES (2,'2018-05-22 13:32:35',4,5260.18171,1),(2,'2018-05-22 13:34:02',5,4909.67745,1),(2,'2018-05-22 13:35:43',6,7810.884,1),(2,'2018-05-10 16:22:03',7,1189760.4,1);
+INSERT INTO `calculations_result` VALUES (2,'2018-05-23 11:55:21',1,96.627,3),(2,'2018-05-23 11:55:25',2,68.4326,3),(2,'2018-05-23 11:55:28',3,150.56,3),(2,'2018-05-22 13:32:35',4,5260.18171,1),(2,'2018-05-23 11:57:04',4,562.96,3),(2,'2018-05-22 13:34:02',5,4909.67745,1),(2,'2018-05-23 11:57:08',5,713.84,3),(2,'2018-05-22 13:35:43',6,7810.884,1),(2,'2018-05-23 11:57:27',6,44.64,3),(2,'2018-05-10 16:22:03',7,1189760.4,1),(2,'2018-05-23 11:57:40',7,56.19,3),(2,'2018-05-23 11:57:45',8,53.824,3),(2,'2018-05-23 11:57:51',9,28.339,3),(2,'2018-05-23 11:58:11',10,119.1,3),(2,'2018-05-23 11:58:18',11,138.86,3);
 /*!40000 ALTER TABLE `calculations_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +101,7 @@ CREATE TABLE `event` (
   KEY `issue_id_fk_idx` (`issue_id`),
   CONSTRAINT `issue_id_fk` FOREIGN KEY (`issue_id`) REFERENCES `issues` (`issue_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `userid_fk` FOREIGN KEY (`id_of_user`) REFERENCES `user` (`id_of_user`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +110,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'Zahid','zag',NULL,NULL,5,12);
+INSERT INTO `event` VALUES (1,'Zahid','zag',NULL,NULL,5,12),(2,'test','Опис',0,NULL,1,12),(3,'test2','Опис',NULL,NULL,3,12);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,6 +136,7 @@ CREATE TABLE `event_documents` (
 
 LOCK TABLES `event_documents` WRITE;
 /*!40000 ALTER TABLE `event_documents` DISABLE KEYS */;
+INSERT INTO `event_documents` VALUES (2,'d471410',''),(2,'d471411',''),(2,'d471576','kh');
 /*!40000 ALTER TABLE `event_documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +165,7 @@ CREATE TABLE `event_resource` (
 
 LOCK TABLES `event_resource` WRITE;
 /*!40000 ALTER TABLE `event_resource` DISABLE KEYS */;
-INSERT INTO `event_resource` VALUES (4,1,200,'na lechenie');
+INSERT INTO `event_resource` VALUES (4,1,200,'na lechenie'),(4,2,123,'Гривні'),(4,3,222,'Гривні');
 /*!40000 ALTER TABLE `event_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -392,7 +393,7 @@ CREATE TABLE `parameters_value` (
 
 LOCK TABLES `parameters_value` WRITE;
 /*!40000 ALTER TABLE `parameters_value` DISABLE KEYS */;
-INSERT INTO `parameters_value` VALUES (1,1,0,0,1,1),(1,2,0,0,1,1),(1,3,0,0,1,1),(1,12,4,0,3,6),(1,13,4,0,3,6),(1,14,3,0,3,6),(1,15,3,0,3,6),(2,0,4,0,1,4),(2,0,4,0,1,5),(2,0,4,0,1,6),(2,11,1.08,1,1,4),(2,11,1.78,2,1,4),(2,11,0.631,3,1,4),(2,11,13.04,4,1,4),(2,11,13.4,1,1,5),(2,11,9.07,2,1,5),(2,11,4.04,3,1,5),(2,11,2.6,4,1,5),(2,11,2.9,1,1,6),(2,11,1.4,2,1,6),(2,11,2.6,3,1,6),(2,11,2.17,4,1,6),(2,12,1291.33,1,1,4),(2,12,751.04,2,1,4),(2,12,1317.81,3,1,4),(2,12,130.15,4,1,4),(2,12,79.14,1,1,5),(2,12,90.89,2,1,5),(2,12,205.4,3,1,5),(2,12,214.79,4,1,5),(2,12,141,1,1,6),(2,12,79.4,2,1,6),(2,12,84.7,3,1,6),(2,12,58.8,4,1,6),(2,85,2920920,0,1,7),(2,86,0.02,0,1,7),(2,87,18,0,1,7),(2,88,65,0,1,7),(2,89,0.17,0,1,7);
+INSERT INTO `parameters_value` VALUES (1,1,0,0,1,1),(1,2,0,0,1,1),(1,3,0,0,1,1),(1,12,4,0,3,6),(1,13,4,0,3,6),(1,14,3,0,3,6),(1,15,3,0,3,6),(2,0,4,0,1,4),(2,0,4,0,1,5),(2,0,4,0,1,6),(2,1,2,0,3,1),(2,2,213,0,3,1),(2,3,4,0,3,2),(2,4,3,0,3,2),(2,5,12,0,3,2),(2,6,6,0,3,3),(2,7,21,0,3,3),(2,8,5,0,3,3),(2,9,1,0,3,3),(2,10,3,0,3,4),(2,10,4,0,3,5),(2,11,1.08,1,1,4),(2,11,1.78,2,1,4),(2,11,0.631,3,1,4),(2,11,13.04,4,1,4),(2,11,13.4,1,1,5),(2,11,9.07,2,1,5),(2,11,4.04,3,1,5),(2,11,2.6,4,1,5),(2,11,2.9,1,1,6),(2,11,1.4,2,1,6),(2,11,2.6,3,1,6),(2,11,2.17,4,1,6),(2,11,42,0,3,4),(2,11,5,0,3,5),(2,12,1291.33,1,1,4),(2,12,751.04,2,1,4),(2,12,1317.81,3,1,4),(2,12,130.15,4,1,4),(2,12,79.14,1,1,5),(2,12,90.89,2,1,5),(2,12,205.4,3,1,5),(2,12,214.79,4,1,5),(2,12,141,1,1,6),(2,12,79.4,2,1,6),(2,12,84.7,3,1,6),(2,12,58.8,4,1,6),(2,12,90,0,3,6),(2,13,40,0,3,6),(2,14,7,0,3,6),(2,14,4,0,3,7),(2,15,8,0,3,6),(2,15,5,0,3,7),(2,16,90,0,3,7),(2,17,80,0,3,7),(2,18,56,0,3,8),(2,18,19,0,3,9),(2,19,12,0,3,10),(2,19,4,0,3,11),(2,20,1,0,3,10),(2,20,5,0,3,11),(2,21,3,0,3,10),(2,22,3,0,3,10),(2,85,2920920,0,1,7),(2,86,0.02,0,1,7),(2,87,18,0,1,7),(2,88,65,0,1,7),(2,89,0.17,0,1,7);
 /*!40000 ALTER TABLE `parameters_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -576,4 +577,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-22 14:32:16
+-- Dump completed on 2018-05-23 12:29:18

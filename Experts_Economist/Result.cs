@@ -1173,7 +1173,6 @@ namespace Experts_Economist
                                             db.UpdateRecord("calculations_result", fields2_1, values2_1);
                                             break;
                                         }
-
                                 }
                             }
                             //выходим из цикла поиска
@@ -1248,6 +1247,7 @@ namespace Experts_Economist
                     string idc = calc_numbCB.SelectedItem.ToString();
                     string[] fields2 = { "calculation_number", "id_of_expert" };
                     string[] values2 = { idc, idOfViewedExpert.ToString() };
+                    db.DeleteFromDB("parameters_value", fields2, values2);
                     db.DeleteFromDB("calculations_description", fields2, values2);
                     get_values();
                 }

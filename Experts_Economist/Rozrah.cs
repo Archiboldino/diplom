@@ -33,13 +33,13 @@ namespace Experts_Economist
             formulasDGV.AllowUserToAddRows = false;
 
             //вызываем при первом открытии формы функцию refresh, которая обновляет элементы со списками, таблицу, номер расчета
-            get_values();
+            Get_values();
         }
 
         public bool help = true;//если true - ещё не посчитали, false - посчитали
 
         //функция для забивания данных в список формул, и номера расчета
-        private void get_values()
+        private void Get_values()
         {
             if (id_of_exp == 0)
             {
@@ -122,7 +122,7 @@ namespace Experts_Economist
         }
 
         // при событии Изменение индекса в списке формулы, то есть при выборе формулы чисти таблицу справа и заносим в неё список параметров для дальнейшего подсчета
-        private void formulasLB_SelectedIndexChanged(object sender, EventArgs e)
+        private void FormulasLB_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.formulasDGV.Rows.Clear();//очищаем таблицу
             formulas_idLB.SelectedIndex = formulasLB.SelectedIndex;//ставим выбранное id в соответствии с выбранной формулой
@@ -1088,6 +1088,7 @@ namespace Experts_Economist
             }
             name_of_seriesCB.Text = "";
             desc_of_seriesTB.Clear();
+
         }
 
         private void calc_numbCB_TextChanged(object sender, EventArgs e)
@@ -1137,7 +1138,7 @@ namespace Experts_Economist
         {
             id_of_exp = (experts_CB.Items[experts_CB.SelectedIndex] as Expert).id;
             //вызываем при первом открытии формы функцию refresh, которая обновляет элементы со списками, таблицу, номер расчета
-            get_values();
+            Get_values();
         }
 
         private void name_of_seriesCB_SelectedIndexChanged(object sender, EventArgs e)
@@ -1184,7 +1185,7 @@ namespace Experts_Economist
             experts_CB.Items.AddRange(Experts.ToArray());
             formulasDGV.AllowUserToAddRows = false;
 
-            get_values();
+            Get_values();
         }
 
         private void showLog_Click(object sender, EventArgs e)

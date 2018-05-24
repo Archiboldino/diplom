@@ -9,7 +9,6 @@ namespace oprForm
     public partial class IssuesForm : Form
     {
         private DBManager db = new DBManager();
-        private String user = "Vasya";
 
         public IssuesForm()
         {

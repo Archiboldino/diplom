@@ -7,7 +7,7 @@ namespace Data
     public class DBManager
     {
         private MySqlConnection connection;
-        private String connectionString = "Server=localhost;Database=experts;Uid=test;Pwd=1337;"; // TODO Default connection string
+        private readonly String connectionString = "Server=localhost;Database=experts;Uid=test;Pwd=1337;SslMode=none;"; // TODO Default connection string
 
         private MySqlTransaction currentTransaction;
 
@@ -81,7 +81,7 @@ namespace Data
             //try catch
             try
             {
-                MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
+                MySqlCommand command = new MySqlCommand(GetSelectStatement(tableName, fields, cond), connection);
 
                 return command.ExecuteScalar();
             }
@@ -91,7 +91,7 @@ namespace Data
             }
         }
 
-        private String getSelectStatement(String tableName, String fields, String cond)
+        private String GetSelectStatement(String tableName, String fields, String cond)
         {
             String res = "SELECT " + fields + " FROM " + tableName;
             if (cond != "")
@@ -109,7 +109,7 @@ namespace Data
             //try catch
             var res = new List<List<Object>>();
 
-            MySqlCommand command = new MySqlCommand(getSelectStatement(tableName, fields, cond), connection);
+            MySqlCommand command = new MySqlCommand(GetSelectStatement(tableName, fields, cond), connection);
 
             using (var reader = command.ExecuteReader())
             {
@@ -130,12 +130,12 @@ namespace Data
         public int SetValue(String tableName, String field, String value, String cond)
         {
             //try catch
-            value = validateString(value);
-            MySqlCommand command = new MySqlCommand(getUpdateStatement(tableName, field, value, cond), connection);
+            value = ValidateString(value);
+            MySqlCommand command = new MySqlCommand(GetUpdateStatement(tableName, field, value, cond), connection);
             return command.ExecuteNonQuery();
         }
 
-        private string getUpdateStatement(string tableName, string field, string value, string cond)
+        private string GetUpdateStatement(string tableName, string field, string value, string cond)
         {
             String res = "UPDATE " + tableName + " SET " + field + " = " + value + " ;";
             return res;
@@ -192,7 +192,7 @@ namespace Data
         {
             if (fieldNames.Length == fieldValues.Length)
             {
-                fieldValues = validateStrings(fieldValues);
+                fieldValues = ValidateStrings(fieldValues);
                 string sqlCommand = "INSERT INTO " + table + "(";
                 for (int i = 0; i < fieldNames.Length - 1; i++)
                 {
@@ -221,7 +221,7 @@ namespace Data
         {
             if (fieldNames.Length == fieldValues.Length)
             {
-                fieldValues = validateStrings(fieldValues);
+                fieldValues = ValidateStrings(fieldValues);
                 string sqlCommand = "INSERT INTO " + table + "(";
                 for (int i = 0; i < fieldNames.Length - 1; i++)
                 {
@@ -235,8 +235,7 @@ namespace Data
                 }
                 sqlCommand += fieldValues[fieldNames.Length - 1];
                 sqlCommand += ");";
-                MySqlCommand insertCmd = new MySqlCommand(sqlCommand, connection);
-                insertCmd.ExecuteNonQuery();
+                new MySqlCommand(sqlCommand, connection).ExecuteNonQuery();
             }
             else
             {
@@ -250,7 +249,7 @@ namespace Data
         {
             if (colNames.Length == colValues.Length)
             {
-                colValues = validateStrings(colValues);
+                colValues = ValidateStrings(colValues);
 
                 string sqlCommand = "UPDATE " + tableName + " SET ";
 
@@ -269,20 +268,20 @@ namespace Data
             }
         }
 
-        private string validateString(String str)
+        private string ValidateString(String str)
         {
             if (str[0] == '\'')
                 return '\'' + str.Trim('\'').Replace('\'', '`') + '\'';
             return str.Replace('\'', '`');
         }
 
-        private string[] validateStrings(string[] strs)
+        private string[] ValidateStrings(string[] strs)
         {
             string[] res = new string[strs.Length];
 
             for (int i = 0; i < strs.Length; i++)
             {
-                res[i] = validateString(strs[i]);
+                res[i] = ValidateString(strs[i]);
             }
 
             return res;

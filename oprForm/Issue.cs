@@ -29,6 +29,11 @@ namespace Data.Entity
                    id == issue.id;
         }
 
+        public override int GetHashCode()
+        {
+            return 1877310944 + id.GetHashCode();
+        }
+
         public override string ToString()
         {
             return name;

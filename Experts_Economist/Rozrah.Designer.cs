@@ -71,7 +71,7 @@
             this.formulasLB.Name = "formulasLB";
             this.formulasLB.Size = new System.Drawing.Size(171, 381);
             this.formulasLB.TabIndex = 1;
-            this.formulasLB.SelectedIndexChanged += new System.EventHandler(this.formulasLB_SelectedIndexChanged);
+            this.formulasLB.SelectedIndexChanged += new System.EventHandler(this.FormulasLB_SelectedIndexChanged);
             this.formulasLB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formulasLB_MouseMove);
             // 
             // formulasDGV

@@ -11,8 +11,6 @@ namespace oprForm
     public partial class LookEventsForm : Form
     {
         private DBManager db = new DBManager();
-        private int valueCol = 2;
-        private int descCol = 1;
 
         private List<Event> events = new List<Event>();
         private Dictionary<int, int> expertOfUser = new Dictionary<int, int>();
