@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Experts_Economist.Properties {
+namespace UserLoginForm.Properties {
     using System;
     
     

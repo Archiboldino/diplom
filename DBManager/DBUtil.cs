@@ -8,5 +8,12 @@ namespace Data
         {
             return "\"" + i + "\"";
         }
-    }
+
+		public static string ValidateForSQL(object str)
+		{
+			if (str is string)
+				return AddQuotes((string)str);
+			return AddQuotes(str.ToString());
+		}
+	}
 }
