@@ -110,7 +110,7 @@ namespace Odessa
         private void Map_Load(object sender, EventArgs e)
         {
             m = new ClassMap(this.gMapControl); //создаем экземпляр класса
-            m.load_map(5, "Ukraine"); //начальная прогрузка карты с масштабом 5
+            m.load_map(5); //начальная прогрузка карты с масштабом 5
             btnEndPoint.Enabled = false;
             // cbCalc.Items.Add("LOL");
             m.FillFormulas(id_of_exp, cbCalc);
@@ -126,6 +126,10 @@ namespace Odessa
         {
             var a = m.cArea();
             button3.Text = a.ToString();
+        }
+
+        private void gMapControl_Load(object sender, EventArgs e)
+        {
         }
 
         private void gMapControl_OnPolygonClick(GMap.NET.WindowsForms.GMapPolygon item, MouseEventArgs e)
@@ -153,11 +157,6 @@ namespace Odessa
                     cbParams.Enabled = true;
                 }
             }
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            m.load_map(8, searchTextTB.Text);
         }
     }
 }

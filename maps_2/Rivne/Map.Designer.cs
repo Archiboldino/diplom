@@ -55,8 +55,6 @@
             this.lbCalculation = new System.Windows.Forms.Label();
             this.cbParams = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.searchTextTB = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -88,6 +86,7 @@
             this.gMapControl.TabIndex = 0;
             this.gMapControl.Zoom = 0D;
             this.gMapControl.OnPolygonClick += new GMap.NET.WindowsForms.PolygonClick(this.gMapControl_OnPolygonClick);
+            this.gMapControl.Load += new System.EventHandler(this.gMapControl_Load);
             this.gMapControl.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gMapControl_MouseDoubleClick);
             // 
             // contextMenuStrip2
@@ -302,31 +301,12 @@
             this.label1.TabIndex = 53;
             this.label1.Text = "Оберіть параметр";
             // 
-            // searchTextTB
-            // 
-            this.searchTextTB.Location = new System.Drawing.Point(12, 8);
-            this.searchTextTB.Name = "searchTextTB";
-            this.searchTextTB.Size = new System.Drawing.Size(194, 20);
-            this.searchTextTB.TabIndex = 54;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(212, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 23);
-            this.button1.TabIndex = 55;
-            this.button1.Text = "Пошук";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 561);
             this.ContextMenuStrip = this.contextMenuStrip2;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.searchTextTB);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbParams);
             this.Controls.Add(this.lbCalculation);
@@ -382,8 +362,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.ComboBox cbParams;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox searchTextTB;
-        private System.Windows.Forms.Button button1;
     }
 }
 

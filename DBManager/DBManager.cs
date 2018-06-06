@@ -7,7 +7,7 @@ namespace Data
     public class DBManager
     {
         private MySqlConnection connection;
-        private readonly String connectionString = "Server=localhost;Database=experts;Uid=test;Pwd=1337;SslMode=none;"; // TODO Default connection string
+        private readonly String connectionString = "Server=localhost;Database=experts;Uid=test;Pwd=1337;"; // TODO Default connection string
 
         private MySqlTransaction currentTransaction;
 
