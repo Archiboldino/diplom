@@ -29,14 +29,17 @@
 		private void InitializeComponent()
 		{
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.шаблониToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переглядПроблемToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ресурсиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заходиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переглядЗаходiвToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.змiнитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.планЗаходівToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.шаблониToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.змінитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.новийШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,24 +47,17 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.шаблониToolStripMenuItem,
             this.переглядПроблемToolStripMenuItem,
             this.ресурсиToolStripMenuItem,
             this.заходиToolStripMenuItem,
-            this.змiнитиШаблонToolStripMenuItem});
+            this.шаблониToolStripMenuItem1,
+            this.asdToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
             this.menuStrip1.Size = new System.Drawing.Size(982, 35);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // шаблониToolStripMenuItem
-            // 
-            this.шаблониToolStripMenuItem.Name = "шаблониToolStripMenuItem";
-            this.шаблониToolStripMenuItem.Size = new System.Drawing.Size(146, 29);
-            this.шаблониToolStripMenuItem.Text = "Новий шаблон";
-            this.шаблониToolStripMenuItem.Click += new System.EventHandler(this.шаблониToolStripMenuItem_Click);
             // 
             // переглядПроблемToolStripMenuItem
             // 
@@ -82,7 +78,8 @@
             this.заходиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.переглядЗаходiвToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.eventsToolStripMenuItem});
+            this.eventsToolStripMenuItem,
+            this.планЗаходівToolStripMenuItem});
             this.заходиToolStripMenuItem.Name = "заходиToolStripMenuItem";
             this.заходиToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             this.заходиToolStripMenuItem.Text = "Заходи";
@@ -108,12 +105,42 @@
             this.eventsToolStripMenuItem.Text = "Новий захiд";
             this.eventsToolStripMenuItem.Click += new System.EventHandler(this.eventsToolStripMenuItem_Click);
             // 
-            // змiнитиШаблонToolStripMenuItem
+            // планЗаходівToolStripMenuItem
             // 
-            this.змiнитиШаблонToolStripMenuItem.Name = "змiнитиШаблонToolStripMenuItem";
-            this.змiнитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(159, 29);
-            this.змiнитиШаблонToolStripMenuItem.Text = "Змiнити Шаблон";
-            this.змiнитиШаблонToolStripMenuItem.Click += new System.EventHandler(this.змiнитиШаблонToolStripMenuItem_Click);
+            this.планЗаходівToolStripMenuItem.Name = "планЗаходівToolStripMenuItem";
+            this.планЗаходівToolStripMenuItem.Size = new System.Drawing.Size(238, 30);
+            this.планЗаходівToolStripMenuItem.Text = "План заходів";
+            this.планЗаходівToolStripMenuItem.Click += new System.EventHandler(this.планЗаходівToolStripMenuItem_Click);
+            // 
+            // шаблониToolStripMenuItem1
+            // 
+            this.шаблониToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.змінитиШаблонToolStripMenuItem,
+            this.новийШаблонToolStripMenuItem});
+            this.шаблониToolStripMenuItem1.Name = "шаблониToolStripMenuItem1";
+            this.шаблониToolStripMenuItem1.Size = new System.Drawing.Size(100, 29);
+            this.шаблониToolStripMenuItem1.Text = "Шаблони";
+            // 
+            // змінитиШаблонToolStripMenuItem
+            // 
+            this.змінитиШаблонToolStripMenuItem.Name = "змінитиШаблонToolStripMenuItem";
+            this.змінитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(231, 30);
+            this.змінитиШаблонToolStripMenuItem.Text = "Змінити Шаблон";
+            this.змінитиШаблонToolStripMenuItem.Click += new System.EventHandler(this.змінитиШаблонToolStripMenuItem_Click);
+            // 
+            // новийШаблонToolStripMenuItem
+            // 
+            this.новийШаблонToolStripMenuItem.Name = "новийШаблонToolStripMenuItem";
+            this.новийШаблонToolStripMenuItem.Size = new System.Drawing.Size(231, 30);
+            this.новийШаблонToolStripMenuItem.Text = "Новий шаблон";
+            this.новийШаблонToolStripMenuItem.Click += new System.EventHandler(this.новийШаблонToolStripMenuItem_Click);
+            // 
+            // asdToolStripMenuItem
+            // 
+            this.asdToolStripMenuItem.Name = "asdToolStripMenuItem";
+            this.asdToolStripMenuItem.Size = new System.Drawing.Size(52, 29);
+            this.asdToolStripMenuItem.Text = "asd";
+            this.asdToolStripMenuItem.Click += new System.EventHandler(this.asdToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -137,13 +164,16 @@
 
 		private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem переглядПроблемToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem шаблониToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ресурсиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заходиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem переглядЗаходiвToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem eventsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem змiнитиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem шаблониToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem змінитиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem новийШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem планЗаходівToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asdToolStripMenuItem;
     }
 }
 

@@ -36,6 +36,7 @@
     <Reference Include="MySql.Data, Version=6.10.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -82,6 +83,12 @@
     </Compile>
     <Compile Include="AlterTemplateForm.Designer.cs">
       <DependentUpon>AlterTemplateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApprovedEventsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApprovedEventsForm.Designer.cs">
+      <DependentUpon>ApprovedEventsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CalculationSeries.cs" />
     <Compile Include="Document.cs" />
@@ -133,6 +140,12 @@
     <Compile Include="ResourcesForm.Designer.cs">
       <DependentUpon>ResourcesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetDateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetDateForm.Designer.cs">
+      <DependentUpon>SetDateForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AddIssueForm.resx">
       <DependentUpon>AddIssueForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AlterTemplateForm.resx">
       <DependentUpon>AlterTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApprovedEventsForm.resx">
+      <DependentUpon>ApprovedEventsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentViewForm.resx">
       <DependentUpon>DocumentViewForm.cs</DependentUpon>
@@ -181,6 +197,10 @@
     <EmbeddedResource Include="ResourcesForm.resx">
       <DependentUpon>ResourcesForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SetDateForm.resx">
+      <DependentUpon>SetDateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -203,6 +223,27 @@
       <Project>{a0e906cb-f24d-40a3-9d04-8648c896aa54}</Project>
       <Name>FileBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\maps_2\Rivne\Odessa.csproj">
+      <Project>{5d83facc-d62f-45c9-b1f0-ebc98e54ce58}</Project>
+      <Name>Odessa</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\DlhSoft.Data.Angular.Directives.js" />
+    <Content Include="Scripts\DlhSoft.Data.HTML.Controls.js" />
+    <Content Include="Scripts\DlhSoft.HierarchicalData.HTML.Controls.js" />
+    <Content Include="Scripts\DlhSoft.ProjectData.GanttChart.Angular.Directives.js" />
+    <Content Include="Scripts\DlhSoft.ProjectData.GanttChart.HTML.Controls.Extras.js" />
+    <Content Include="Scripts\DlhSoft.ProjectData.GanttChart.HTML.Controls.js" />
+    <Content Include="Scripts\DlhSoft.ProjectData.PertChart.Angular.Directives.js" />
+    <Content Include="Scripts\DlhSoft.ProjectData.PertChart.HTML.Controls.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\DlhSoft.Data.HTML.Controls.d.ts" />
+    <TypeScriptCompile Include="Scripts\DlhSoft.HierarchicalData.HTML.Controls.d.ts" />
+    <TypeScriptCompile Include="Scripts\DlhSoft.ProjectData.GanttChart.HTML.Controls.d.ts" />
+    <TypeScriptCompile Include="Scripts\DlhSoft.ProjectData.GanttChart.HTML.Controls.Extras.d.ts" />
+    <TypeScriptCompile Include="Scripts\DlhSoft.ProjectData.PertChart.HTML.Controls.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

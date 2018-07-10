@@ -29,19 +29,21 @@
         private void InitializeComponent()
         {
             this.resDGV = new System.Windows.Forms.DataGridView();
-            this.saveBtn = new System.Windows.Forms.Button();
-            this.delBtn = new System.Windows.Forms.Button();
-            this.addBtn = new System.Windows.Forms.Button();
             this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priceCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.unitsCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.saveBtn = new System.Windows.Forms.Button();
+            this.delBtn = new System.Windows.Forms.Button();
+            this.addBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.resDGV)).BeginInit();
             this.SuspendLayout();
             // 
             // resDGV
             // 
             this.resDGV.AllowUserToAddRows = false;
+            this.resDGV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.resDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameCol,
@@ -51,10 +53,30 @@
             this.resDGV.Location = new System.Drawing.Point(12, 12);
             this.resDGV.Name = "resDGV";
             this.resDGV.RowTemplate.Height = 28;
-            this.resDGV.Size = new System.Drawing.Size(420, 275);
+            this.resDGV.Size = new System.Drawing.Size(766, 275);
             this.resDGV.TabIndex = 0;
             this.resDGV.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.cacheResFromFirstCol);
             this.resDGV.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.commitValue);
+            // 
+            // nameCol
+            // 
+            this.nameCol.HeaderText = "Назва";
+            this.nameCol.Name = "nameCol";
+            // 
+            // priceCol
+            // 
+            this.priceCol.HeaderText = "Ціна";
+            this.priceCol.Name = "priceCol";
+            // 
+            // unitsCol
+            // 
+            this.unitsCol.HeaderText = "Одиниці Виміру";
+            this.unitsCol.Name = "unitsCol";
+            // 
+            // descCol
+            // 
+            this.descCol.HeaderText = "Опис";
+            this.descCol.Name = "descCol";
             // 
             // saveBtn
             // 
@@ -86,31 +108,11 @@
             this.addBtn.UseVisualStyleBackColor = true;
             this.addBtn.Click += new System.EventHandler(this.addBtn_Click);
             // 
-            // nameCol
-            // 
-            this.nameCol.HeaderText = "Назва";
-            this.nameCol.Name = "nameCol";
-            // 
-            // priceCol
-            // 
-            this.priceCol.HeaderText = "Ціна";
-            this.priceCol.Name = "priceCol";
-            // 
-            // unitsCol
-            // 
-            this.unitsCol.HeaderText = "Одиниці Виміру";
-            this.unitsCol.Name = "unitsCol";
-            // 
-            // descCol
-            // 
-            this.descCol.HeaderText = "Опис";
-            this.descCol.Name = "descCol";
-            // 
             // MaterialsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 357);
+            this.ClientSize = new System.Drawing.Size(790, 357);
             this.Controls.Add(this.addBtn);
             this.Controls.Add(this.delBtn);
             this.Controls.Add(this.saveBtn);

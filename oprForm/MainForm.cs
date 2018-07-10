@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data.Entity;
+using Odessa;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +21,7 @@ namespace oprForm
 			InitializeComponent();
             this.expertId = expertId;
             this.userId = userId;
+
 		}
 
 		private void eventToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,6 +97,35 @@ namespace oprForm
         private void змiнитиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			var child = new AlterTemplateForm();
+			child.MdiParent = this;
+			child.Show();
+        }
+
+        private void змінитиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			var child = new AlterTemplateForm();
+			child.MdiParent = this;
+			child.Show();
+        }
+
+        private void новийШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			var child = new AddTemplateForm();
+			child.MdiParent = this;
+			child.Show();
+
+        }
+
+        private void планЗаходівToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			var child = new ApprovedEventsForm();
+			child.MdiParent = this;
+			child.Show();
+        }
+
+        private void asdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			var child = new OprMap();
 			child.MdiParent = this;
 			child.Show();
         }

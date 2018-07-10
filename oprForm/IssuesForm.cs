@@ -68,7 +68,7 @@ namespace oprForm
         }
 
         Issue lastSelected;
-        private void button1_Click(object sender, EventArgs e)
+        private void add_button_Click(object sender, EventArgs e)
         {
             lastSelected = issuesLB.SelectedItem as Issue;
             var form = new AddIssueForm();
@@ -82,7 +82,7 @@ namespace oprForm
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void change_button_Click(object sender, EventArgs e)
         {
             lastSelected = issuesLB.SelectedItem as Issue;
             var form = new AlterIssueForm(issuesLB.SelectedItem as Issue);

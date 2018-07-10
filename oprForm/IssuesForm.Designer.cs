@@ -126,7 +126,7 @@
             this.addBtn.TabIndex = 25;
             this.addBtn.Text = "Додати";
             this.addBtn.UseVisualStyleBackColor = true;
-            this.addBtn.Click += new System.EventHandler(this.button1_Click);
+            this.addBtn.Click += new System.EventHandler(this.add_button_Click);
             // 
             // alterBtn
             // 
@@ -137,7 +137,7 @@
             this.alterBtn.Text = "Змiнити";
             this.alterBtn.UseVisualStyleBackColor = true;
             this.alterBtn.Visible = false;
-            this.alterBtn.Click += new System.EventHandler(this.button2_Click);
+            this.alterBtn.Click += new System.EventHandler(this.change_button_Click);
             // 
             // dateLbl
             // 

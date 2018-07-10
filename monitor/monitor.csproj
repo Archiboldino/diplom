@@ -35,6 +35,18 @@
     <StartupObject>monitor.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DlhSoft.DataControlLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6071b28da0134838, processorArchitecture=MSIL">
+      <HintPath>..\packages\DlhSoft.GanttChartLibrary.WindowsForms.2.0.0.6\lib\net20\DlhSoft.DataControlLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DlhSoft.DataFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6071b28da0134838, processorArchitecture=MSIL">
+      <HintPath>..\packages\DlhSoft.GanttChartLibrary.WindowsForms.2.0.0.6\lib\net20\DlhSoft.DataFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="DlhSoft.ProjectDataControlLibrary, Version=2.2.0.1, Culture=neutral, PublicKeyToken=6071b28da0134838, processorArchitecture=MSIL">
+      <HintPath>..\packages\DlhSoft.GanttChartLibrary.WindowsForms.2.0.0.6\lib\net20\DlhSoft.ProjectDataControlLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DlhSoft.ProjectDataControlLibrary.Extras, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6071b28da0134838, processorArchitecture=MSIL">
+      <HintPath>..\packages\DlhSoft.GanttChartLibrary.WindowsForms.2.0.0.6\lib\net20\DlhSoft.ProjectDataControlLibrary.Extras.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +71,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

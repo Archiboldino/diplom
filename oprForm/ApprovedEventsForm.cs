@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data;
+using Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,28 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Data;
-using Data.Entity;
 
 namespace oprForm
 {
-    public partial class LookEventsForm : Form
+    public partial class ApprovedEventsForm : Form
     {
         DBManager db = new DBManager();
-        private int valueCol = 2;
-        private int descCol = 1;
-
         private List<Event> events = new List<Event>();
         private List<Document> issueDocs = new List<Document>();
         private Dictionary<int, int> expertOfUser = new Dictionary<int, int>();
-
-        public LookEventsForm()
+        public ApprovedEventsForm()
         {
             InitializeComponent();
-        }
-
-        private void LookEventsForm_Load(object sender, EventArgs e)
-        {
             db.Connect();
             //var obj = db.GetRows("event", "*", "");
             //var events = new List<Event>();
@@ -36,7 +28,7 @@ namespace oprForm
             //{
             //    events.Add(EventMapper.Map(row));
             //}
-            var obj = db.GetRows("issues", "*", "");
+            var obj = db.GetRows("issues", "*", "issue_id in (select issue_id from event where dm_verification=TRUE)");
             var issues = new List<Issue>();
             foreach (var row in obj)
             {
@@ -90,13 +82,24 @@ namespace oprForm
 
                 db.Disconnect();
             }
+
+        }
+
+        private string ukrBool(string str)
+        {
+            return str == "" ? "не переглянуто" : str.Equals("0") ? "нi" : "так";
         }
 
         private void updateEvent(Event ev)
         {
             eventDescLabel.Text = ev.description;
-            dmApprLbl.Text = ukrBool(ev.dmVer);
-            lawyerApprLbl.Text = ukrBool(ev.lawyerVer);
+            //dmApprLbl.Text = ukrBool(ev.dmVer);
+            //lawyerApprLbl.Text = ukrBool(ev.lawyerVer);
+            var obj = db.GetRows("planned_event", "*", "event_id=" + ev.id);
+
+            startLbl.Text = obj[0][1].ToString();
+            endLbl.Text = obj[0][2].ToString();
+            vidpovLbl.Text = obj[0][3].ToString();
 
             if (ev.issueId != -1)
             {
@@ -109,61 +112,6 @@ namespace oprForm
             }
         }
 
-        private string ukrBool(string str)
-        {
-            return str == "" ? "не переглянуто" : str.Equals("0") ? "нi" : "так";
-        }
-
-        private void approveBtn_Click(object sender, EventArgs e)
-        {
-            //SetApproved(true);
-            SetDateForm form = new SetDateForm(eventsLB.SelectedItem as Event);
-            form.ShowDialog();
-            updateEvent(eventsLB.SelectedItem as Event);
-        }
-
-        private void SetApproved(bool approved)
-        {
-            db.Connect();
-            Event ev = eventsLB.SelectedItem as Event;
-            ev.dmVer = approved ? "1" : "0";
-            updateEvent(ev);
-
-            string[] cols = { "event_id", "dm_verification" };
-            string[] values = { ev.id.ToString(), approved.ToString() };
-            db.UpdateRecord("event", cols, values);
-            db.Disconnect();
-        }
-
-        private void disaproveBtn_Click(object sender, EventArgs e)
-        {
-            SetApproved(false);
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (onlyDisCB.Checked)
-            {
-                eventsLB.Items.Clear();
-                db.Connect();
-                var obj = db.GetRows("event", "*", "dm_verification is NULL");
-                var events = new List<Event>();
-                foreach (var row in obj)
-                {
-                    events.Add(EventMapper.Map(row));
-                }
-
-
-                eventsLB.Items.AddRange(events.ToArray());
-                db.Disconnect();
-            }
-            else
-            {
-                eventsLB.Items.Clear();
-                LookEventsForm_Load(this, e);
-            }
-        }
-
         private void docsLB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (docsLB.SelectedItem is Document)
@@ -172,11 +120,6 @@ namespace oprForm
                 var child = new DocumentViewForm(doc.document_code);
                 child.ShowDialog(this);
             }
-        }
-
-        private void approveGB_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void expertsLB_SelectedIndexChanged(object sender, EventArgs e)
@@ -222,13 +165,13 @@ namespace oprForm
 
         private void issuesLB_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (issuesLB.SelectedItem is Issue)
             {
                 Issue iss = issuesLB.SelectedItem as Issue;
                 eventsLB.Items.Clear();
                 db.Connect();
-                var obj = db.GetRows("event", "*", "issue_id=" + (issuesLB.SelectedItem as Issue).id);
+                var obj = db.GetRows("event", "*", "issue_id=" + (issuesLB.SelectedItem as Issue).id +
+                    " AND dm_verification=TRUE");
                 if (obj.Count != 0)
                 {
                     events.Clear();
@@ -286,6 +229,7 @@ namespace oprForm
                 docsLB.Items.Clear();
                 docsLB.Items.AddRange(issueDocs.ToArray());
             }
+
         }
     }
 }

@@ -77,6 +77,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Issue.cs" />
+    <Compile Include="OprMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OprMap.Designer.cs">
+      <DependentUpon>OprMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OprMapClass.cs" />
     <Compile Include="MapClass.cs" />
     <Compile Include="Map.cs">
       <SubType>Form</SubType>
@@ -85,6 +93,9 @@
       <DependentUpon>Map.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="OprMap.resx">
+      <DependentUpon>OprMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Map.resx">
       <DependentUpon>Map.cs</DependentUpon>
     </EmbeddedResource>

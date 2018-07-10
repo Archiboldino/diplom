@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace Odessa
 {
-    internal class ClassMap
+    internal class OprClassMap
     {
         private GMap.NET.WindowsForms.GMapControl gMapControl;
 
         private DBManager db = new DBManager();
 
-        public ClassMap(GMap.NET.WindowsForms.GMapControl gm)
+        public OprClassMap(GMap.NET.WindowsForms.GMapControl gm)
         {
             gMapControl = gm;
         }
@@ -93,9 +93,10 @@ namespace Odessa
                 db.InsertToBD("point_poligon", fields_1, va1);
             }
 
-            string[] fields2 = { "id_poligon", "calculations_description_number","id_of_formula" };
-            string[] val2 = { Convert.ToString(maXNum), id_calc,id_formula };
-            db.InsertToBD("poligon_calculations_description", fields2, val2);
+            string[] fields2 = { "id_poligon", "issue_id"};
+            string[] val2 = { Convert.ToString(maXNum), id_calc };
+            db.DeleteFromDB("issue_poligon", "issue_id", id_calc);
+            db.InsertToBD("issue_poligon", fields2, val2);
         }
 
         private double R = 6378.137;
@@ -149,7 +150,7 @@ namespace Odessa
             //!!!
             var res_points = db.GetRows("point_poligon,issue_poligon", "longitude, latitude, `order`",
                 "issue_poligon.issue_id=" + calc_id +
-                " and  point_poligon.Id_of_poligon=issue_poligon.id_poligon and issue_poligon.issue_id="+param_id+" order by `order`");
+                " and  point_poligon.Id_of_poligon=issue_poligon.id_poligon order by `order`");
             if (res_points.Count > 0)
             {
                 GMapOverlay polyOverlay = new GMapOverlay("polygons");
@@ -173,7 +174,7 @@ namespace Odessa
                 gMapControl.Zoom = zoom;
             }
             else
-                MessageBox.Show("Для обраної серії розрахунків та параметру відсутня інформація про зони забруднення!");
+                MessageBox.Show("Для обраної задачі відсутня інформація про зони забруднення!");
         }
 
         public void load_map(int zoom)//прогрузка карты
@@ -299,7 +300,7 @@ namespace Odessa
             
             for (int i = 0; i < formulas.Count; i++)
             {
-                cbForm.Items.Add(IssueMapper.Map(formulas[i])) ;
+                cbForm.Items.Add(IssueMapper.Map(formulas[i]));
             }
 
         }
